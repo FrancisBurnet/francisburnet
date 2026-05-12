@@ -485,7 +485,7 @@ function build_capstone_artifact_links(array $capstoneProject): array
 
 function project_capstone_summary_source_path(): string
 {
-    return dirname(__DIR__, 2) . '/docs/capstone_summaries.md';
+    return project_root_path() . DIRECTORY_SEPARATOR . 'docs' . DIRECTORY_SEPARATOR . 'capstone_summaries.md';
 }
 
 function project_capstone_summary_map(): array
