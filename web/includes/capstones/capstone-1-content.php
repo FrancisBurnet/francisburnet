@@ -462,8 +462,8 @@ PY,
 
 <section class="content-card p-4 p-lg-5 mb-4">
     <h2 class="section-title">Colab Notebook</h2>
-    <p>I use this section to keep the notebook preview, Colab launch, and project file links together in one place on the site.</p>
-    <p class="text-muted mb-0"><?php echo htmlspecialchars($publicDatasetRepoNote, ENT_QUOTES, 'UTF-8'); ?></p>
+    <p>This section brings the notebook preview, the Colab launch link, and the main project files together in one place.</p>
+    <p class="text-muted mb-0">If I need a lightweight public dataset mirror for Colab later, I can add one under the FrancisBurnet account while keeping the project artifacts hosted here on the site.</p>
     <div class="row g-3 mt-1">
         <div class="col-12">
             <div class="integration-console">
