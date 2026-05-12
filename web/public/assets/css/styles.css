@@ -153,6 +153,7 @@ body {
 .requirement-card,
 .evidence-card {
     height: 100%;
+    min-width: 0;
     border: 1px solid #dbe4ee;
     border-radius: 1rem;
     background: #f8fafc;
@@ -209,6 +210,17 @@ body {
 .evidence-card li,
 .requirement-card li {
     overflow-wrap: anywhere;
+}
+
+.artifact-card a:not(.btn),
+.requirement-card a:not(.btn),
+.evidence-card a:not(.btn),
+.artifact-card code,
+.requirement-card code,
+.evidence-card code {
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: break-word;
 }
 
 .status-note {
