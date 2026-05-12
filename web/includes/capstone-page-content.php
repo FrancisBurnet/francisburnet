@@ -15,6 +15,12 @@ $heroCaption = $capstoneProject['heroCaption'];
 $heroImageAlt = $capstoneProject['label'] . ' infographic placeholder';
 $capstoneRoot = capstone_relative_root($capstoneProject);
 $artifactLinks = build_capstone_artifact_links($capstoneProject);
+$interactiveLab = is_array($capstoneProject['interactiveLab'] ?? null) ? $capstoneProject['interactiveLab'] : null;
+$interactiveLabEnabled = !empty($interactiveLab['enabled']) && !empty($interactiveLab['embedUrl']);
+$interactiveLabPresets = $interactiveLabEnabled && !empty($interactiveLab['presets']) && is_array($interactiveLab['presets'])
+    ? $interactiveLab['presets']
+    : [];
+$interactiveLabFrameId = 'interactive-lab-' . trim((string) preg_replace('/[^a-z0-9]+/i', '-', (string) ($capstoneProject['key'] ?? 'capstone')), '-');
 $colabVerificationConfig = $colabVerificationConfig ?? [];
 $capstonePageKey = pathinfo((string) ($_SERVER['SCRIPT_NAME'] ?? ''), PATHINFO_FILENAME);
 $colabConfig = $colabVerificationConfig[$capstonePageKey] ?? [];
@@ -31,15 +37,17 @@ if ($previewNotebookAvailable && $previewNotebookPath !== null && $previewNotebo
     }
 }
 $previewNotebookEmbedUrl = $previewNotebookPreviewUrl !== null ? $previewNotebookPreviewUrl . '&embed=1' : null;
+$previewNotebookHtml = $previewNotebookPath !== null ? project_render_notebook_html($previewNotebookPath) : null;
+$projectPdfPath = project_first_matching_relative_path($capstoneRoot, ['Capstone_Session_*.pdf']);
 $datasetPath = project_first_matching_relative_path($capstoneRoot, ['*.csv']);
 $jsonOutputPath = project_first_matching_relative_path($capstoneRoot . '/outputs', ['*.json']);
 $csvOutputPath = project_first_matching_relative_path($capstoneRoot . '/outputs', ['*.csv']);
 $colabLaunchReady = !empty($colabConfig['launchUrl']);
 $verificationFlow = [
-    'This page keeps the notebook, source files, and published outputs for the capstone together in one place.',
-    'When a Colab link is available, it opens the same notebook that is staged with the project.',
-    'The project files and generated outputs on this site stay aligned with the capstone materials in the repository.',
-    'This section shows the notebook path and the main files that support the capstone work.',
+    'Notebook preview and launch link.',
+    'Source files and outputs.',
+    'Project file links.',
+    'Capstone notebook workspace.',
 ];
 $verificationInputs = [];
 
@@ -47,7 +55,7 @@ if ($datasetPath !== null) {
     $verificationInputs[] = [
         'label' => 'Live Dataset',
         'url' => project_artifact_absolute_url($datasetPath, false, true),
-        'note' => 'Dataset file served from the FrancisBurnet site when this capstone includes a staged CSV dataset.',
+        'note' => 'Dataset file served from the FrancisBurnet site when this capstone includes a CSV dataset.',
     ];
 }
 
@@ -63,7 +71,7 @@ if ($verificationNotebookPath !== null) {
     $verificationInputs[] = [
         'label' => 'Colab Notebook',
         'url' => project_artifact_absolute_url($verificationNotebookPath, false, true),
-        'note' => 'Colab-oriented notebook artifact when a dedicated notebook file is staged for this capstone.',
+        'note' => 'Colab-oriented notebook artifact when a dedicated notebook file is available for this capstone.',
     ];
 }
 
@@ -105,15 +113,26 @@ require __DIR__ . '/page-hero.php';
 <section class="content-card p-4 p-lg-5 mb-4">
     <h3 class="h5">1) Objective</h3>
     <p>State the requirement-aligned objective, inputs used, and expected deliverables for <?php echo htmlspecialchars($capstoneProject['label'], ENT_QUOTES, 'UTF-8'); ?>.</p>
-    <h3 class="h5 mt-4">2) Requirement Checklist</h3>
+    <?php if ($projectPdfPath !== null): ?>
+        <h3 class="h5 mt-4">2) Original Project PDF</h3>
+        <p>Read the project directions first, then use the checklist below.</p>
+        <div class="pdf-embed-frame mt-3">
+            <iframe
+                src="<?php echo htmlspecialchars(project_artifact_url($projectPdfPath, true, false, current_request_return_path()) . '&embed=1', ENT_QUOTES, 'UTF-8'); ?>"
+                title="Original Project PDF"
+                loading="lazy"
+            ></iframe>
+        </div>
+    <?php endif; ?>
+    <h3 class="h5 mt-4">3) Requirement Checklist</h3>
     <p>Render the project requirements in strict order using the same grading-first standard applied across the site.</p>
-    <h3 class="h5 mt-4">3) Code Walkthrough</h3>
+    <h3 class="h5 mt-4">4) Code Walkthrough</h3>
     <p>Display requirement-by-requirement notebook, script, PHP, and output evidence with explanations and result summaries.</p>
-    <h3 class="h5 mt-4">4) Data and Artifact Links</h3>
-    <p>Link the copied dataset, notebook, directions file, screenshots, and exported artifacts used by this capstone.</p>
-    <h3 class="h5 mt-4">5) Run Controls or Execution Notes</h3>
+    <h3 class="h5 mt-4">5) Data and Artifact Links</h3>
+    <p>Open the dataset, notebook, directions file, screenshots, and exported artifacts used by this capstone.</p>
+    <h3 class="h5 mt-4">6) Run Controls or Execution Notes</h3>
     <p>Expose only approved parameters and supported backend calls through the PHP site; otherwise document the intended run flow explicitly.</p>
-    <h3 class="h5 mt-4">6) Outputs</h3>
+    <h3 class="h5 mt-4">7) Outputs</h3>
     <p>Show metrics, figures, saved artifacts, and narrative summaries for this capstone.</p>
 </section>
 
@@ -135,7 +154,7 @@ require __DIR__ . '/page-hero.php';
         <div class="col">
             <div class="evidence-card p-3">
                 <span class="artifact-label mb-2">Dataset Sourcing</span>
-                <p class="mb-0">When a dataset is staged for this capstone, it is exposed alongside the notebook and outputs through the shared site artifact flow.</p>
+                <p class="mb-0">When a dataset is available for this capstone, it appears here with the notebook and outputs.</p>
             </div>
         </div>
     </div>
@@ -162,10 +181,65 @@ require __DIR__ . '/page-hero.php';
         </div>
     <?php else: ?>
         <div class="status-note p-3 mt-3">
-            <p class="mb-0">Artifact links have not been staged for this capstone yet. As source files are organized under the mapped capstone folder, they will appear here automatically.</p>
+            <p class="mb-0">Artifact links are not available for this capstone yet.</p>
         </div>
     <?php endif; ?>
 </section>
+
+<?php if ($interactiveLabEnabled): ?>
+<section class="content-card p-4 p-lg-5 mb-4">
+    <h2 class="section-title"><?php echo htmlspecialchars((string) ($interactiveLab['heading'] ?? 'Interactive Lab'), ENT_QUOTES, 'UTF-8'); ?></h2>
+    <p><?php echo htmlspecialchars((string) ($interactiveLab['summary'] ?? 'Explore an interactive concept demo that supports this capstone.'), ENT_QUOTES, 'UTF-8'); ?></p>
+    <?php if ($interactiveLabPresets !== []): ?>
+        <div class="interactive-lab-presets mt-3 mb-3">
+            <?php foreach ($interactiveLabPresets as $presetIndex => $preset): ?>
+                <?php $presetUrl = (string) ($preset['url'] ?? ''); ?>
+                <?php if ($presetUrl === '') { continue; } ?>
+                <a
+                    class="btn <?php echo $presetIndex === 0 ? 'btn-primary' : 'btn-outline-dark'; ?>"
+                    href="<?php echo htmlspecialchars($presetUrl, ENT_QUOTES, 'UTF-8'); ?>"
+                    target="<?php echo htmlspecialchars($interactiveLabFrameId, ENT_QUOTES, 'UTF-8'); ?>"
+                >
+                    <?php echo htmlspecialchars((string) ($preset['label'] ?? 'Preset'), ENT_QUOTES, 'UTF-8'); ?>
+                </a>
+            <?php endforeach; ?>
+        </div>
+        <div class="row row-cols-1 row-cols-md-2 g-3 mb-3">
+            <?php foreach ($interactiveLabPresets as $preset): ?>
+                <?php if (empty($preset['summary'])) { continue; } ?>
+                <div class="col">
+                    <div class="evidence-card p-3">
+                        <span class="artifact-label mb-2">Preset</span>
+                        <h3 class="h6"><?php echo htmlspecialchars((string) ($preset['label'] ?? 'Preset'), ENT_QUOTES, 'UTF-8'); ?></h3>
+                        <p class="mb-0"><?php echo htmlspecialchars((string) $preset['summary'], ENT_QUOTES, 'UTF-8'); ?></p>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
+    <div class="interactive-lab-shell">
+        <iframe
+            class="interactive-lab-frame"
+            name="<?php echo htmlspecialchars($interactiveLabFrameId, ENT_QUOTES, 'UTF-8'); ?>"
+            src="<?php echo htmlspecialchars((string) $interactiveLab['embedUrl'], ENT_QUOTES, 'UTF-8'); ?>"
+            title="<?php echo htmlspecialchars($capstoneProject['label'] . ' Interactive Lab', ENT_QUOTES, 'UTF-8'); ?>"
+            loading="lazy"
+        ></iframe>
+    </div>
+    <div class="artifact-actions mt-3">
+        <?php if (!empty($interactiveLab['launchUrl'])): ?>
+            <a class="btn btn-outline-dark" href="<?php echo htmlspecialchars((string) $interactiveLab['launchUrl'], ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noreferrer">
+                <?php echo htmlspecialchars((string) ($interactiveLab['launchLabel'] ?? 'Open Interactive Lab'), ENT_QUOTES, 'UTF-8'); ?>
+            </a>
+        <?php endif; ?>
+    </div>
+    <?php if (!empty($interactiveLab['note'])): ?>
+        <div class="status-note p-3 mt-3">
+            <p class="mb-0"><?php echo htmlspecialchars((string) $interactiveLab['note'], ENT_QUOTES, 'UTF-8'); ?></p>
+        </div>
+    <?php endif; ?>
+</section>
+<?php endif; ?>
 
 <section class="content-card p-4 p-lg-5 mb-4">
     <h2 class="section-title">Colab Notebook</h2>
@@ -190,16 +264,13 @@ require __DIR__ . '/page-hero.php';
                 <div class="console-body">
                     <div class="console-panel">
                         <span class="artifact-label mb-2">Embedded Notebook Preview</span>
-                        <?php if ($previewNotebookEmbedUrl !== null): ?>
-                            <iframe
-                                class="console-frame"
-                                src="<?php echo htmlspecialchars($previewNotebookEmbedUrl, ENT_QUOTES, 'UTF-8'); ?>"
-                                title="<?php echo htmlspecialchars($capstoneProject['label'], ENT_QUOTES, 'UTF-8'); ?> notebook preview"
-                                loading="lazy"
-                            ></iframe>
+                        <?php if ($previewNotebookHtml !== null): ?>
+                            <div class="console-notebook-preview">
+                                <?php echo $previewNotebookHtml; ?>
+                            </div>
                         <?php else: ?>
                             <div class="console-placeholder">
-                                A staged notebook is not available for this capstone yet. Once the notebook is copied into the mapped capstone folder, the preview will appear here automatically.
+                                A notebook is not available for this capstone yet.
                             </div>
                         <?php endif; ?>
                     </div>
@@ -246,10 +317,10 @@ require __DIR__ . '/page-hero.php';
                             <?php endforeach; ?>
                         </ul>
                     <?php else: ?>
-                        <p class="mb-0">Project file links will appear automatically as the notebook, dataset, and generated outputs are staged under the mapped capstone folder.</p>
+                        <p class="mb-0">Project file links appear here when the notebook, dataset, and outputs are available.</p>
                     <?php endif; ?>
                 </div>
-                <p class="mb-0 mt-3 text-muted">This launch area updates automatically as notebook and output artifacts are staged for the capstone.</p>
+                <p class="mb-0 mt-3 text-muted">This launch area updates when notebook and output artifacts are available.</p>
             </div>
         </div>
     </div>
@@ -259,7 +330,7 @@ require __DIR__ . '/page-hero.php';
     <h2 class="section-title">Execution Notes</h2>
     <div class="status-note p-3">
         <p class="mb-2"><strong>Current mode:</strong> shared template with review-first artifact access and no direct server-side execution endpoint.</p>
-        <p class="mb-2">This generic page intentionally avoids fake runtime controls. It surfaces only the files and project context that are actually staged for the capstone.</p>
+        <p class="mb-2">This page surfaces the files and project context that are available for the capstone.</p>
         <p class="mb-0">As each capstone is customized from its PDF source, this shared section can be replaced with requirement-specific logic and a live Colab launch target.</p>
     </div>
 </section>

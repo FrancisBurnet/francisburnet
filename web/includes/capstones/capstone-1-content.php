@@ -25,11 +25,12 @@ if ($verificationNotebookAvailable) {
     }
 }
 $verificationNotebookEmbedUrl = $verificationNotebookPreviewUrl . '&embed=1';
+$verificationNotebookHtml = project_render_notebook_html($verificationNotebookPath);
 $verificationFlow = [
-    'I use this page to present the notebook, source dataset, and published outputs for Capstone 1 in one place.',
-    'The notebook preview lives on this page, and the matching Colab notebook opens from the same project path.',
-    'The live dataset and output files stay aligned with the materials I publish in the repository and on the site.',
-    'This section is part of the project presentation and stays aligned with the published notebook path.',
+    'Notebook preview and launch link.',
+    'Dataset, JSON export, and cleaned CSV output.',
+    'Project file links for review.',
+    'Capstone 1 notebook workspace.',
 ];
 $verificationInputs = [
     [
@@ -67,6 +68,10 @@ if (!empty($colabConfig['publicDatasetMirrorUrl'])) {
     ];
 }
 
+$screenshotArtifacts = project_collect_screenshot_artifacts($capstoneRoot);
+$screenshotsAvailable = $screenshotArtifacts !== [];
+$screenshotManifestPath = project_screenshot_manifest_path($capstoneRoot);
+
 $preferredHeroImageRelativePath = $capstoneRoot . '/infographic_capstone_1.png';
 $heroImageCandidates = [
     project_artifact_exists($preferredHeroImageRelativePath) ? $preferredHeroImageRelativePath : null,
@@ -83,8 +88,8 @@ foreach ($heroImageCandidates as $candidate) {
 }
 $heroImagePath = $heroImageRelativePath !== null ? project_artifact_url($heroImageRelativePath) : 'assets/images/hero-placeholder.svg';
 $heroCaption = $heroImageRelativePath !== null
-    ? 'This hero image is loaded directly from the Capstone 1 project files.'
-    : 'Add the Capstone 1 infographic image to the project files and this page will load it automatically.';
+    ? 'Capstone 1 infographic.'
+    : 'Capstone 1 placeholder image.';
 
 $heroTitle = 'Capstone 1 Evidence Map';
 $heroImageAlt = $heroImageRelativePath !== null ? 'Capstone 1 infographic' : 'Capstone 1 evidence map placeholder';
@@ -127,13 +132,23 @@ $assetLinks = [
         'viewHref' => project_artifact_url($capstoneRoot . '/outputs/NSMES1988new.csv', true, false, $artifactSectionReturnPath),
         'downloadHref' => project_artifact_url($capstoneRoot . '/outputs/NSMES1988new.csv', false, true),
     ],
-    [
-        'label' => 'Screenshot Status',
-        'summary' => 'Open the placeholder manifest for screenshots that still need to be added.',
-        'viewHref' => project_artifact_url($capstoneRoot . '/Screenshots/README.md', true, false, $artifactSectionReturnPath),
-        'downloadHref' => project_artifact_url($capstoneRoot . '/Screenshots/README.md', false, true),
-    ],
 ];
+
+if ($screenshotsAvailable) {
+    $assetLinks[] = [
+        'label' => 'Screenshot Evidence',
+        'summary' => 'Open the first staged screenshot evidence image for Capstone 1.',
+        'viewHref' => project_artifact_url($screenshotArtifacts[0], true, false, $artifactSectionReturnPath),
+        'downloadHref' => project_artifact_url($screenshotArtifacts[0], false, true),
+    ];
+} elseif ($screenshotManifestPath !== null) {
+    $assetLinks[] = [
+        'label' => 'Screenshot Manifest',
+        'summary' => 'Open the staged manifest describing the screenshot evidence that still needs to be added for Capstone 1.',
+        'viewHref' => project_artifact_url($screenshotManifestPath, true, false, $artifactSectionReturnPath),
+        'downloadHref' => project_artifact_url($screenshotManifestPath, false, true),
+    ];
+}
 
 if (project_artifact_exists($verificationNotebookPath)) {
     $assetLinks[] = [
@@ -146,14 +161,14 @@ if (project_artifact_exists($verificationNotebookPath)) {
 
 $requirements = [
     ['id' => '1a', 'text' => 'Import relevant Python libraries necessary for Python programming and Numpy for numerical operations.', 'section' => 'PDF p.15 / Notebook 1a', 'evidence' => 'The rebuilt notebook imports `io`, `json`, `numpy`, `pandas`, `matplotlib.pyplot`, and `display` before the data steps begin.'],
-    ['id' => '1b', 'text' => 'Import the CSV file `NSMES1988.csv` into a dataframe.', 'section' => 'Notebook C?-T2', 'evidence' => 'Copied notebook loads `NSMES1988.csv` with `pd.read_csv(...)` and previews the dataframe.'],
-    ['id' => '1c', 'text' => 'Inspect the dataset and report rows, columns, and data types.', 'section' => 'Notebook C1-T4', 'evidence' => 'Copied notebook reports shape, columns, `info()`, descriptive statistics, and a head preview.'],
-    ['id' => '1d', 'text' => 'Find out if the data is clean or if the data has missing values.', 'section' => 'Notebook C1-T5', 'evidence' => 'Copied notebook computes missing-value counts and percentages for every column.'],
-    ['id' => '1e', 'text' => 'Comment on the data types, their values and range, specifically on `age` and `income` columns.', 'section' => 'Notebook C1-T6', 'evidence' => 'Copied notebook documents dtype, range, and age encoding notes for `age` and `income`.'],
-    ['id' => '1f', 'text' => 'Export the data to JSON as `NSMES1988.json` and view and enter your comments.', 'section' => 'Notebook C1-T7', 'evidence' => 'Copied notebook exports JSON and previews a snippet for format comments.'],
-    ['id' => '1g', 'text' => 'Perform memory information on the data and recommend what non-default data types would optimize dataframe memory settings.', 'section' => 'Notebook C1-T8', 'evidence' => 'Copied notebook measures memory usage and recommends category conversion candidates.'],
-    ['id' => '1h', 'text' => 'Recommend what changes should be made on the dataframe before attempting a detailed data analysis.', 'section' => 'Notebook C1-T9', 'evidence' => 'Copied notebook recommends dropping the index-like `Unnamed: 0` column before downstream analysis.'],
-    ['id' => '1i', 'text' => 'Export the dataframe as a new CSV file `NSMES1988new.csv` and store it locally for other assignments.', 'section' => 'Notebook C1-T9', 'evidence' => 'Copied notebook exports the cleaned dataframe to `outputs/NSMES1988new.csv`.'],
+    ['id' => '1b', 'text' => 'Import the CSV file `NSMES1988.csv` into a dataframe.', 'section' => 'Notebook C?-T2', 'evidence' => 'Notebook loads `NSMES1988.csv` with `pd.read_csv(...)` and previews the dataframe.'],
+    ['id' => '1c', 'text' => 'Inspect the dataset and report rows, columns, and data types.', 'section' => 'Notebook C1-T4', 'evidence' => 'Notebook reports shape, columns, `info()`, descriptive statistics, and a head preview.'],
+    ['id' => '1d', 'text' => 'Find out if the data is clean or if the data has missing values.', 'section' => 'Notebook C1-T5', 'evidence' => 'Notebook computes missing-value counts and percentages for every column.'],
+    ['id' => '1e', 'text' => 'Comment on the data types, their values and range, specifically on `age` and `income` columns.', 'section' => 'Notebook C1-T6', 'evidence' => 'Notebook documents dtype, range, and age encoding notes for `age` and `income`.'],
+    ['id' => '1f', 'text' => 'Export the data to JSON as `NSMES1988.json` and view and enter your comments.', 'section' => 'Notebook C1-T7', 'evidence' => 'Notebook exports JSON and previews a snippet for format comments.'],
+    ['id' => '1g', 'text' => 'Perform memory information on the data and recommend what non-default data types would optimize dataframe memory settings.', 'section' => 'Notebook C1-T8', 'evidence' => 'Notebook measures memory usage and recommends category conversion candidates.'],
+    ['id' => '1h', 'text' => 'Recommend what changes should be made on the dataframe before attempting a detailed data analysis.', 'section' => 'Notebook C1-T9', 'evidence' => 'Notebook recommends dropping the index-like `Unnamed: 0` column before downstream analysis.'],
+    ['id' => '1i', 'text' => 'Export the dataframe as a new CSV file `NSMES1988new.csv` and store it locally for other assignments.', 'section' => 'Notebook C1-T9', 'evidence' => 'Notebook exports the cleaned dataframe to `outputs/NSMES1988new.csv`.'],
     ['id' => '1j', 'text' => 'Write a short report on the visual observations of the data.', 'section' => 'Notebook 1j / PDF p.16', 'evidence' => 'The rebuilt notebook now generates a two-panel visual summary, saves `capstone_1_visual_observations.png`, and prints a short observations report beneath the charts.'],
 ];
 
@@ -183,7 +198,7 @@ PY,
         'title' => 'Load the Source CSV into a Dataframe',
         'notebookSection' => 'C?-T2',
         'requirement' => 'Import the CSV file `NSMES1988.csv` into a dataframe.',
-        'summary' => 'The copied notebook loads the required CSV file from the capstone folder and confirms the shape immediately after reading it into a dataframe.',
+        'summary' => 'The notebook loads the required CSV file and confirms the dataframe shape.',
         'results' => [
             'The dataset is loaded from the expected default filename: `NSMES1988.csv`.',
             'The notebook confirms shape immediately after loading: `(4406, 19)`.',
@@ -274,7 +289,6 @@ PY,
         'results' => [
             'Artifact saved as `outputs/NSMES1988.json`.',
             'The JSON is row-oriented and suitable for downstream systems that expect one object per record.',
-            'The page now keeps the JSON-format commentary tied to the exact PDF bullet.',
         ],
         'code' => <<<'PY'
 # Export JSON
@@ -295,11 +309,10 @@ PY,
         'title' => 'Memory Usage and Dtype Recommendations',
         'notebookSection' => 'C1-T8',
         'requirement' => 'Perform memory information on the data and recommend what non-default data types would optimize dataframe memory settings.',
-        'summary' => 'The PDF explicitly asks for memory information, and the copied notebook measures total dataframe memory and identifies category-conversion candidates.',
+        'summary' => 'The notebook measures total dataframe memory and identifies category-conversion candidates.',
         'results' => [
             'Total memory usage: `2,263,919` bytes (`2.159 MB`).',
             'Recommended category columns: `health`, `adl`, `region`, `gender`, `married`, `employed`, `insurance`, `medicaid`.',
-            'This item remains on the page because it is directly stated on PDF p.16.',
         ],
         'code' => <<<'PY'
 # Memory usage
@@ -315,7 +328,7 @@ PY,
         'title' => 'Recommended Dataframe Changes Before Detailed Analysis',
         'notebookSection' => 'C1-T9',
         'requirement' => 'Recommend what changes should be made on the dataframe before attempting a detailed data analysis.',
-        'summary' => 'The copied notebook recommends one safe structural cleanup before deeper analysis: remove the index-like `Unnamed: 0` column.',
+        'summary' => 'The notebook recommends removing the index-like `Unnamed: 0` column before deeper analysis.',
         'results' => [
             'Recommended cleanup: drop `Unnamed: 0` before detailed analysis.',
             'The recommendation is separated here because the PDF states it as its own bullet before the final CSV export.',
@@ -381,7 +394,7 @@ PY,
         <div>
             <span class="hero-chip mb-3">Applied Data Science</span>
             <h2 class="section-title">Capstone 1: Data Import and Cleaning</h2>
-            <p class="mb-3">This page maps Capstone 1 directly from the copied project PDF. The PDF is the source of truth for the checklist, and the notebook is used only as supporting evidence for the items it actually covers.</p>
+            <p class="mb-3">Capstone 1 covers data import, inspection, data quality review, JSON export, memory review, and cleaned CSV export.</p>
             <p class="mb-0"><strong>Mapped source folder:</strong> <?php echo htmlspecialchars($capstoneRoot, ENT_QUOTES, 'UTF-8'); ?></p>
         </div>
         <div class="artifact-card p-3">
@@ -396,9 +409,15 @@ PY,
     </div>
 </section>
 
+<?php echo project_render_embedded_pdf_section(
+    $capstoneRoot . '/Capstone_Session_1.pdf',
+    'Original Project PDF',
+    'The original Capstone 1 directions are embedded here.'
+); ?>
+
 <section class="content-card p-4 p-lg-5 mb-4">
     <h2 class="section-title">Requirement Checklist</h2>
-    <p>The checklist below mirrors the PDF task bullets from pages 15 and 16. Each card shows where supporting notebook evidence exists, and it leaves unsupported PDF items visible instead of replacing them with prompt-driven filler.</p>
+    <p>The checklist below follows the PDF task bullets from pages 15 and 16.</p>
     <div class="row row-cols-1 row-cols-lg-2 g-3 mt-1">
         <?php foreach ($requirements as $requirement): ?>
             <div class="col">
@@ -415,7 +434,7 @@ PY,
 
 <section class="content-card p-4 p-lg-5 mb-4">
     <h2 class="section-title">Requirement Walkthrough</h2>
-    <p>Each block below is keyed to a PDF task bullet first. Where the copied notebook contains direct evidence, the page shows that exact code. Where the staged materials do not yet contain direct evidence, the page says so explicitly.</p>
+    <p>Each block below covers one requirement and the matching notebook evidence.</p>
     <div class="d-grid gap-4 mt-3">
         <?php foreach ($walkthrough as $section): ?>
             <article class="requirement-card p-4">
@@ -442,7 +461,7 @@ PY,
 
 <section id="data-artifact-links" class="content-card p-4 p-lg-5 mb-4">
     <h2 class="section-title">Data and Artifact Links</h2>
-    <p>The links below expose the copied Capstone 1 materials through the PHP app so I can present the original project files directly inside the FrancisBurnetCom structure.</p>
+    <p>The links below open the Capstone 1 project files.</p>
     <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-3 mt-1">
         <?php foreach ($assetLinks as $asset): ?>
             <div class="col">
@@ -462,8 +481,8 @@ PY,
 
 <section class="content-card p-4 p-lg-5 mb-4">
     <h2 class="section-title">Colab Notebook</h2>
-    <p>This section brings the notebook preview, the Colab launch link, and the main project files together in one place.</p>
-    <p class="text-muted mb-0">The notebook opens in Google Colab, and the project files and outputs remain available here on the site.</p>
+    <p>This section provides the notebook preview, launch link, and project file links.</p>
+    <p class="text-muted mb-0">Project files and outputs remain available on this page.</p>
     <div class="row g-3 mt-1">
         <div class="col-12">
             <div class="integration-console">
@@ -483,13 +502,10 @@ PY,
                 <div class="console-body">
                     <div class="console-panel">
                         <span class="artifact-label mb-2">Embedded Notebook Preview</span>
-                        <?php if ($verificationNotebookAvailable): ?>
-                            <iframe
-                                class="console-frame"
-                                src="<?php echo htmlspecialchars($verificationNotebookEmbedUrl, ENT_QUOTES, 'UTF-8'); ?>"
-                                title="Capstone 1 notebook preview"
-                                loading="lazy"
-                            ></iframe>
+                        <?php if ($verificationNotebookHtml !== null): ?>
+                            <div class="console-notebook-preview">
+                                <?php echo $verificationNotebookHtml; ?>
+                            </div>
                         <?php else: ?>
                             <div class="console-placeholder">
                                 The Colab notebook artifact is not available yet.
@@ -511,7 +527,7 @@ PY,
             <div class="artifact-card p-3">
                 <span class="artifact-label mb-2">Launch Controls</span>
                 <h3 class="h5">Notebook Launch</h3>
-                <p class="mb-3">The notebook preview stays on this site, and the launch button opens the matching Google Colab notebook from the public project source.</p>
+                <p class="mb-3">Launch the matching notebook in Google Colab or open the source file.</p>
                 <div class="artifact-actions">
                     <?php if ($colabLaunchReady): ?>
                         <a class="btn btn-primary" href="<?php echo htmlspecialchars((string) $colabConfig['launchUrl'], ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noreferrer">Launch Colab</a>
@@ -538,7 +554,7 @@ PY,
                         <?php endforeach; ?>
                     </ul>
                 </div>
-                <p class="mb-0 mt-3 text-muted">I keep the default Colab and notebook source links in the public `FrancisBurnet/francisburnet` repository, and I can still override them with environment variables if the notebook path changes later.</p>
+                <p class="mb-0 mt-3 text-muted">Colab and source links follow the configured notebook path.</p>
             </div>
         </div>
     </div>
@@ -547,9 +563,9 @@ PY,
 <section class="content-card p-4 p-lg-5 mb-4">
     <h2 class="section-title">Execution Notes</h2>
     <div class="status-note p-3">
-        <p class="mb-2"><strong>Current mode:</strong> I present Capstone 1 as notebook-backed project evidence with downloadable artifacts.</p>
-        <p class="mb-2">I have not added a server-side rerun endpoint. The PHP page is focused on showing the code, files, and outputs clearly inside the site.</p>
-        <p class="mb-0">The notebook still opens in Google Colab when launched, while this page remains the place where I organize the capstone materials and outputs.</p>
+        <p class="mb-2"><strong>Current mode:</strong> notebook-backed project evidence with downloadable artifacts.</p>
+        <p class="mb-2">This page presents the code, files, and outputs.</p>
+        <p class="mb-0">The notebook opens in Google Colab when launched.</p>
     </div>
 </section>
 
@@ -587,7 +603,7 @@ PY,
             <div class="evidence-card p-3">
                 <span class="artifact-label mb-2">Available Evidence</span>
                 <ul class="mb-0 ps-3">
-                    <li>Copied project PDF</li>
+                    <li>Project PDF</li>
                     <li>Notebook source with executed outputs</li>
                     <li>Requirements checklist for the website workflow</li>
                     <li>JSON and cleaned CSV artifacts</li>
@@ -596,11 +612,21 @@ PY,
         </div>
         <div class="col-lg-6">
             <div class="evidence-card p-3">
-                <span class="artifact-label mb-2">Pending Additions</span>
+                <span class="artifact-label mb-2">Screenshot Status</span>
                 <ul class="mb-0 ps-3">
-                    <li>Screenshots have not been copied into the project yet.</li>
-                    <li>If screenshots are added later, store them in <code>Capstone 1/Screenshots/</code> with ordered filenames.</li>
-                    <li>This page is now structured to surface those screenshots once they exist.</li>
+                    <?php if ($screenshotsAvailable): ?>
+                        <li><?php echo count($screenshotArtifacts); ?> screenshot evidence file(s).</li>
+                        <?php foreach ($screenshotArtifacts as $screenshotArtifact): ?>
+                            <li><?php echo htmlspecialchars(basename($screenshotArtifact), ENT_QUOTES, 'UTF-8'); ?></li>
+                        <?php endforeach; ?>
+                    <?php elseif ($screenshotManifestPath !== null): ?>
+                        <li>No screenshot images are available yet.</li>
+                        <li>The screenshot manifest is present at <code>Capstone 1/Screenshots/README.md</code>.</li>
+                        <li>Add ordered evidence images under <code>Capstone 1/Screenshots/</code>.</li>
+                    <?php else: ?>
+                        <li>The <code>Capstone 1/Screenshots/</code> folder is missing.</li>
+                        <li>Add the folder and ordered evidence images.</li>
+                    <?php endif; ?>
                 </ul>
             </div>
         </div>

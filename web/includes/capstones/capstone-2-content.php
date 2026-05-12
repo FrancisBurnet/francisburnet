@@ -12,6 +12,7 @@ $colabConfig = $colabVerificationConfig['capstone-2'] ?? [];
 $requirementsPath = $capstoneRoot . '/requirements/capstone_2_requirements.md';
 $projectPdfPath = $capstoneRoot . '/Capstone_Session_2.pdf';
 $notebookPath = $capstoneRoot . '/capstone_2.ipynb';
+$infographicPath = $capstoneRoot . '/infographic_capstone_2.png';
 $inputDatasetPath = $capstoneRoot . '/NSMES1988new.csv';
 $referenceDatasetPath = $capstoneRoot . '/NSMES1988.csv';
 $updatedDatasetPath = $capstoneRoot . '/outputs/NSMES1988updated.csv';
@@ -19,6 +20,7 @@ $optionalOptimizedDatasetPath = $capstoneRoot . '/outputs/NSMES1988optimized_opt
 
 $colabLaunchReady = !empty($colabConfig['launchUrl']);
 $notebookAvailable = project_artifact_exists($notebookPath);
+$infographicAvailable = project_artifact_exists($infographicPath);
 $optionalOptimizedDatasetAvailable = project_artifact_exists($optionalOptimizedDatasetPath);
 
 $previewNotebookViewUrl = $notebookAvailable ? project_artifact_url($notebookPath, true) : null;
@@ -30,12 +32,13 @@ if ($notebookAvailable && $previewNotebookPreviewUrl !== null) {
     }
 }
 $previewNotebookEmbedUrl = $previewNotebookPreviewUrl !== null ? $previewNotebookPreviewUrl . '&embed=1' : null;
+$previewNotebookHtml = $notebookAvailable ? project_render_notebook_html($notebookPath) : null;
 
 $verificationFlow = [
-    'This page keeps the Capstone 2 notebook, the cleaned handoff dataset, and the updated output file together in one place.',
-    'The walkthrough stays in the same order as the copied Capstone 2 PDF instead of collapsing multiple task bullets into a generic summary.',
-    'The notebook preview stays on this site, while the launch button opens the same staged notebook in Google Colab when the public source URL is configured.',
-    'The optional follow-on CSV export remains visible as its own PDF item instead of being silently merged into the dtype recommendation step.',
+    'Notebook preview and launch link.',
+    'Input handoff dataset and required output CSV.',
+    'Optional follow-on CSV when available.',
+    'Capstone 2 notebook workspace.',
 ];
 
 $verificationInputs = [
@@ -72,7 +75,19 @@ if (!empty($colabConfig['publicNotebookSourceUrl'])) {
     ];
 }
 
-$preferredHeroImageRelativePath = $capstoneRoot . '/infographic_capstone_2.png';
+if ($infographicAvailable) {
+    $verificationInputs[] = [
+        'label' => 'Project Infographic',
+        'url' => project_artifact_absolute_url($infographicPath, false, true),
+        'note' => 'Portfolio-ready visual summary for the Capstone 2 workflow and staged deliverables.',
+    ];
+}
+
+$screenshotArtifacts = project_collect_screenshot_artifacts($capstoneRoot);
+$screenshotsAvailable = $screenshotArtifacts !== [];
+$screenshotManifestPath = project_screenshot_manifest_path($capstoneRoot);
+
+$preferredHeroImageRelativePath = $infographicPath;
 $heroImageCandidates = [
     project_artifact_exists($preferredHeroImageRelativePath) ? $preferredHeroImageRelativePath : null,
     project_first_matching_relative_path($capstoneRoot . '/Screenshots', ['*.png', '*.jpg', '*.jpeg', '*.webp', '*.gif', '*.svg']),
@@ -90,8 +105,8 @@ foreach ($heroImageCandidates as $candidate) {
 
 $heroImagePath = $heroImageRelativePath !== null ? project_artifact_url($heroImageRelativePath) : 'assets/images/hero-placeholder.svg';
 $heroCaption = $heroImageRelativePath !== null
-    ? 'This hero image is loaded directly from the Capstone 2 project files.'
-    : 'Add a Capstone 2 infographic or summary image to the project files and this page will load it automatically.';
+    ? 'Capstone 2 infographic.'
+    : 'Capstone 2 placeholder image.';
 
 $heroTitle = 'Capstone 2 Evidence Map';
 $heroImageAlt = $heroImageRelativePath !== null ? 'Capstone 2 infographic' : 'Capstone 2 evidence map placeholder';
@@ -136,6 +151,31 @@ $assetLinks = [
     ],
 ];
 
+if ($infographicAvailable) {
+    $assetLinks[] = [
+        'label' => 'Project Infographic',
+        'summary' => 'Open the Capstone 2 infographic used as the page hero and portfolio summary visual.',
+        'viewHref' => project_artifact_url($infographicPath, true, false, $artifactSectionReturnPath),
+        'downloadHref' => project_artifact_url($infographicPath, false, true),
+    ];
+}
+
+if ($screenshotsAvailable) {
+    $assetLinks[] = [
+        'label' => 'Screenshot Evidence',
+        'summary' => 'Open the first staged screenshot evidence image for Capstone 2.',
+        'viewHref' => project_artifact_url($screenshotArtifacts[0], true, false, $artifactSectionReturnPath),
+        'downloadHref' => project_artifact_url($screenshotArtifacts[0], false, true),
+    ];
+} elseif ($screenshotManifestPath !== null) {
+    $assetLinks[] = [
+        'label' => 'Screenshot Manifest',
+        'summary' => 'Open the staged manifest describing the screenshot evidence that still needs to be added for Capstone 2.',
+        'viewHref' => project_artifact_url($screenshotManifestPath, true, false, $artifactSectionReturnPath),
+        'downloadHref' => project_artifact_url($screenshotManifestPath, false, true),
+    ];
+}
+
 if ($optionalOptimizedDatasetAvailable) {
     $assetLinks[] = [
         'label' => 'Optional Follow-On CSV',
@@ -154,7 +194,7 @@ $requirements = [
     ['id' => '1f', 'text' => 'Save the dataframe as `NSMES1988updated.csv` file in the local space for possible future use.', 'section' => 'Notebook C2-T7', 'evidence' => 'The required output file is staged at `outputs/NSMES1988updated.csv` with exported shape `(4406, 20)`.'],
     ['id' => '1g', 'text' => 'Invoke `describe` command on the dataframe and compare that with the basic statistical analysis done in the previous step.', 'section' => 'Notebook C2-T8', 'evidence' => 'The notebook runs `describe(include="all")` and compares that wider summary to the focused statistics from the prior section.'],
     ['id' => '1h', 'text' => 'Indicate which of the columns are not eligible for statistical analysis and indicate possible datatype changes, and report.', 'section' => 'Notebook C2-T8', 'evidence' => 'The notebook identifies eight label-like fields for categorical treatment and recommends integer downcasts for selected count columns.'],
-    ['id' => '1i', 'text' => 'Make changes to the recommended file from the previous step and export it as a new `.csv` file for possible future use. Optional.', 'section' => 'PDF p.8 optional step', 'evidence' => $optionalOptimizedDatasetAvailable ? 'An optional follow-on CSV export is staged as `outputs/NSMES1988optimized_optional.csv`.' : 'The optional follow-on CSV export is not yet staged, and the page keeps that gap explicit instead of hiding the PDF item.'],
+    ['id' => '1i', 'text' => 'Make changes to the recommended file from the previous step and export it as a new `.csv` file for possible future use. Optional.', 'section' => 'PDF p.8 optional step', 'evidence' => $optionalOptimizedDatasetAvailable ? 'Optional follow-on CSV export is available as `outputs/NSMES1988optimized_optional.csv`.' : 'Optional follow-on CSV export is not available.'],
     ['id' => '1j', 'text' => 'Prepare a brief report and enter it in the markup cells of the JupyterLab notebook.', 'section' => 'Notebook C2-T6, C2-T8, Final section', 'evidence' => 'The notebook markdown cells preserve the brief report and conclusions directly alongside the statistical outputs.'],
 ];
 
@@ -209,7 +249,7 @@ PY,
         'title' => 'Memory Comparison Against Capstone 1',
         'notebookSection' => 'C2-T4',
         'requirement' => 'Perform memory analysis of the new dataframe and compare it with the memory of the dataframe in the previous week and mark your comments.',
-        'summary' => 'The staged notebook uses the Capstone 1 memory result as a fixed comparison reference and reports the change for the Capstone 2 working dataframe.',
+        'summary' => 'The notebook compares Capstone 2 memory usage to the Capstone 1 reference.',
         'results' => [
             'Current dataframe memory: `2,228,671` bytes (`2.125 MB`).',
             'Capstone 1 reference memory: `2,263,919` bytes (`2.159 MB`).',
@@ -232,7 +272,7 @@ PY,
         'title' => 'Scale Age and Income to Real Units',
         'notebookSection' => 'C2-T5',
         'requirement' => 'Perform the following operations on age and income columns: multiply age by 10 and income by 10000.',
-        'summary' => 'The notebook keeps the original encoded source fields and adds interpretable scaled columns for downstream analysis and reporting.',
+        'summary' => 'The notebook adds scaled columns while keeping the original encoded source fields.',
         'results' => [
             '`age` stays available as the original encoded field while `age_years` exposes the real-year values.',
             '`income` stays available as the original encoded field while `income_dollars` exposes dollar values.',
@@ -260,7 +300,7 @@ PY,
             '`visits` summary: mean `5.774`, median `4`, min `0`, max `89`.',
             '`age_years` summary: mean `74.024`, median `73`, min `66`, max `109`.',
             '`income_dollars` summary: mean `25,271.321`, median `16,981.5`, min `-10,125`, max `548,351`.',
-            'The notebook report notes right-skew in utilization and income, and it keeps the negative-income records visible instead of dropping them without explanation.',
+            'The notebook report notes right-skew in utilization and income, and it retains the negative-income records.',
         ],
         'code' => <<<'PY'
 numeric_cols = df2.select_dtypes(include=["number"]).columns
@@ -297,7 +337,7 @@ PY,
         'results' => [
             'The broader `describe()` output confirms the same central tendencies surfaced in the focused summary section.',
             'The all-column view adds category counts and top values for label-like fields that were not part of the narrower numeric-only report.',
-            'This step keeps the PDF order intact by comparing the describe output after the initial brief report, not before it.',
+            'This step compares the `describe()` output with the earlier brief report.',
         ],
         'code' => <<<'PY'
 display(df2.describe(include="all"))
@@ -338,18 +378,18 @@ PY,
         'notebookSection' => 'PDF p.8 optional step',
         'requirement' => 'Make changes to the recommended file from the previous step and export it as a new `.csv` file for possible future use. Optional.',
         'summary' => $optionalOptimizedDatasetAvailable
-            ? 'An optional follow-on CSV export is staged so the PDF optional step remains visible as a discrete artifact instead of being folded into the recommendation notes.'
-            : 'The copied notebook does not currently stage the optional follow-on CSV, so this page keeps that optional requirement visible as an explicit evidence gap.',
+            ? 'An optional follow-on CSV export is available.'
+            : 'The optional follow-on CSV export is not available.',
         'results' => $optionalOptimizedDatasetAvailable
             ? [
-                'Optional artifact staged: `outputs/NSMES1988optimized_optional.csv`.',
+                'Optional artifact: `outputs/NSMES1988optimized_optional.csv`.',
                 'This optional export is tracked separately from the required `NSMES1988updated.csv` handoff file.',
-                'The page keeps the optional status explicit instead of treating it as a required deliverable.',
+                'This export is optional.',
             ]
             : [
-                'No optional follow-on CSV is staged in the copied materials yet.',
+                'No optional follow-on CSV is available yet.',
                 'The required Capstone 2 deliverable remains `outputs/NSMES1988updated.csv`.',
-                'This optional PDF item remains visible so it can be completed later without losing the original task order.',
+                'This item is optional.',
             ],
         'code' => $optionalOptimizedDatasetAvailable
             ? <<<'PY'
@@ -358,8 +398,8 @@ optional_out_csv = OUTPUT_DIR / "NSMES1988optimized_optional.csv"
 print("Saved:", optional_out_csv)
 PY
             : <<<'TXT'
-Optional follow-on export is not staged in the copied notebook yet.
-This page keeps the PDF optional item visible instead of suppressing it.
+Optional follow-on export is not available yet.
+Optional item.
 TXT,
     ],
     [
@@ -387,7 +427,7 @@ TXT,
         <div>
             <span class="hero-chip mb-3">Applied Data Science</span>
             <h2 class="section-title">Capstone 2: Data Processing and Statistical Analysis</h2>
-            <p class="mb-3">This page maps Capstone 2 directly from the copied project PDF. Capstone 1's cleaned handoff file starts the workflow, and the notebook is used only where it provides direct evidence for the PDF task order.</p>
+            <p class="mb-3">Capstone 2 covers memory analysis, scaling, statistical analysis, required CSV export, and reporting.</p>
             <p class="mb-0"><strong>Mapped source folder:</strong> <?php echo htmlspecialchars($capstoneRoot, ENT_QUOTES, 'UTF-8'); ?></p>
         </div>
         <div class="artifact-card p-3">
@@ -402,9 +442,15 @@ TXT,
     </div>
 </section>
 
+<?php echo project_render_embedded_pdf_section(
+    $projectPdfPath,
+    'Original Project PDF',
+    'The original Capstone 2 directions are embedded here.'
+); ?>
+
 <section class="content-card p-4 p-lg-5 mb-4">
     <h2 class="section-title">Requirement Checklist</h2>
-    <p>The checklist below mirrors the copied PDF task sequence. Each card keeps the source mapping visible and ties the requirement to the staged notebook or artifact that currently proves completion.</p>
+    <p>The checklist below follows the PDF task sequence.</p>
     <div class="row row-cols-1 row-cols-lg-2 g-3 mt-1">
         <?php foreach ($requirements as $requirement): ?>
             <div class="col">
@@ -421,7 +467,7 @@ TXT,
 
 <section class="content-card p-4 p-lg-5 mb-4">
     <h2 class="section-title">Requirement Walkthrough</h2>
-    <p>Each walkthrough block is keyed to one PDF requirement item at a time. The page keeps the PDF order intact and does not merge multiple task bullets into a single generic explanation.</p>
+    <p>Each walkthrough block covers one requirement and the matching notebook evidence.</p>
     <div class="d-grid gap-4 mt-3">
         <?php foreach ($walkthrough as $section): ?>
             <article class="requirement-card p-4">
@@ -448,7 +494,7 @@ TXT,
 
 <section id="data-artifact-links" class="content-card p-4 p-lg-5 mb-4">
     <h2 class="section-title">Data and Artifact Links</h2>
-    <p>The links below expose the copied Capstone 2 materials through the PHP app so the PDF, notebook, datasets, and output files can be reviewed directly inside the site.</p>
+    <p>The links below open the Capstone 2 project files.</p>
     <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-3 mt-1">
         <?php foreach ($assetLinks as $asset): ?>
             <div class="col">
@@ -468,8 +514,8 @@ TXT,
 
 <section class="content-card p-4 p-lg-5 mb-4">
     <h2 class="section-title">Colab Notebook</h2>
-    <p>This section brings the notebook preview, the Colab launch link, and the main project files together in one place.</p>
-    <p class="text-muted mb-0">The notebook opens in Google Colab, and the Capstone 2 input and output files remain available here on the site.</p>
+    <p>This section provides the notebook preview, launch link, and project file links.</p>
+    <p class="text-muted mb-0">Capstone 2 input and output files remain available on this page.</p>
     <div class="row g-3 mt-1">
         <div class="col-12">
             <div class="integration-console">
@@ -489,16 +535,13 @@ TXT,
                 <div class="console-body">
                     <div class="console-panel">
                         <span class="artifact-label mb-2">Embedded Notebook Preview</span>
-                        <?php if ($previewNotebookEmbedUrl !== null): ?>
-                            <iframe
-                                class="console-frame"
-                                src="<?php echo htmlspecialchars($previewNotebookEmbedUrl, ENT_QUOTES, 'UTF-8'); ?>"
-                                title="Capstone 2 notebook preview"
-                                loading="lazy"
-                            ></iframe>
+                        <?php if ($previewNotebookHtml !== null): ?>
+                            <div class="console-notebook-preview">
+                                <?php echo $previewNotebookHtml; ?>
+                            </div>
                         <?php else: ?>
                             <div class="console-placeholder">
-                                The staged Capstone 2 notebook artifact is not available yet.
+                                The Capstone 2 notebook artifact is not available yet.
                             </div>
                         <?php endif; ?>
                     </div>
@@ -517,7 +560,7 @@ TXT,
             <div class="artifact-card p-3">
                 <span class="artifact-label mb-2">Launch Controls</span>
                 <h3 class="h5">Notebook Launch</h3>
-                <p class="mb-3">The notebook preview stays on this site, and the launch button opens the matching Google Colab notebook from the public project source when that source URL is configured.</p>
+                <p class="mb-3">Launch the matching notebook in Google Colab or open the source file.</p>
                 <div class="artifact-actions">
                     <?php if ($colabLaunchReady): ?>
                         <a class="btn btn-primary" href="<?php echo htmlspecialchars((string) $colabConfig['launchUrl'], ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noreferrer">Launch Colab</a>
@@ -540,7 +583,7 @@ TXT,
                         <?php endforeach; ?>
                     </ul>
                 </div>
-                <p class="mb-0 mt-3 text-muted">The public launch and notebook source URLs are kept in the repository configuration, so this page stays aligned with the staged Capstone 2 notebook path.</p>
+                <p class="mb-0 mt-3 text-muted">Colab and source links follow the configured notebook path.</p>
             </div>
         </div>
     </div>
@@ -549,9 +592,9 @@ TXT,
 <section class="content-card p-4 p-lg-5 mb-4">
     <h2 class="section-title">Execution Notes</h2>
     <div class="status-note p-3">
-        <p class="mb-2"><strong>Current mode:</strong> notebook-backed Capstone 2 presentation with staged artifacts and no server-side rerun endpoint.</p>
-        <p class="mb-2">The page is focused on presenting the PDF, notebook, input dataset, and exported outputs clearly inside the PHP site.</p>
-        <p class="mb-0">When the notebook is launched, Google Colab handles the execution path while this page remains the requirement-ordered evidence map.</p>
+        <p class="mb-2"><strong>Current mode:</strong> notebook-backed presentation with downloadable artifacts.</p>
+        <p class="mb-2">This page presents the PDF, notebook, input dataset, and exported outputs.</p>
+        <p class="mb-0">The notebook opens in Google Colab when launched.</p>
     </div>
 </section>
 
@@ -592,8 +635,8 @@ TXT,
             <div class="evidence-card p-3">
                 <span class="artifact-label mb-2">Available Evidence</span>
                 <ul class="mb-0 ps-3">
-                    <li>Copied project PDF</li>
-                    <li>Notebook source with staged outputs</li>
+                    <li>Project PDF</li>
+                    <li>Notebook source with outputs</li>
                     <li>Requirements checklist extracted from the PDF</li>
                     <li>Input and output CSV artifacts</li>
                 </ul>
@@ -601,11 +644,22 @@ TXT,
         </div>
         <div class="col-lg-6">
             <div class="evidence-card p-3">
-                <span class="artifact-label mb-2">Current Gaps</span>
+                <span class="artifact-label mb-2">Screenshot Status</span>
                 <ul class="mb-0 ps-3">
-                    <li>The optional follow-on CSV export remains separate from the required deliverables.</li>
-                    <li>No screenshots are staged yet for this capstone.</li>
-                    <li>If screenshots are added later, store them under <code>Capstone 2/Screenshots/</code> with ordered filenames.</li>
+                    <li>The optional follow-on CSV export is separate from the required deliverables.</li>
+                    <?php if ($screenshotsAvailable): ?>
+                        <li><?php echo count($screenshotArtifacts); ?> screenshot evidence file(s).</li>
+                        <?php foreach ($screenshotArtifacts as $screenshotArtifact): ?>
+                            <li><?php echo htmlspecialchars(basename($screenshotArtifact), ENT_QUOTES, 'UTF-8'); ?></li>
+                        <?php endforeach; ?>
+                    <?php elseif ($screenshotManifestPath !== null): ?>
+                        <li>No screenshot images are available yet.</li>
+                        <li>The screenshot manifest is present at <code>Capstone 2/Screenshots/README.md</code>.</li>
+                        <li>Add ordered evidence images under <code>Capstone 2/Screenshots/</code>.</li>
+                    <?php else: ?>
+                        <li>The <code>Capstone 2/Screenshots/</code> folder is missing.</li>
+                        <li>Add the folder and ordered evidence images.</li>
+                    <?php endif; ?>
                 </ul>
             </div>
         </div>

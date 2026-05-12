@@ -161,6 +161,196 @@ function project_first_matching_relative_path(string $baseRelativePath, array $p
     return null;
 }
 
+function project_collect_relative_paths(string $baseRelativePath, array $patterns): array
+{
+    $basePath = project_artifact_fs_path($baseRelativePath);
+    if (!is_dir($basePath)) {
+        return [];
+    }
+
+    $relativeMatches = [];
+    foreach ($patterns as $pattern) {
+        foreach (glob($basePath . DIRECTORY_SEPARATOR . $pattern) ?: [] as $match) {
+            $relativeMatches[] = $baseRelativePath . '/' . basename($match);
+        }
+    }
+
+    $relativeMatches = array_values(array_unique($relativeMatches));
+    sort($relativeMatches);
+
+    return $relativeMatches;
+}
+
+function project_collect_screenshot_artifacts(string $capstoneRoot): array
+{
+    return project_collect_relative_paths($capstoneRoot . '/Screenshots', ['*.png', '*.jpg', '*.jpeg', '*.webp', '*.gif', '*.svg']);
+}
+
+function project_screenshot_manifest_path(string $capstoneRoot): ?string
+{
+    $manifestPath = $capstoneRoot . '/Screenshots/README.md';
+    return project_artifact_exists($manifestPath) ? $manifestPath : null;
+}
+
+function project_inline_markup(string $text): string
+{
+    $escaped = htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
+    return (string) preg_replace('/`([^`]+)`/', '<code>$1</code>', $escaped);
+}
+
+function project_render_markdown_lines(array $lines): string
+{
+    $html = [];
+    $inList = false;
+
+    foreach ($lines as $line) {
+        $trimmed = trim((string) $line);
+        if ($trimmed === '') {
+            if ($inList) {
+                $html[] = '</ul>';
+                $inList = false;
+            }
+            continue;
+        }
+
+        if (preg_match('/^(#{1,6})\s+(.*)$/', $trimmed, $matches) === 1) {
+            if ($inList) {
+                $html[] = '</ul>';
+                $inList = false;
+            }
+
+            $level = strlen($matches[1]);
+            $html[] = sprintf('<h%d>%s</h%d>', $level, project_inline_markup($matches[2]), $level);
+            continue;
+        }
+
+        if (preg_match('/^[-*]\s+(.*)$/', $trimmed, $matches) === 1) {
+            if (!$inList) {
+                $html[] = '<ul>';
+                $inList = true;
+            }
+
+            $html[] = '<li>' . project_inline_markup($matches[1]) . '</li>';
+            continue;
+        }
+
+        if ($inList) {
+            $html[] = '</ul>';
+            $inList = false;
+        }
+
+        $html[] = '<p>' . project_inline_markup($trimmed) . '</p>';
+    }
+
+    if ($inList) {
+        $html[] = '</ul>';
+    }
+
+    return implode("\n", $html);
+}
+
+function project_render_notebook_html(string $relativePath): ?string
+{
+    if (!project_artifact_exists($relativePath)) {
+        return null;
+    }
+
+    $rawContent = (string) file_get_contents(project_artifact_fs_path($relativePath));
+    $decoded = json_decode($rawContent, true);
+    $cells = $decoded['cells'] ?? null;
+
+    if (!is_array($cells)) {
+        return '<div class="viewer"><pre>' . htmlspecialchars($rawContent, ENT_QUOTES, 'UTF-8') . '</pre></div>';
+    }
+
+    ob_start();
+    ?>
+    <div class="notebook-view">
+        <?php foreach ($cells as $index => $cell): ?>
+            <?php
+            $cellType = strtolower((string) ($cell['cell_type'] ?? 'unknown'));
+            $language = (string) ($cell['metadata']['language'] ?? ($cellType === 'code' ? 'python' : $cellType));
+            $sourceLines = is_array($cell['source'] ?? null) ? $cell['source'] : [];
+            $sourceText = implode('', array_map(static fn($line): string => (string) $line, $sourceLines));
+            $outputs = is_array($cell['outputs'] ?? null) ? $cell['outputs'] : [];
+            ?>
+            <section class="notebook-cell notebook-cell--<?php echo htmlspecialchars($cellType, ENT_QUOTES, 'UTF-8'); ?>">
+                <div class="notebook-cell__meta">
+                    Cell <?php echo $index + 1; ?>
+                    <span><?php echo htmlspecialchars(ucfirst($cellType), ENT_QUOTES, 'UTF-8'); ?><?php echo $cellType === 'code' ? ' · ' . htmlspecialchars($language, ENT_QUOTES, 'UTF-8') : ''; ?></span>
+                </div>
+
+                <?php if ($cellType === 'markdown'): ?>
+                    <div class="notebook-markdown">
+                        <?php echo project_render_markdown_lines($sourceLines); ?>
+                    </div>
+                <?php else: ?>
+                    <div class="viewer notebook-code"><pre><?php echo htmlspecialchars($sourceText, ENT_QUOTES, 'UTF-8'); ?></pre></div>
+                    <?php if ($outputs !== []): ?>
+                        <div class="notebook-output">
+                            <div class="notebook-output__label">Output</div>
+                            <?php foreach ($outputs as $output): ?>
+                                <?php
+                                $outputText = '';
+                                if (isset($output['text'])) {
+                                    $textValue = $output['text'];
+                                    $outputText = is_array($textValue) ? implode('', array_map(static fn($line): string => (string) $line, $textValue)) : (string) $textValue;
+                                } elseif (isset($output['data']['text/plain'])) {
+                                    $textValue = $output['data']['text/plain'];
+                                    $outputText = is_array($textValue) ? implode('', array_map(static fn($line): string => (string) $line, $textValue)) : (string) $textValue;
+                                }
+                                ?>
+                                <?php if ($outputText !== ''): ?>
+                                    <pre><?php echo htmlspecialchars($outputText, ENT_QUOTES, 'UTF-8'); ?></pre>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php endif; ?>
+                <?php endif; ?>
+            </section>
+        <?php endforeach; ?>
+    </div>
+    <?php
+
+    return (string) ob_get_clean();
+}
+
+function project_render_embedded_pdf_section(
+    string $pdfPath,
+    string $title = 'Original Project PDF',
+    string $summary = 'The original project directions are embedded here so the source problem statement stays visible before the scoped checklist.',
+    ?string $returnPath = null
+): string {
+    if (!project_artifact_exists($pdfPath)) {
+        return '';
+    }
+
+    $viewerUrl = project_artifact_url($pdfPath, true, false, $returnPath) . '&embed=1';
+    $viewUrl = project_artifact_url($pdfPath, true, false, $returnPath);
+    $downloadUrl = project_artifact_url($pdfPath, false, true);
+
+    ob_start();
+    ?>
+    <section class="content-card p-4 p-lg-5 mb-4">
+        <h2 class="section-title"><?php echo htmlspecialchars($title, ENT_QUOTES, 'UTF-8'); ?></h2>
+        <p><?php echo htmlspecialchars($summary, ENT_QUOTES, 'UTF-8'); ?></p>
+        <div class="pdf-embed-frame mb-3">
+            <iframe
+                src="<?php echo htmlspecialchars($viewerUrl, ENT_QUOTES, 'UTF-8'); ?>"
+                title="<?php echo htmlspecialchars($title, ENT_QUOTES, 'UTF-8'); ?>"
+                loading="lazy"
+            ></iframe>
+        </div>
+        <div class="artifact-actions">
+            <a class="btn btn-outline-dark" href="<?php echo htmlspecialchars($viewUrl, ENT_QUOTES, 'UTF-8'); ?>">Open Viewer</a>
+            <a class="btn btn-primary" href="<?php echo htmlspecialchars($downloadUrl, ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noreferrer">Download PDF</a>
+        </div>
+    </section>
+    <?php
+
+    return (string) ob_get_clean();
+}
+
 function build_capstone_artifact_links(array $capstoneProject): array
 {
     $capstoneRoot = capstone_relative_root($capstoneProject);
@@ -227,11 +417,14 @@ function build_capstone_artifact_links(array $capstoneProject): array
         ];
     }
 
-    $screenshotPath = project_first_matching_relative_path($capstoneRoot . '/Screenshots', ['README.md', '*.png', '*.jpg', '*.jpeg', '*.webp']);
+    $screenshotArtifacts = project_collect_screenshot_artifacts($capstoneRoot);
+    $screenshotPath = $screenshotArtifacts[0] ?? project_screenshot_manifest_path($capstoneRoot);
     if ($screenshotPath) {
         $links[] = [
-            'label' => 'Screenshots',
-            'summary' => 'Open screenshot evidence or the placeholder manifest for pending screenshots.',
+            'label' => $screenshotArtifacts !== [] ? 'Screenshot Evidence' : 'Screenshot Manifest',
+            'summary' => $screenshotArtifacts !== []
+                ? 'Open staged screenshot evidence for this capstone.'
+                : 'Open the screenshot manifest for this capstone.',
             'viewHref' => project_artifact_url($screenshotPath, true, false, $artifactSectionReturnPath),
             'downloadHref' => project_artifact_url($screenshotPath, false, true),
         ];

@@ -42,6 +42,15 @@ body {
     font-weight: 600;
 }
 
+.header-layout {
+    position: relative;
+    z-index: 1;
+}
+
+.header-copy {
+    max-width: 58rem;
+}
+
 .site-tagline,
 .kicker,
 .nav-link,
@@ -49,23 +58,24 @@ body {
     letter-spacing: 0.02em;
 }
 
-.badge-panel {
-    background: rgba(255, 255, 255, 0.15);
+.header-headshot-shell {
+    flex: 0 0 auto;
+    width: clamp(8.5rem, 12vw, 11.5rem);
+    aspect-ratio: 1;
+    border-radius: 1.4rem;
+    padding: 0.35rem;
+    background: rgba(255, 255, 255, 0.16);
     border: 1px solid rgba(255, 255, 255, 0.4);
-    border-radius: 1rem;
-    padding: 0.6rem 1rem;
+    box-shadow: 0 16px 34px rgba(15, 23, 42, 0.22);
     backdrop-filter: blur(6px);
 }
 
-.badge-label {
+.header-headshot {
     display: block;
-    font-size: 0.78rem;
-    text-transform: uppercase;
-}
-
-.badge-value {
-    font-size: 1.1rem;
-    font-weight: 700;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 1.1rem;
 }
 
 .nav-shell {
@@ -118,6 +128,17 @@ body {
     min-height: 260px;
 }
 
+@media (max-width: 991.98px) {
+    .header-layout {
+        align-items: center !important;
+        text-align: center;
+    }
+
+    .header-copy {
+        max-width: none;
+    }
+}
+
 .hero-image-slot {
     border: 1px solid #dbe4ee;
     text-align: center;
@@ -152,11 +173,17 @@ body {
 .artifact-card,
 .requirement-card,
 .evidence-card {
-    height: 100%;
     min-width: 0;
     border: 1px solid #dbe4ee;
     border-radius: 1rem;
     background: #f8fafc;
+}
+
+.row > [class*="col"] > .artifact-card,
+.row > [class*="col"] > .requirement-card,
+.row > [class*="col"] > .evidence-card,
+.row > [class*="col"] > .integration-console {
+    height: 100%;
 }
 
 .artifact-label,
@@ -223,6 +250,47 @@ body {
     word-break: break-word;
 }
 
+.pdf-embed-frame {
+    border: 1px solid #dbe4ee;
+    border-radius: 1rem;
+    overflow: hidden;
+    background: #f8fafc;
+    min-height: 640px;
+}
+
+.pdf-embed-frame iframe {
+    display: block;
+    width: 100%;
+    min-height: 640px;
+    border: 0;
+    background: #fff;
+}
+
+.interactive-lab-presets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.interactive-lab-presets .btn {
+    flex: 1 1 14rem;
+}
+
+.interactive-lab-shell {
+    border: 1px solid #dbe4ee;
+    border-radius: 1rem;
+    overflow: hidden;
+    background: linear-gradient(180deg, rgba(11, 60, 93, 0.08) 0%, rgba(50, 140, 193, 0.08) 100%);
+}
+
+.interactive-lab-frame {
+    display: block;
+    width: 100%;
+    min-height: 52rem;
+    border: 0;
+    background: #fff;
+}
+
 .status-note {
     border-left: 4px solid #d9b310;
     background: #fff7db;
@@ -247,7 +315,6 @@ body {
 .integration-console {
     display: flex;
     flex-direction: column;
-    min-height: 100%;
     border: 1px solid #cbd5e1;
     border-radius: 1rem;
     overflow: hidden;
@@ -315,6 +382,17 @@ body {
     background: #fde68a;
 }
 
+@media (max-width: 768px) {
+    .pdf-embed-frame,
+    .pdf-embed-frame iframe {
+        min-height: 480px;
+    }
+
+    .interactive-lab-frame {
+        min-height: 42rem;
+    }
+}
+
 .console-launch {
     display: inline-flex;
     align-items: center;
@@ -360,6 +438,104 @@ body {
     background: #fff;
 }
 
+.console-notebook-preview {
+    max-height: 34rem;
+    overflow: auto;
+    border: 1px solid #cbd5e1;
+    border-radius: 0.75rem;
+    background: #fff;
+}
+
+.console-notebook-preview .notebook-view {
+    display: grid;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.console-notebook-preview .notebook-cell {
+    border: 1px solid #dbe4ee;
+    border-radius: 1rem;
+    background: #f8fafc;
+    overflow: hidden;
+}
+
+.console-notebook-preview .notebook-cell__meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    background: #e2e8f0;
+    color: #0f172a;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+}
+
+.console-notebook-preview .notebook-markdown {
+    padding: 1rem;
+}
+
+.console-notebook-preview .notebook-markdown > :last-child {
+    margin-bottom: 0;
+}
+
+.console-notebook-preview .notebook-markdown code,
+.console-notebook-preview .notebook-output code {
+    background: #e2e8f0;
+    color: #0f172a;
+    border-radius: 0.4rem;
+    padding: 0.1rem 0.35rem;
+}
+
+.console-notebook-preview .viewer {
+    margin-top: 0;
+    background: #0f172a;
+    color: #e2e8f0;
+    border: 1px solid #1e293b;
+    padding: 1rem;
+    overflow: auto;
+}
+
+.console-notebook-preview pre {
+    margin: 0;
+    white-space: pre-wrap;
+    word-break: break-word;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 0.92rem;
+    line-height: 1.5;
+}
+
+.console-notebook-preview .notebook-code {
+    border-radius: 0;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 0;
+}
+
+.console-notebook-preview .notebook-output {
+    padding: 1rem;
+    background: #fff;
+    border-top: 1px solid #dbe4ee;
+}
+
+.console-notebook-preview .notebook-output__label {
+    margin-bottom: 0.5rem;
+    color: #0b3c5d;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.console-notebook-preview .notebook-output pre {
+    background: #f8fafc;
+    color: #0f172a;
+    border: 1px solid #dbe4ee;
+    border-radius: 0.75rem;
+    padding: 0.85rem;
+}
+
 .console-placeholder {
     min-height: 20rem;
     display: grid;
@@ -392,5 +568,9 @@ body {
 
     .console-frame {
         min-height: 26rem;
+    }
+
+    .console-notebook-preview {
+        max-height: 26rem;
     }
 }

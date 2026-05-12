@@ -3,8 +3,11 @@
 declare(strict_types=1);
 
 $currentPage = $currentPage ?? '';
+$siteKicker = $siteKicker ?? 'Applied Data Science Portfolio';
 $siteName = $siteName ?? 'Incremental Capstone Studio';
 $siteTagline = $siteTagline ?? '';
+$headerHeadshotPath = $headerHeadshotPath ?? null;
+$headerHeadshotAlt = $headerHeadshotAlt ?? 'Site headshot';
 $pageTitle = $pageTitle ?? $siteName . ($currentPage ? ' | ' . $currentPage : '');
 $headExtras = $headExtras ?? '';
 $stylesPathCandidates = [
@@ -35,16 +38,17 @@ foreach ($stylesPathCandidates as $stylesPath) {
 <body>
 <header class="hero-shell">
     <div class="container py-4">
-        <div class="d-flex flex-column flex-lg-row justify-content-between gap-3 align-items-start align-items-lg-end">
-            <div>
-                <p class="kicker mb-1">Applied Data Science Portfolio</p>
+        <div class="header-layout d-flex flex-column flex-lg-row justify-content-between gap-3 align-items-start align-items-lg-center">
+            <div class="header-copy">
+                <p class="kicker mb-1"><?php echo htmlspecialchars($siteKicker, ENT_QUOTES, 'UTF-8'); ?></p>
                 <h1 class="site-title mb-2"><?php echo htmlspecialchars($siteName, ENT_QUOTES, 'UTF-8'); ?></h1>
                 <p class="site-tagline mb-0"><?php echo htmlspecialchars($siteTagline, ENT_QUOTES, 'UTF-8'); ?></p>
             </div>
-            <div class="badge-panel">
-                <span class="badge-label">Live Class Build</span>
-                <span class="badge-value">May 2026</span>
-            </div>
+            <?php if ($headerHeadshotPath !== null): ?>
+                <div class="header-headshot-shell">
+                    <img class="header-headshot" src="<?php echo htmlspecialchars($headerHeadshotPath, ENT_QUOTES, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($headerHeadshotAlt, ENT_QUOTES, 'UTF-8'); ?>">
+                </div>
+            <?php endif; ?>
         </div>
     </div>
 </header>

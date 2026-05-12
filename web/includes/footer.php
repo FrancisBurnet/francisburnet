@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 $legalItems = $legalItems ?? [];
 $contactEmail = $contactEmail ?? 'capstone-team@example.com';
-$contactLocation = $contactLocation ?? 'Classroom Demo Environment';
+$contactLinkedInUrl = $contactLinkedInUrl ?? 'https://linkedin.com';
+$contactLinkedInLabel = $contactLinkedInLabel ?? 'linkedin.com';
+$contactMailingAddress = $contactMailingAddress ?? 'Mailing address unavailable';
 $pageScripts = $pageScripts ?? '';
 ?>
 <footer class="footer-shell mt-5">
@@ -13,7 +15,8 @@ $pageScripts = $pageScripts ?? '';
             <div class="col-md-6">
                 <h2 class="footer-title">Contact Info</h2>
                 <p class="mb-1">Email: <a href="mailto:<?php echo htmlspecialchars($contactEmail, ENT_QUOTES, 'UTF-8'); ?>"><?php echo htmlspecialchars($contactEmail, ENT_QUOTES, 'UTF-8'); ?></a></p>
-                <p class="mb-0">Location: <?php echo htmlspecialchars($contactLocation, ENT_QUOTES, 'UTF-8'); ?></p>
+                <p class="mb-1">LinkedIn: <a href="<?php echo htmlspecialchars($contactLinkedInUrl, ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noreferrer"><?php echo htmlspecialchars($contactLinkedInLabel, ENT_QUOTES, 'UTF-8'); ?></a></p>
+                <p class="mb-0">Mailing Address: <?php echo htmlspecialchars($contactMailingAddress, ENT_QUOTES, 'UTF-8'); ?></p>
             </div>
             <div class="col-md-6">
                 <h2 class="footer-title">Policy Links</h2>
