@@ -98,3 +98,56 @@ $keyFindings = [
 ];
 
 require __DIR__ . '/session-custom-renderer.php';
+
+$teachableMachineProjectUrl = 'https://teachablemachine.withgoogle.com/train/image';
+$teachableMachineGuideUrl = 'https://teachablemachine.withgoogle.com/';
+?>
+<section class="content-card p-4 p-lg-5 mb-4">
+    <h2 class="section-title">Teachable Machine Add-On</h2>
+    <p>This add-on turns the face-mask classification problem into a fast browser-based prototype so the Session 10 workflow can be tested with live camera samples before or after the transfer-learning notebook run.</p>
+    <div class="row g-3 mt-1">
+        <div class="col-lg-4">
+            <div class="artifact-card p-3 h-100">
+                <span class="artifact-label mb-2">Rapid Prototype</span>
+                <h3 class="h5">Build The Same Two Classes In Browser</h3>
+                <p class="mb-3">Create a Teachable Machine image project with <strong>with_mask</strong> and <strong>without_mask</strong> classes, capture webcam or staged examples, and watch predictions update immediately.</p>
+                <div class="artifact-actions">
+                    <a class="btn btn-primary" href="<?php echo htmlspecialchars($teachableMachineProjectUrl, ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noreferrer">Open Image Project</a>
+                    <a class="btn btn-outline-dark" href="<?php echo htmlspecialchars($teachableMachineGuideUrl, ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noreferrer">Open Guide</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="artifact-card p-3 h-100">
+                <span class="artifact-label mb-2">Capstone Fit</span>
+                <h3 class="h5">Map It Back To Session 10</h3>
+                <p class="mb-3">Use the add-on as a lightweight preflight check for class separation, camera framing, and label quality, then compare that quick browser model against the stronger EfficientNetB0 and ResNet50 runs saved with this capstone.</p>
+                <ul class="mb-0 ps-3">
+                    <li>Mirror the two-class label setup from the notebook.</li>
+                    <li>Test lighting, pose, and background sensitivity with live samples.</li>
+                    <li>Compare fast browser behavior against the saved model comparison artifacts.</li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="artifact-card p-3 h-100">
+                <span class="artifact-label mb-2">Evidence Boundary</span>
+                <h3 class="h5">Keep The Graded Evidence Separate</h3>
+                <p class="mb-3">This add-on is a companion exercise, not the evidence of record. The graded proof for Session 10 remains the executed notebook, generated split manifest, exported plots, and model-comparison files already staged with the project.</p>
+                <div class="artifact-actions">
+                    <a class="btn btn-outline-dark" href="<?php echo htmlspecialchars(project_artifact_absolute_url($summaryPath, false, true), ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noreferrer">Open Summary JSON</a>
+                    <a class="btn btn-outline-dark" href="<?php echo htmlspecialchars(project_artifact_absolute_url($capstoneRoot . '/outputs/session_10_model_comparison.csv', false, true), ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noreferrer">Open Model Comparison</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="evidence-card p-3 mt-3">
+        <span class="artifact-label mb-2">Suggested Validation Flow</span>
+        <ol class="mb-0 ps-3">
+            <li>Create a two-class Teachable Machine image project for mask and no-mask samples.</li>
+            <li>Capture examples under different lighting and camera angles to stress-test class separation.</li>
+            <li>Review the Session 10 notebook outputs and compare where the browser prototype fails versus the transfer-learning models.</li>
+            <li>Use the differences to explain why the notebook-backed models are the formal capstone solution.</li>
+        </ol>
+    </div>
+</section>
