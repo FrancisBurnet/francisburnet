@@ -39,7 +39,45 @@ if ($previewNotebookAvailable && $previewNotebookPath !== null && $previewNotebo
 $previewNotebookEmbedUrl = $previewNotebookPreviewUrl !== null ? $previewNotebookPreviewUrl . '&embed=1' : null;
 $previewNotebookHtml = $previewNotebookPath !== null ? project_render_notebook_html($previewNotebookPath) : null;
 $projectPdfPath = project_first_matching_relative_path($capstoneRoot, ['Capstone_Session_*.pdf']);
-$datasetPath = project_first_matching_relative_path($capstoneRoot, ['*.csv']);
+$datasetPath = project_dataset_path($capstoneRoot);
+$dataDirectoryEntries = [];
+$dataDirectoryRelativePath = $capstoneRoot . '/data';
+$dataDirectoryFsPath = project_artifact_fs_path($dataDirectoryRelativePath);
+if (is_dir($dataDirectoryFsPath)) {
+    $dataDirectoryNames = array_values(array_filter(scandir($dataDirectoryFsPath) ?: [], static fn(string $entry): bool => $entry !== '.' && $entry !== '..'));
+    sort($dataDirectoryNames);
+
+    foreach ($dataDirectoryNames as $entryName) {
+        $entryFsPath = $dataDirectoryFsPath . DIRECTORY_SEPARATOR . $entryName;
+        if (is_dir($entryFsPath)) {
+            $directoryIterator = new RecursiveIteratorIterator(
+                new RecursiveDirectoryIterator($entryFsPath, FilesystemIterator::SKIP_DOTS),
+                RecursiveIteratorIterator::SELF_FIRST
+            );
+            $fileCount = 0;
+            foreach ($directoryIterator as $childEntry) {
+                if ($childEntry->isFile()) {
+                    $fileCount++;
+                }
+            }
+
+            $dataDirectoryEntries[] = [
+                'label' => $entryName,
+                'summary' => $fileCount === 1
+                    ? 'Extracted data folder with 1 file.'
+                    : 'Extracted data folder with ' . $fileCount . ' files.',
+            ];
+            continue;
+        }
+
+        if (is_file($entryFsPath)) {
+            $dataDirectoryEntries[] = [
+                'label' => $entryName,
+                'summary' => 'Staged data file inside the extracted data directory.',
+            ];
+        }
+    }
+}
 $jsonOutputPath = project_first_matching_relative_path($capstoneRoot . '/outputs', ['*.json']);
 $csvOutputPath = project_first_matching_relative_path($capstoneRoot . '/outputs', ['*.csv']);
 $colabLaunchReady = !empty($colabConfig['launchUrl']);
@@ -53,9 +91,9 @@ $verificationInputs = [];
 
 if ($datasetPath !== null) {
     $verificationInputs[] = [
-        'label' => 'Live Dataset',
+        'label' => project_dataset_label($datasetPath),
         'url' => project_artifact_absolute_url($datasetPath, false, true),
-        'note' => 'Dataset file served from the FrancisBurnet site when this capstone includes a CSV dataset.',
+        'note' => project_dataset_note($datasetPath),
     ];
 }
 
@@ -182,6 +220,23 @@ require __DIR__ . '/page-hero.php';
     <?php else: ?>
         <div class="status-note p-3 mt-3">
             <p class="mb-0">Artifact links are not available for this capstone yet.</p>
+        </div>
+    <?php endif; ?>
+
+    <?php if ($dataDirectoryEntries !== []): ?>
+        <div class="status-note p-3 mt-4">
+            <p class="mb-0">The extracted <code>data/</code> directory is staged for this capstone and the top-level contents are listed below.</p>
+        </div>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-3 mt-1">
+            <?php foreach ($dataDirectoryEntries as $dataEntry): ?>
+                <div class="col">
+                    <div class="evidence-card p-3">
+                        <span class="artifact-label mb-2">Data Folder</span>
+                        <h3 class="h5"><?php echo htmlspecialchars($dataEntry['label'], ENT_QUOTES, 'UTF-8'); ?></h3>
+                        <p class="mb-0"><?php echo htmlspecialchars($dataEntry['summary'], ENT_QUOTES, 'UTF-8'); ?></p>
+                    </div>
+                </div>
+            <?php endforeach; ?>
         </div>
     <?php endif; ?>
 </section>

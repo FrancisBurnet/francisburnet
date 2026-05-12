@@ -1,0 +1,83 @@
+{
+  "source_counts": {
+    "with_mask": 3725,
+    "without_mask": 3828
+  },
+  "generated_counts": {
+    "with_mask": {
+      "train": 120,
+      "test": 30
+    },
+    "without_mask": {
+      "train": 120,
+      "test": 30
+    }
+  },
+  "class_indices": {
+    "with_mask": 0,
+    "without_mask": 1
+  },
+  "pdf_mismatch_notes": [
+    "The copied PDF expects train/test folders, but the staged source only provided data/with_mask and data/without_mask.",
+    "The copied PDF expects a 3-neuron softmax head, but the staged source is a 2-class dataset, so the executed models use a 2-neuron softmax head.",
+    "The generated train/test split is a fixed stratified sample to keep transfer-learning runs executable on the current CPU-only environment."
+  ],
+  "model_results": [
+    {
+      "model": "EfficientNetB0",
+      "epochs_ran": 24,
+      "test_loss": 0.693286120891571,
+      "test_accuracy": 0.5
+    },
+    {
+      "model": "ResNet50",
+      "epochs_ran": 25,
+      "test_loss": 0.6888409852981567,
+      "test_accuracy": 0.550000011920929
+    }
+  ],
+  "best_model": {
+    "model": "ResNet50",
+    "epochs_ran": 25,
+    "test_loss": 0.6888409852981567,
+    "test_accuracy": 0.550000011920929
+  },
+  "best_model_example_predictions": {
+    "filenames": [
+      "with_mask\\with_mask_1128.jpg",
+      "with_mask\\with_mask_1151.jpg",
+      "with_mask\\with_mask_1314.jpg",
+      "with_mask\\with_mask_1338.jpg",
+      "with_mask\\with_mask_147.jpg",
+      "with_mask\\with_mask_1573.jpg",
+      "with_mask\\with_mask_1659.jpg",
+      "with_mask\\with_mask_1757.jpg",
+      "with_mask\\with_mask_1823.jpg",
+      "with_mask\\with_mask_2066.jpg"
+    ],
+    "true_labels": [
+      "with_mask",
+      "with_mask",
+      "with_mask",
+      "with_mask",
+      "with_mask",
+      "with_mask",
+      "with_mask",
+      "with_mask",
+      "with_mask",
+      "with_mask"
+    ],
+    "predicted_labels": [
+      "without_mask",
+      "without_mask",
+      "with_mask",
+      "without_mask",
+      "without_mask",
+      "without_mask",
+      "with_mask",
+      "without_mask",
+      "without_mask",
+      "with_mask"
+    ]
+  }
+}

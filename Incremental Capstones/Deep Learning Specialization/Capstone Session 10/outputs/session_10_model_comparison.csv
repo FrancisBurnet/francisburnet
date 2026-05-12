@@ -1,0 +1,3 @@
+model,epochs_ran,test_loss,test_accuracy
+ResNet50,25,0.6888409852981567,0.550000011920929
+EfficientNetB0,24,0.693286120891571,0.5

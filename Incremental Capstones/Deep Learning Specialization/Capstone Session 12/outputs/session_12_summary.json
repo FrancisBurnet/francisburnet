@@ -1,0 +1,45 @@
+{
+  "original_shapes": {
+    "x_train": [
+      92,
+      256,
+      256,
+      3
+    ],
+    "x_test": [
+      24,
+      256,
+      256,
+      3
+    ]
+  },
+  "grayscale_shapes": {
+    "x_train_gray": [
+      92,
+      256,
+      256,
+      1
+    ],
+    "x_test_gray": [
+      24,
+      256,
+      256,
+      1
+    ]
+  },
+  "noise_factor": 0.2,
+  "test_loss": 0.0022817247081547976,
+  "test_mae": 0.033774904906749725,
+  "encoded_shape": [
+    24,
+    64,
+    64,
+    32
+  ],
+  "decoded_shape": [
+    24,
+    256,
+    256,
+    1
+  ]
+}

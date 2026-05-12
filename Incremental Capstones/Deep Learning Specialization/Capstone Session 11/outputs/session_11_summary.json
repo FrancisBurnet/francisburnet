@@ -1,0 +1,15 @@
+{
+  "dataset_shape": [
+    10001,
+    26
+  ],
+  "converted_csv_path": "GrammarandProductReviews_converted.csv",
+  "target_distribution": {
+    "1": 9154,
+    "0": 847
+  },
+  "test_loss": 0.2893032133579254,
+  "test_accuracy": 0.9200399518013,
+  "max_nb_words": 20000,
+  "max_sequence_length": 150
+}

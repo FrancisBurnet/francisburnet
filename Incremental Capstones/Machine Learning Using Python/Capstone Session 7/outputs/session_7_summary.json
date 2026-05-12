@@ -1,0 +1,50 @@
+{
+  "dataset_shape": [
+    8950,
+    18
+  ],
+  "filled_missing_values": {
+    "MINIMUM_PAYMENTS": 313,
+    "CREDIT_LIMIT": 1
+  },
+  "components_for_85_percent_variance": 8,
+  "top_covariance_pair": {
+    "columns": [
+      "PURCHASES",
+      "ONEOFF_PURCHASES"
+    ],
+    "value": 0.9169470108951325
+  },
+  "cluster_range": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+  ],
+  "inertias": [
+    49682.0510019688,
+    33031.5387265398,
+    24544.39226676279,
+    19474.98317130457,
+    16227.989956199026,
+    13819.288934398468,
+    12324.670804661473,
+    10919.28112800173,
+    9894.139885607852,
+    8959.441443049795
+  ],
+  "ideal_clusters": 5,
+  "cluster_sizes": {
+    "0": 3502,
+    "1": 3247,
+    "2": 1038,
+    "3": 81,
+    "4": 1082
+  }
+}

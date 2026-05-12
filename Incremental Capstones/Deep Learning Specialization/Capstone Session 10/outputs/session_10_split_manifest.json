@@ -1,0 +1,16 @@
+{
+  "source_counts": {
+    "with_mask": 3725,
+    "without_mask": 3828
+  },
+  "generated_counts": {
+    "with_mask": {
+      "train": 120,
+      "test": 30
+    },
+    "without_mask": {
+      "train": 120,
+      "test": 30
+    }
+  }
+}

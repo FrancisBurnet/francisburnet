@@ -1,0 +1,70 @@
+{
+  "movie_id_32_title": "Twelve Monkeys (a.k.a. 12 Monkeys) (1995)",
+  "predicted_user_1_rating_for_movie_32": 4.1369,
+  "top_50_user_correlations_saved": "session_8_top_50_user_correlations.csv",
+  "similar_movies_for_jurassic_park": [
+    {
+      "title": "Fugitive, The (1993)",
+      "correlation": 0.3247171394399731
+    },
+    {
+      "title": "Lethal Weapon (1987)",
+      "correlation": 0.31864593185683193
+    },
+    {
+      "title": "Independence Day (a.k.a. ID4) (1996)",
+      "correlation": 0.2636287255242379
+    },
+    {
+      "title": "Mission: Impossible (1996)",
+      "correlation": 0.2580803862260631
+    },
+    {
+      "title": "Ghostbusters (a.k.a. Ghost Busters) (1984)",
+      "correlation": 0.2565274870262607
+    },
+    {
+      "title": "Mulan (1998)",
+      "correlation": 0.2556717372359885
+    },
+    {
+      "title": "Rise of the Planet of the Apes (2011)",
+      "correlation": 0.24813411495015494
+    },
+    {
+      "title": "Bug's Life, A (1998)",
+      "correlation": 0.24096415228304177
+    },
+    {
+      "title": "Indiana Jones and the Temple of Doom (1984)",
+      "correlation": 0.23982562683836303
+    },
+    {
+      "title": "Die Hard (1988)",
+      "correlation": 0.23929429602028773
+    }
+  ],
+  "model_cv_results": [
+    {
+      "model": "NMF",
+      "parameters": "n_components=20",
+      "rmse": 0.913602211609524
+    },
+    {
+      "model": "SVD",
+      "parameters": "n_components=20",
+      "rmse": 0.9136834528391397
+    },
+    {
+      "model": "KNNBasic-style MSD",
+      "parameters": "neighbors=20, similarity=msd",
+      "rmse": 0.9451577435974821
+    }
+  ],
+  "best_model": {
+    "model": "NMF",
+    "parameters": "n_components=20",
+    "rmse": 0.913602211609524
+  },
+  "environment_note": "scikit-surprise could not be installed because Microsoft Visual C++ Build Tools are missing in this Windows Python 3.12 environment."
+}

@@ -138,6 +138,16 @@ $deepLearningProjects = [
         'heroTitle' => 'Capstone Session 10 Infographic',
         'heroCaption' => 'Objective, data profile, and grading-aligned outputs for Capstone Session 10.',
         'summary' => 'Session 10 deep learning capstone page for face mask detection assets and workflows.',
+        'interactiveLab' => [
+            'enabled' => true,
+            'heading' => 'Interactive Neural Network Lab',
+            'summary' => 'TensorFlow Playground supports the neural network concepts behind the face mask detection workflow on this page.',
+            'note' => 'This lab is an optional concept sandbox. The capstone evidence still comes from the notebook, screenshots, exported outputs, and walkthrough blocks.',
+            'embedUrl' => $capstone9PlaygroundPresets[1]['url'],
+            'launchUrl' => $tensorflowPlaygroundBaseUrl,
+            'launchLabel' => 'Open Full Playground',
+            'presets' => $capstone9PlaygroundPresets,
+        ],
     ],
     [
         'key' => 'capstone-session-11',
@@ -147,6 +157,16 @@ $deepLearningProjects = [
         'heroTitle' => 'Capstone Session 11 Infographic',
         'heroCaption' => 'Objective, data profile, and grading-aligned outputs for Capstone Session 11.',
         'summary' => 'Session 11 deep learning capstone page for grammar and product review analysis.',
+        'interactiveLab' => [
+            'enabled' => true,
+            'heading' => 'Interactive Neural Network Lab',
+            'summary' => 'TensorFlow Playground provides a quick neural network concept lab alongside the sequence-model work collected for this capstone.',
+            'note' => 'This lab is an optional concept sandbox. The capstone evidence still comes from the notebook, screenshots, exported outputs, and walkthrough blocks.',
+            'embedUrl' => $capstone9PlaygroundPresets[2]['url'],
+            'launchUrl' => $tensorflowPlaygroundBaseUrl,
+            'launchLabel' => 'Open Full Playground',
+            'presets' => $capstone9PlaygroundPresets,
+        ],
     ],
     [
         'key' => 'capstone-session-12',
@@ -156,6 +176,16 @@ $deepLearningProjects = [
         'heroTitle' => 'Capstone Session 12 Infographic',
         'heroCaption' => 'Objective, data profile, and grading-aligned outputs for Capstone Session 12.',
         'summary' => 'Session 12 deep learning capstone page for panoramic dental autoencoder artifacts.',
+        'interactiveLab' => [
+            'enabled' => true,
+            'heading' => 'Interactive Neural Network Lab',
+            'summary' => 'TensorFlow Playground adds an interactive neural network view that fits the representation-learning concepts used in the autoencoder capstone.',
+            'note' => 'This lab is an optional concept sandbox. The capstone evidence still comes from the notebook, screenshots, exported outputs, and walkthrough blocks.',
+            'embedUrl' => $capstone9PlaygroundPresets[3]['url'],
+            'launchUrl' => $tensorflowPlaygroundBaseUrl,
+            'launchLabel' => 'Open Full Playground',
+            'presets' => $capstone9PlaygroundPresets,
+        ],
     ],
 ];
 

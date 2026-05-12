@@ -186,6 +186,55 @@ function project_collect_screenshot_artifacts(string $capstoneRoot): array
     return project_collect_relative_paths($capstoneRoot . '/Screenshots', ['*.png', '*.jpg', '*.jpeg', '*.webp', '*.gif', '*.svg']);
 }
 
+function project_dataset_patterns(): array
+{
+    return ['*.csv', '*.xlsx', '*.xls', '*.zip', '*.npz'];
+}
+
+function project_dataset_label(string $relativePath): string
+{
+    $extension = strtolower(pathinfo($relativePath, PATHINFO_EXTENSION));
+
+    return match ($extension) {
+        'csv' => 'Original CSV Dataset',
+        'xlsx', 'xls' => 'Original Spreadsheet Dataset',
+        'zip' => 'Original ZIP Dataset',
+        'npz' => 'Original NPZ Dataset',
+        default => 'Original Dataset',
+    };
+}
+
+function project_dataset_summary(string $relativePath): string
+{
+    $extension = strtolower(pathinfo($relativePath, PATHINFO_EXTENSION));
+
+    return match ($extension) {
+        'csv' => 'View the original source CSV staged for this capstone or download the raw file.',
+        'xlsx', 'xls' => 'Open the original spreadsheet source staged for this capstone or download the raw file.',
+        'zip' => 'Open the staged ZIP package for this capstone or download the original archive.',
+        'npz' => 'Open the staged NumPy archive for this capstone or download the original file.',
+        default => 'Open the original source dataset staged for this capstone or download the raw file.',
+    };
+}
+
+function project_dataset_note(string $relativePath): string
+{
+    $extension = strtolower(pathinfo($relativePath, PATHINFO_EXTENSION));
+
+    return match ($extension) {
+        'csv' => 'Dataset file served from the FrancisBurnet site when this capstone includes a CSV dataset.',
+        'xlsx', 'xls' => 'Spreadsheet dataset served from the FrancisBurnet site for this capstone.',
+        'zip' => 'ZIP dataset package served from the FrancisBurnet site for this capstone.',
+        'npz' => 'NumPy dataset archive served from the FrancisBurnet site for this capstone.',
+        default => 'Dataset file served from the FrancisBurnet site for this capstone.',
+    };
+}
+
+function project_dataset_path(string $capstoneRoot): ?string
+{
+    return project_first_matching_relative_path($capstoneRoot, project_dataset_patterns());
+}
+
 function project_screenshot_manifest_path(string $capstoneRoot): ?string
 {
     $manifestPath = $capstoneRoot . '/Screenshots/README.md';
@@ -387,11 +436,11 @@ function build_capstone_artifact_links(array $capstoneProject): array
         ];
     }
 
-    $datasetPath = project_first_matching_relative_path($capstoneRoot, ['*.csv']);
+    $datasetPath = project_dataset_path($capstoneRoot);
     if ($datasetPath) {
         $links[] = [
-            'label' => 'Original CSV Dataset',
-            'summary' => 'View the original source CSV staged for this capstone or download the raw file.',
+            'label' => project_dataset_label($datasetPath),
+            'summary' => project_dataset_summary($datasetPath),
             'viewHref' => project_artifact_url($datasetPath, true, false, $artifactSectionReturnPath),
             'downloadHref' => project_artifact_url($datasetPath, false, true),
         ];

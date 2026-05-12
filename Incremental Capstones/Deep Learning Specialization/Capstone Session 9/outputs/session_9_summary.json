@@ -1,0 +1,25 @@
+{
+  "dataset_shape": [
+    10000,
+    14
+  ],
+  "target_distribution": {
+    "0": 7963,
+    "1": 2037
+  },
+  "processed_feature_count": 13,
+  "test_accuracy": 0.8545,
+  "confusion_matrix": [
+    [
+      1552,
+      41
+    ],
+    [
+      250,
+      157
+    ]
+  ],
+  "sample_customer_probability": 0.03795744478702545,
+  "sample_customer_prediction": 0,
+  "sample_customer_decision": "Allow to stay"
+}
