@@ -185,11 +185,19 @@ $contactLocation = 'FrancisBurnet Production Workspace';
 $capstone1VerificationNotebookRepoPath = 'Incremental%20Capstones/Applied%20Data%20Science%20with%20Python/Capstone%201/capstone_1_colab_verification.ipynb';
 $capstone1VerificationNotebookSourceUrl = 'https://github.com/FrancisBurnet/francisburnet/blob/main/' . $capstone1VerificationNotebookRepoPath;
 $capstone1VerificationNotebookLaunchUrl = 'https://colab.research.google.com/github/FrancisBurnet/francisburnet/blob/main/' . $capstone1VerificationNotebookRepoPath;
+$capstone2NotebookRepoPath = 'Incremental%20Capstones/Applied%20Data%20Science%20with%20Python/Capstone%202/capstone_2.ipynb';
+$capstone2NotebookSourceUrl = 'https://github.com/FrancisBurnet/francisburnet/blob/main/' . $capstone2NotebookRepoPath;
+$capstone2NotebookLaunchUrl = 'https://colab.research.google.com/github/FrancisBurnet/francisburnet/blob/main/' . $capstone2NotebookRepoPath;
 
 $colabVerificationConfig = [
     'capstone-1' => [
         'launchUrl' => getenv('COLAB_CAPSTONE_1_LAUNCH_URL') ?: $capstone1VerificationNotebookLaunchUrl,
         'publicNotebookSourceUrl' => getenv('COLAB_CAPSTONE_1_NOTEBOOK_SOURCE_URL') ?: $capstone1VerificationNotebookSourceUrl,
         'publicDatasetMirrorUrl' => getenv('COLAB_CAPSTONE_1_DATASET_MIRROR_URL') ?: null,
+    ],
+    'capstone-2' => [
+        'launchUrl' => getenv('COLAB_CAPSTONE_2_LAUNCH_URL') ?: $capstone2NotebookLaunchUrl,
+        'publicNotebookSourceUrl' => getenv('COLAB_CAPSTONE_2_NOTEBOOK_SOURCE_URL') ?: $capstone2NotebookSourceUrl,
+        'publicDatasetMirrorUrl' => getenv('COLAB_CAPSTONE_2_DATASET_MIRROR_URL') ?: null,
     ],
 ];

@@ -22,21 +22,30 @@ $verificationNotebookPath = project_first_matching_relative_path($capstoneRoot, 
 $sourceNotebookPath = project_first_matching_relative_path($capstoneRoot, ['*.ipynb']);
 $previewNotebookPath = $verificationNotebookPath ?? $sourceNotebookPath;
 $previewNotebookViewUrl = $previewNotebookPath ? project_artifact_url($previewNotebookPath, true) : null;
+$previewNotebookAvailable = $previewNotebookPath !== null;
+$previewNotebookPreviewUrl = $previewNotebookViewUrl;
+if ($previewNotebookAvailable && $previewNotebookPath !== null && $previewNotebookPreviewUrl !== null) {
+    $previewNotebookVersion = filemtime(project_artifact_fs_path($previewNotebookPath));
+    if ($previewNotebookVersion !== false) {
+        $previewNotebookPreviewUrl .= '&v=' . rawurlencode((string) $previewNotebookVersion);
+    }
+}
+$previewNotebookEmbedUrl = $previewNotebookPreviewUrl !== null ? $previewNotebookPreviewUrl . '&embed=1' : null;
 $datasetPath = project_first_matching_relative_path($capstoneRoot, ['*.csv']);
 $jsonOutputPath = project_first_matching_relative_path($capstoneRoot . '/outputs', ['*.json']);
 $csvOutputPath = project_first_matching_relative_path($capstoneRoot . '/outputs', ['*.csv']);
 $colabLaunchReady = !empty($colabConfig['launchUrl']);
 $verificationFlow = [
-    'I use this page to present the notebook, data, and outputs for the capstone in one place.',
-    'When a Colab link is available, it opens the same notebook I publish from the project source.',
-    'The live dataset and exported files on this site stay aligned with the capstone materials in the repository.',
-    'This section is here to show the working notebook path and the project files that go with it.',
+    'This page keeps the notebook, source files, and published outputs for the capstone together in one place.',
+    'When a Colab link is available, it opens the same notebook that is staged with the project.',
+    'The project files and generated outputs on this site stay aligned with the capstone materials in the repository.',
+    'This section shows the notebook path and the main files that support the capstone work.',
 ];
 $verificationInputs = [];
 
 if ($datasetPath !== null) {
     $verificationInputs[] = [
-        'label' => 'Live Dataset URL',
+        'label' => 'Live Dataset',
         'url' => project_artifact_absolute_url($datasetPath, false, true),
         'note' => 'Dataset file served from the FrancisBurnet site when this capstone includes a staged CSV dataset.',
     ];
@@ -44,7 +53,7 @@ if ($datasetPath !== null) {
 
 if ($sourceNotebookPath !== null) {
     $verificationInputs[] = [
-        'label' => 'Notebook Download URL',
+        'label' => 'Notebook File',
         'url' => project_artifact_absolute_url($sourceNotebookPath, false, true),
         'note' => 'Notebook source file from this capstone.',
     ];
@@ -52,7 +61,7 @@ if ($sourceNotebookPath !== null) {
 
 if ($verificationNotebookPath !== null) {
     $verificationInputs[] = [
-        'label' => 'Colab Notebook URL',
+        'label' => 'Colab Notebook',
         'url' => project_artifact_absolute_url($verificationNotebookPath, false, true),
         'note' => 'Colab-oriented notebook artifact when a dedicated notebook file is staged for this capstone.',
     ];
@@ -60,7 +69,7 @@ if ($verificationNotebookPath !== null) {
 
 if ($csvOutputPath !== null) {
     $verificationInputs[] = [
-        'label' => 'CSV Output URL',
+        'label' => 'CSV Output',
         'url' => project_artifact_absolute_url($csvOutputPath, false, true),
         'note' => 'CSV output published with this capstone.',
     ];
@@ -68,7 +77,7 @@ if ($csvOutputPath !== null) {
 
 if ($jsonOutputPath !== null) {
     $verificationInputs[] = [
-        'label' => 'JSON Output URL',
+        'label' => 'JSON Output',
         'url' => project_artifact_absolute_url($jsonOutputPath, false, true),
         'note' => 'Optional generated artifact when JSON export is part of the capstone.',
     ];
@@ -76,13 +85,13 @@ if ($jsonOutputPath !== null) {
 
 if (!empty($colabConfig['publicDatasetMirrorUrl'])) {
     $verificationInputs[] = [
-        'label' => 'Public Dataset Mirror URL',
+        'label' => 'Public Dataset Mirror',
         'url' => $colabConfig['publicDatasetMirrorUrl'],
-        'note' => 'Optional public GitHub dataset source when I want a mirrored fetch path for Colab.',
+        'note' => 'Optional public dataset mirror when a secondary Colab-friendly source is needed.',
     ];
 }
 
-$publicDatasetRepoNote = 'I can also publish a lightweight public dataset mirror on the FrancisBurnet account when that makes the Colab workflow cleaner, while the live site continues to host the project artifacts.';
+$publicDatasetRepoNote = 'The notebook opens in Google Colab, and the project files and outputs remain available here on the site.';
 require __DIR__ . '/page-hero.php';
 ?>
 
@@ -126,7 +135,7 @@ require __DIR__ . '/page-hero.php';
         <div class="col">
             <div class="evidence-card p-3">
                 <span class="artifact-label mb-2">Dataset Sourcing</span>
-                <p class="mb-0"><?php echo htmlspecialchars($publicDatasetRepoNote, ENT_QUOTES, 'UTF-8'); ?></p>
+                <p class="mb-0">When a dataset is staged for this capstone, it is exposed alongside the notebook and outputs through the shared site artifact flow.</p>
             </div>
         </div>
     </div>
@@ -160,7 +169,7 @@ require __DIR__ . '/page-hero.php';
 
 <section class="content-card p-4 p-lg-5 mb-4">
     <h2 class="section-title">Colab Notebook</h2>
-    <p>I use the same site-native notebook console pattern across capstones so the notebook preview, launch link, and published files stay together on the page.</p>
+    <p>This section brings the notebook preview, the Colab launch link, and the main project files together in one place.</p>
     <p class="text-muted mb-0"><?php echo htmlspecialchars($publicDatasetRepoNote, ENT_QUOTES, 'UTF-8'); ?></p>
     <div class="row g-3 mt-1">
         <div class="col-12">
@@ -172,15 +181,19 @@ require __DIR__ . '/page-hero.php';
                         <span></span>
                     </div>
                     <div class="console-title"><?php echo htmlspecialchars($capstoneProject['label'], ENT_QUOTES, 'UTF-8'); ?> Notebook Workspace</div>
-                    <div class="console-state <?php echo $colabLaunchReady ? 'is-ready' : 'is-pending'; ?>"><?php echo $colabLaunchReady ? 'Colab Launch Ready' : 'Colab Launch Pending'; ?></div>
+                    <?php if ($colabLaunchReady): ?>
+                        <a class="console-launch" href="<?php echo htmlspecialchars((string) $colabConfig['launchUrl'], ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noreferrer">Launch Colab</a>
+                    <?php else: ?>
+                        <div class="console-state is-pending">Colab Pending</div>
+                    <?php endif; ?>
                 </div>
                 <div class="console-body">
                     <div class="console-panel">
                         <span class="artifact-label mb-2">Embedded Notebook Preview</span>
-                        <?php if ($previewNotebookViewUrl !== null): ?>
+                        <?php if ($previewNotebookEmbedUrl !== null): ?>
                             <iframe
                                 class="console-frame"
-                                src="<?php echo htmlspecialchars($previewNotebookViewUrl, ENT_QUOTES, 'UTF-8'); ?>"
+                                src="<?php echo htmlspecialchars($previewNotebookEmbedUrl, ENT_QUOTES, 'UTF-8'); ?>"
                                 title="<?php echo htmlspecialchars($capstoneProject['label'], ENT_QUOTES, 'UTF-8'); ?> notebook preview"
                                 loading="lazy"
                             ></iframe>
@@ -205,12 +218,12 @@ require __DIR__ . '/page-hero.php';
             <div class="artifact-card p-3">
                 <span class="artifact-label mb-2">Launch Controls</span>
                 <h3 class="h5">Notebook Launch</h3>
-                <p class="mb-3">This capstone can launch directly into Google Colab when a notebook URL is configured for the page. The default source-controlled URL can point straight at the public GitHub notebook for the project.</p>
+                <p class="mb-3">This capstone can launch directly into Google Colab when a notebook URL is configured for the page.</p>
                 <div class="artifact-actions">
                     <?php if ($colabLaunchReady): ?>
-                        <a class="btn btn-primary" href="<?php echo htmlspecialchars((string) $colabConfig['launchUrl'], ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noreferrer">Open in Colab</a>
+                        <a class="btn btn-primary" href="<?php echo htmlspecialchars((string) $colabConfig['launchUrl'], ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noreferrer">Launch Colab</a>
                     <?php else: ?>
-                        <span class="btn btn-secondary disabled">Open in Colab Pending Notebook URL</span>
+                        <span class="btn btn-secondary disabled">Colab Launch Pending</span>
                     <?php endif; ?>
                     <?php if (!empty($colabConfig['publicNotebookSourceUrl'])): ?>
                         <a class="btn btn-outline-dark" href="<?php echo htmlspecialchars((string) $colabConfig['publicNotebookSourceUrl'], ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noreferrer">View Notebook Source</a>
@@ -224,7 +237,7 @@ require __DIR__ . '/page-hero.php';
                                 <li>
                                     <strong><?php echo htmlspecialchars($input['label'], ENT_QUOTES, 'UTF-8'); ?>:</strong>
                                     <?php if (!empty($input['url'])): ?>
-                                        <a href="<?php echo htmlspecialchars((string) $input['url'], ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noreferrer"><?php echo htmlspecialchars((string) $input['url'], ENT_QUOTES, 'UTF-8'); ?></a>
+                                        <a href="<?php echo htmlspecialchars((string) $input['url'], ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noreferrer">Open <?php echo htmlspecialchars((string) $input['label'], ENT_QUOTES, 'UTF-8'); ?></a>
                                     <?php else: ?>
                                         <span>Available after the live public domain and staging files are in place.</span>
                                     <?php endif; ?>
@@ -236,7 +249,7 @@ require __DIR__ . '/page-hero.php';
                         <p class="mb-0">Project file links will appear automatically as the notebook, dataset, and generated outputs are staged under the mapped capstone folder.</p>
                     <?php endif; ?>
                 </div>
-                <p class="mb-0 mt-3 text-muted">I keep the default launch URL in source control and can override it with environment variables when the notebook path or repository changes.</p>
+                <p class="mb-0 mt-3 text-muted">This launch area updates automatically as notebook and output artifacts are staged for the capstone.</p>
             </div>
         </div>
     </div>
