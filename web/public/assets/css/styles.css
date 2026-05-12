@@ -120,14 +120,17 @@ body {
 
 .hero-image-slot {
     border: 1px solid #dbe4ee;
+    text-align: center;
 }
 
 .hero-image {
     display: block;
-    width: 100%;
+    width: auto;
+    max-width: 100%;
     height: auto;
     aspect-ratio: auto;
     object-fit: contain;
+    margin: 0 auto;
     border-radius: 0.8rem;
     border: 1px solid #cbd5e1;
     background-color: #fff;

@@ -7,8 +7,17 @@ $siteName = $siteName ?? 'Incremental Capstone Studio';
 $siteTagline = $siteTagline ?? '';
 $pageTitle = $pageTitle ?? $siteName . ($currentPage ? ' | ' . $currentPage : '');
 $headExtras = $headExtras ?? '';
-$stylesPath = __DIR__ . '/../public/assets/css/styles.css';
-$stylesVersion = is_file($stylesPath) ? (string) filemtime($stylesPath) : '1';
+$stylesPathCandidates = [
+    __DIR__ . '/../public/assets/css/styles.css',
+    __DIR__ . '/../httpdocs/assets/css/styles.css',
+];
+$stylesVersion = '1';
+foreach ($stylesPathCandidates as $stylesPath) {
+    if (is_file($stylesPath)) {
+        $stylesVersion = (string) filemtime($stylesPath);
+        break;
+    }
+}
 ?>
 <!doctype html>
 <html lang="en">
