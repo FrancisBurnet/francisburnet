@@ -1,0 +1,42 @@
+.venv/
+__pycache__/
+*.py[cod]
+
+# Local environment files
+.env
+.env.*
+!.env.example
+
+# Internal development docs not meant for the public repo
+PERMANANCE_RULES_PROMPT.md
+docs/PHP_CAPSTONE_DEV_RULES_PROMPT.md
+docs/Project_DEV_Rules_PROMPT_PHP_TRANSLATION.md
+archive/legacy-docs/
+**/DEVELOPMENT_PLAN*.md
+**/MASTER_RULES*.md
+**/WORK_SUMMARY*.md
+
+# PHP and Composer
+vendor/
+
+# Node
+node_modules/
+dist/
+build/
+
+# Editor and OS files
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+*.code-workspace
+Thumbs.db
+Desktop.ini
+
+# Nested repo scratch folder
+francisburnet/
+
+# Logs and coverage
+*.log
+.coverage
+htmlcov/

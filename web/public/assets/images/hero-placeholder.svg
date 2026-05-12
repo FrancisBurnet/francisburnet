@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2400" height="1600" viewBox="0 0 2400 1600" role="img" aria-labelledby="title desc">
+  <title id="title">Capstone Infographic Placeholder</title>
+  <desc id="desc">Placeholder visual area for capstone infographic hero image.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0b3c5d"/>
+      <stop offset="50%" stop-color="#328cc1"/>
+      <stop offset="100%" stop-color="#d9b310"/>
+    </linearGradient>
+  </defs>
+  <rect width="2400" height="1600" fill="url(#bg)"/>
+  <g opacity="0.22" fill="#ffffff">
+    <circle cx="280" cy="300" r="180"/>
+    <circle cx="2020" cy="1250" r="260"/>
+    <rect x="980" y="190" width="1020" height="52" rx="12"/>
+    <rect x="980" y="290" width="680" height="36" rx="10"/>
+    <rect x="980" y="360" width="760" height="36" rx="10"/>
+    <rect x="980" y="560" width="1080" height="520" rx="24"/>
+  </g>
+  <g fill="#ffffff" font-family="Space Grotesk, Arial, sans-serif">
+    <text x="140" y="760" font-size="118" font-weight="700">Infographic Slot</text>
+    <text x="140" y="875" font-size="54" font-weight="500">Standard hero size: 2400 x 1600 pixels</text>
+    <text x="140" y="950" font-size="54" font-weight="500">Aspect ratio: 3:2</text>
+  </g>
+</svg>
