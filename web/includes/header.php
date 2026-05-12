@@ -7,6 +7,8 @@ $siteName = $siteName ?? 'Incremental Capstone Studio';
 $siteTagline = $siteTagline ?? '';
 $pageTitle = $pageTitle ?? $siteName . ($currentPage ? ' | ' . $currentPage : '');
 $headExtras = $headExtras ?? '';
+$stylesPath = __DIR__ . '/../public/assets/css/styles.css';
+$stylesVersion = is_file($stylesPath) ? (string) filemtime($stylesPath) : '1';
 ?>
 <!doctype html>
 <html lang="en">
@@ -18,7 +20,7 @@ $headExtras = $headExtras ?? '';
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="assets/css/styles.css" rel="stylesheet">
+    <link href="assets/css/styles.css?v=<?php echo rawurlencode($stylesVersion); ?>" rel="stylesheet">
     <?php echo $headExtras; ?>
 </head>
 <body>
