@@ -106,6 +106,120 @@ function artifact_back_context(string $backUrl, array $capstoneProjects, array $
     ];
 }
 
+function artifact_inline_markup(string $text): string
+{
+    $escaped = htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
+    return (string) preg_replace('/`([^`]+)`/', '<code>$1</code>', $escaped);
+}
+
+function artifact_render_markdown_lines(array $lines): string
+{
+    $html = [];
+    $inList = false;
+
+    foreach ($lines as $line) {
+        $trimmed = trim((string) $line);
+        if ($trimmed === '') {
+            if ($inList) {
+                $html[] = '</ul>';
+                $inList = false;
+            }
+            continue;
+        }
+
+        if (preg_match('/^(#{1,6})\s+(.*)$/', $trimmed, $matches) === 1) {
+            if ($inList) {
+                $html[] = '</ul>';
+                $inList = false;
+            }
+            $level = strlen($matches[1]);
+            $html[] = sprintf('<h%d>%s</h%d>', $level, artifact_inline_markup($matches[2]), $level);
+            continue;
+        }
+
+        if (preg_match('/^[-*]\s+(.*)$/', $trimmed, $matches) === 1) {
+            if (!$inList) {
+                $html[] = '<ul>';
+                $inList = true;
+            }
+            $html[] = '<li>' . artifact_inline_markup($matches[1]) . '</li>';
+            continue;
+        }
+
+        if ($inList) {
+            $html[] = '</ul>';
+            $inList = false;
+        }
+
+        $html[] = '<p>' . artifact_inline_markup($trimmed) . '</p>';
+    }
+
+    if ($inList) {
+        $html[] = '</ul>';
+    }
+
+    return implode("\n", $html);
+}
+
+function artifact_render_notebook(array $decoded, string $rawContent): string
+{
+    $cells = $decoded['cells'] ?? null;
+    if (!is_array($cells)) {
+        return '<div class="viewer"><pre>' . htmlspecialchars($rawContent, ENT_QUOTES, 'UTF-8') . '</pre></div>';
+    }
+
+    ob_start();
+    ?>
+    <div class="notebook-view">
+        <?php foreach ($cells as $index => $cell): ?>
+            <?php
+            $cellType = strtolower((string) ($cell['cell_type'] ?? 'unknown'));
+            $language = (string) ($cell['metadata']['language'] ?? ($cellType === 'code' ? 'python' : $cellType));
+            $sourceLines = is_array($cell['source'] ?? null) ? $cell['source'] : [];
+            $sourceText = implode('', array_map(static fn($line): string => (string) $line, $sourceLines));
+            $outputs = is_array($cell['outputs'] ?? null) ? $cell['outputs'] : [];
+            ?>
+            <section class="notebook-cell notebook-cell--<?php echo htmlspecialchars($cellType, ENT_QUOTES, 'UTF-8'); ?>">
+                <div class="notebook-cell__meta">
+                    Cell <?php echo $index + 1; ?>
+                    <span><?php echo htmlspecialchars(ucfirst($cellType), ENT_QUOTES, 'UTF-8'); ?><?php echo $cellType === 'code' ? ' · ' . htmlspecialchars($language, ENT_QUOTES, 'UTF-8') : ''; ?></span>
+                </div>
+
+                <?php if ($cellType === 'markdown'): ?>
+                    <div class="notebook-markdown">
+                        <?php echo artifact_render_markdown_lines($sourceLines); ?>
+                    </div>
+                <?php else: ?>
+                    <div class="viewer notebook-code"><pre><?php echo htmlspecialchars($sourceText, ENT_QUOTES, 'UTF-8'); ?></pre></div>
+                    <?php if ($outputs !== []): ?>
+                        <div class="notebook-output">
+                            <div class="notebook-output__label">Output</div>
+                            <?php foreach ($outputs as $output): ?>
+                                <?php
+                                $outputText = '';
+                                if (isset($output['text'])) {
+                                    $textValue = $output['text'];
+                                    $outputText = is_array($textValue) ? implode('', array_map(static fn($line): string => (string) $line, $textValue)) : (string) $textValue;
+                                } elseif (isset($output['data']['text/plain'])) {
+                                    $textValue = $output['data']['text/plain'];
+                                    $outputText = is_array($textValue) ? implode('', array_map(static fn($line): string => (string) $line, $textValue)) : (string) $textValue;
+                                }
+                                ?>
+                                <?php if ($outputText !== ''): ?>
+                                    <pre><?php echo htmlspecialchars($outputText, ENT_QUOTES, 'UTF-8'); ?></pre>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php endif; ?>
+                <?php endif; ?>
+            </section>
+        <?php endforeach; ?>
+    </div>
+    <?php
+
+    return (string) ob_get_clean();
+}
+
 $projectRootCandidates = [
     realpath(__DIR__ . '/../../'),
     realpath(__DIR__ . '/../'),
@@ -303,45 +417,13 @@ HTML;
         $renderedBody = (string) ob_get_clean();
     } elseif ($extension === 'md') {
         $lines = preg_split('/\R/', $rawContent) ?: [];
-        $html = [];
-        $inList = false;
-        foreach ($lines as $line) {
-            $trimmed = trim($line);
-            if ($trimmed === '') {
-                if ($inList) {
-                    $html[] = '</ul>';
-                    $inList = false;
-                }
-                continue;
-            }
-            if (preg_match('/^(#{1,6})\s+(.*)$/', $trimmed, $matches) === 1) {
-                if ($inList) {
-                    $html[] = '</ul>';
-                    $inList = false;
-                }
-                $level = strlen($matches[1]);
-                $html[] = sprintf('<h%d>%s</h%d>', $level, htmlspecialchars($matches[2], ENT_QUOTES, 'UTF-8'), $level);
-                continue;
-            }
-            if (preg_match('/^[-*]\s+(.*)$/', $trimmed, $matches) === 1) {
-                if (!$inList) {
-                    $html[] = '<ul>';
-                    $inList = true;
-                }
-                $html[] = '<li>' . htmlspecialchars($matches[1], ENT_QUOTES, 'UTF-8') . '</li>';
-                continue;
-            }
-            if ($inList) {
-                $html[] = '</ul>';
-                $inList = false;
-            }
-            $html[] = '<p>' . htmlspecialchars($trimmed, ENT_QUOTES, 'UTF-8') . '</p>';
-        }
-        if ($inList) {
-            $html[] = '</ul>';
-        }
-        $renderedBody = implode("\n", $html);
-    } elseif ($extension === 'json' || $extension === 'ipynb') {
+        $renderedBody = artifact_render_markdown_lines($lines);
+    } elseif ($extension === 'ipynb') {
+        $decoded = json_decode($rawContent, true);
+        $renderedBody = is_array($decoded)
+            ? artifact_render_notebook($decoded, $rawContent)
+            : '<div class="viewer"><pre>' . htmlspecialchars($rawContent, ENT_QUOTES, 'UTF-8') . '</pre></div>';
+    } elseif ($extension === 'json') {
         $decoded = json_decode($rawContent, true);
         $prettyJson = $decoded === null ? $rawContent : json_encode($decoded, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
         $renderedBody = '<div class="viewer"><pre>' . htmlspecialchars((string) $prettyJson, ENT_QUOTES, 'UTF-8') . '</pre></div>';
@@ -520,6 +602,78 @@ HTML;
             font-family: Consolas, "Courier New", monospace;
             font-size: 0.92rem;
             line-height: 1.5;
+        }
+
+        .notebook-view {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .notebook-cell {
+            border: 1px solid #dbe4ee;
+            border-radius: 1rem;
+            background: #f8fafc;
+            overflow: hidden;
+        }
+
+        .notebook-cell__meta {
+            display: flex;
+            justify-content: space-between;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            background: #e2e8f0;
+            color: #0f172a;
+            font-size: 0.82rem;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+        }
+
+        .notebook-markdown {
+            padding: 1rem;
+        }
+
+        .notebook-markdown > :last-child {
+            margin-bottom: 0;
+        }
+
+        .notebook-markdown code,
+        .notebook-output code {
+            background: #e2e8f0;
+            color: #0f172a;
+            border-radius: 0.4rem;
+            padding: 0.1rem 0.35rem;
+        }
+
+        .notebook-code {
+            margin-top: 0;
+            border-radius: 0;
+            border-left: 0;
+            border-right: 0;
+            border-bottom: 0;
+        }
+
+        .notebook-output {
+            padding: 1rem;
+            background: #fff;
+            border-top: 1px solid #dbe4ee;
+        }
+
+        .notebook-output__label {
+            margin-bottom: 0.5rem;
+            color: #0b3c5d;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .notebook-output pre {
+            background: #f8fafc;
+            color: #0f172a;
+            border: 1px solid #dbe4ee;
+            border-radius: 0.75rem;
+            padding: 0.85rem;
         }
 
         @media (max-width: 768px) {

@@ -17,6 +17,13 @@ $jsonExportPath = $capstoneRoot . '/outputs/NSMES1988.json';
 $publicDatasetRepoNote = 'I can also publish a lightweight public dataset mirror under the FrancisBurnet account when that makes the Colab workflow cleaner, while the live site continues to host the project artifacts.';
 $colabLaunchReady = !empty($colabConfig['launchUrl']);
 $verificationNotebookAvailable = project_artifact_exists($verificationNotebookPath);
+$verificationNotebookPreviewUrl = $verificationNotebookViewUrl;
+if ($verificationNotebookAvailable) {
+    $verificationNotebookVersion = filemtime(project_artifact_fs_path($verificationNotebookPath));
+    if ($verificationNotebookVersion !== false) {
+        $verificationNotebookPreviewUrl .= '&v=' . rawurlencode((string) $verificationNotebookVersion);
+    }
+}
 $verificationFlow = [
     'I use this page to present the notebook, source dataset, and published outputs for Capstone 1 in one place.',
     'The notebook preview lives on this page, and the matching Colab notebook opens from the same project path.',
@@ -474,7 +481,7 @@ PY,
                         <?php if ($verificationNotebookAvailable): ?>
                             <iframe
                                 class="console-frame"
-                                src="<?php echo htmlspecialchars($verificationNotebookViewUrl, ENT_QUOTES, 'UTF-8'); ?>"
+                                src="<?php echo htmlspecialchars($verificationNotebookPreviewUrl, ENT_QUOTES, 'UTF-8'); ?>"
                                 title="Capstone 1 notebook preview"
                                 loading="lazy"
                             ></iframe>
