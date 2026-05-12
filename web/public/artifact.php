@@ -296,6 +296,7 @@ $mimeMap = [
 
 $contentType = $mimeMap[$extension] ?? 'application/octet-stream';
 $mode = isset($_GET['mode']) ? strtolower(trim((string) $_GET['mode'])) : '';
+$embed = isset($_GET['embed']) && $_GET['embed'] === '1';
 $download = isset($_GET['download']) && $_GET['download'] === '1';
 $textViewExtensions = ['csv', 'ipynb', 'json', 'md', 'txt'];
 $viewerScript = '';
@@ -431,23 +432,18 @@ HTML;
         $renderedBody = '<div class="viewer"><pre>' . htmlspecialchars($rawContent, ENT_QUOTES, 'UTF-8') . '</pre></div>';
     }
 
-    require_once __DIR__ . '/../includes/config.php';
-    $currentPage = 'Incremental Capstone';
-    $pageTitle = $displayTitle . ' | Artifact Viewer';
-    $backContext = artifact_back_context($backUrl, $capstoneProjects, $navItems);
-    $backLabel = 'Back to ' . $backContext['label'];
-    $breadcrumbs = [
-        ['label' => 'Incremental Capstone', 'href' => 'incremental-capstone.php'],
-    ];
-    if (($backContext['href'] ?? '') !== 'incremental-capstone.php' && ($backContext['isCapstone'] ?? false)) {
-        $breadcrumbs[] = [
-            'label' => (string) $backContext['label'],
-            'href' => (string) $backContext['href'],
-        ];
-    }
-    $breadcrumbs[] = ['label' => 'Artifact Viewer', 'href' => ''];
     $headExtras = <<<'HTML'
     <style>
+        body.embed-mode {
+            margin: 0;
+            background: #fff;
+        }
+
+        .embed-shell {
+            padding: 0;
+            margin: 0;
+        }
+
         .artifact-viewer-shell {
             background: #ffffff;
             border: 1px solid #dbe4ee;
@@ -503,6 +499,15 @@ HTML;
             border-radius: 1rem;
             padding: 1rem;
             overflow: auto;
+        }
+
+        .embed-mode .rendered {
+            margin-top: 0;
+            padding: 0;
+            border: 0;
+            border-radius: 0;
+            box-shadow: none;
+            overflow: visible;
         }
 
         .rendered h1,
@@ -684,6 +689,46 @@ HTML;
     </style>
 HTML;
     $pageScripts = $viewerScript;
+
+    if ($embed) {
+        header('Content-Type: text/html; charset=utf-8');
+        ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><?php echo htmlspecialchars($displayTitle, ENT_QUOTES, 'UTF-8'); ?></title>
+    <?php echo $headExtras; ?>
+</head>
+<body class="embed-mode">
+    <main class="embed-shell">
+        <div class="rendered">
+            <?php echo $renderedBody; ?>
+        </div>
+    </main>
+    <?php echo $pageScripts; ?>
+</body>
+</html>
+        <?php
+        exit;
+    }
+
+    require_once __DIR__ . '/../includes/config.php';
+    $currentPage = 'Incremental Capstone';
+    $pageTitle = $displayTitle . ' | Artifact Viewer';
+    $backContext = artifact_back_context($backUrl, $capstoneProjects, $navItems);
+    $backLabel = 'Back to ' . $backContext['label'];
+    $breadcrumbs = [
+        ['label' => 'Incremental Capstone', 'href' => 'incremental-capstone.php'],
+    ];
+    if (($backContext['href'] ?? '') !== 'incremental-capstone.php' && ($backContext['isCapstone'] ?? false)) {
+        $breadcrumbs[] = [
+            'label' => (string) $backContext['label'],
+            'href' => (string) $backContext['href'],
+        ];
+    }
+    $breadcrumbs[] = ['label' => 'Artifact Viewer', 'href' => ''];
     header('Content-Type: text/html; charset=utf-8');
     require_once __DIR__ . '/../includes/header.php';
     require_once __DIR__ . '/../includes/nav.php';

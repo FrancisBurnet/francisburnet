@@ -24,6 +24,7 @@ if ($verificationNotebookAvailable) {
         $verificationNotebookPreviewUrl .= '&v=' . rawurlencode((string) $verificationNotebookVersion);
     }
 }
+$verificationNotebookEmbedUrl = $verificationNotebookPreviewUrl . '&embed=1';
 $verificationFlow = [
     'I use this page to present the notebook, source dataset, and published outputs for Capstone 1 in one place.',
     'The notebook preview lives on this page, and the matching Colab notebook opens from the same project path.',
@@ -473,7 +474,11 @@ PY,
                         <span></span>
                     </div>
                     <div class="console-title">Capstone 1 Notebook Workspace</div>
-                    <div class="console-state <?php echo $colabLaunchReady ? 'is-ready' : 'is-pending'; ?>"><?php echo $colabLaunchReady ? 'Colab Launch Ready' : 'Colab Launch Pending'; ?></div>
+                    <?php if ($colabLaunchReady): ?>
+                        <a class="console-launch" href="<?php echo htmlspecialchars((string) $colabConfig['launchUrl'], ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noreferrer">Launch Colab</a>
+                    <?php else: ?>
+                        <div class="console-state is-pending">Colab Pending</div>
+                    <?php endif; ?>
                 </div>
                 <div class="console-body">
                     <div class="console-panel">
@@ -481,7 +486,7 @@ PY,
                         <?php if ($verificationNotebookAvailable): ?>
                             <iframe
                                 class="console-frame"
-                                src="<?php echo htmlspecialchars($verificationNotebookPreviewUrl, ENT_QUOTES, 'UTF-8'); ?>"
+                                src="<?php echo htmlspecialchars($verificationNotebookEmbedUrl, ENT_QUOTES, 'UTF-8'); ?>"
                                 title="Capstone 1 notebook preview"
                                 loading="lazy"
                             ></iframe>
@@ -509,9 +514,9 @@ PY,
                 <p class="mb-3">The notebook preview stays on this site, and the launch button opens the matching Google Colab notebook from the public project source.</p>
                 <div class="artifact-actions">
                     <?php if ($colabLaunchReady): ?>
-                        <a class="btn btn-primary" href="<?php echo htmlspecialchars((string) $colabConfig['launchUrl'], ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noreferrer">Open in Colab</a>
+                        <a class="btn btn-primary" href="<?php echo htmlspecialchars((string) $colabConfig['launchUrl'], ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noreferrer">Launch Colab</a>
                     <?php else: ?>
-                        <span class="btn btn-secondary disabled">Open in Colab Pending Notebook URL</span>
+                        <span class="btn btn-secondary disabled">Colab Launch Pending</span>
                     <?php endif; ?>
                     <?php if (!empty($colabConfig['publicNotebookSourceUrl'])): ?>
                         <a class="btn btn-outline-dark" href="<?php echo htmlspecialchars((string) $colabConfig['publicNotebookSourceUrl'], ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noreferrer">View Notebook Source</a>
