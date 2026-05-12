@@ -144,6 +144,18 @@ body {
     text-align: center;
 }
 
+.capstone-summary-card,
+.capstone-summary-copy {
+    text-align: left;
+}
+
+.capstone-summary-card .capstone-summary-label {
+    display: block;
+    font-size: 1rem;
+    font-weight: 800;
+    letter-spacing: 0.03em;
+}
+
 .hero-image {
     display: block;
     width: auto;
