@@ -319,20 +319,35 @@ foreach ($extraAssetLinks as $asset) {
         </div>
         <div class="col-12">
             <div class="artifact-card p-3">
-                <span class="artifact-label mb-2">Project File Links</span>
-                <ul class="mb-0 ps-3">
-                    <?php foreach ($verificationInputs as $input): ?>
-                        <li>
-                            <strong><?php echo htmlspecialchars((string) $input['label'], ENT_QUOTES, 'UTF-8'); ?>:</strong>
-                            <?php if (!empty($input['url'])): ?>
-                                <a href="<?php echo htmlspecialchars((string) $input['url'], ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noreferrer">Open <?php echo htmlspecialchars((string) $input['label'], ENT_QUOTES, 'UTF-8'); ?></a>
-                            <?php else: ?>
-                                <span>Available after live public staging is configured.</span>
-                            <?php endif; ?>
-                            <div class="text-muted small mt-1"><?php echo htmlspecialchars((string) $input['note'], ENT_QUOTES, 'UTF-8'); ?></div>
-                        </li>
-                    <?php endforeach; ?>
-                </ul>
+                <span class="artifact-label mb-2">Launch Controls</span>
+                <h3 class="h5">Notebook Launch</h3>
+                <p class="mb-3">Open the matching notebook in Google Colab or review the tracked notebook source in GitHub.</p>
+                <div class="artifact-actions">
+                    <?php if ($colabLaunchReady): ?>
+                        <a class="btn btn-primary" href="<?php echo htmlspecialchars((string) $colabConfig['launchUrl'], ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noreferrer">Launch Colab</a>
+                    <?php else: ?>
+                        <span class="btn btn-secondary disabled">Colab Launch Pending</span>
+                    <?php endif; ?>
+                    <?php if (!empty($colabConfig['publicNotebookSourceUrl'])): ?>
+                        <a class="btn btn-outline-dark" href="<?php echo htmlspecialchars((string) $colabConfig['publicNotebookSourceUrl'], ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noreferrer">View Notebook Source</a>
+                    <?php endif; ?>
+                </div>
+                <div class="evidence-card p-3 mt-3">
+                    <span class="artifact-label mb-2">Project File Links</span>
+                    <ul class="mb-0 ps-3">
+                        <?php foreach ($verificationInputs as $input): ?>
+                            <li>
+                                <strong><?php echo htmlspecialchars((string) $input['label'], ENT_QUOTES, 'UTF-8'); ?>:</strong>
+                                <?php if (!empty($input['url'])): ?>
+                                    <a href="<?php echo htmlspecialchars((string) $input['url'], ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noreferrer">Open <?php echo htmlspecialchars((string) $input['label'], ENT_QUOTES, 'UTF-8'); ?></a>
+                                <?php else: ?>
+                                    <span>Available after live public staging is configured.</span>
+                                <?php endif; ?>
+                                <div class="text-muted small mt-1"><?php echo htmlspecialchars((string) $input['note'], ENT_QUOTES, 'UTF-8'); ?></div>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>

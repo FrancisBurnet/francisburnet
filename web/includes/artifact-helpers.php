@@ -244,6 +244,7 @@ function project_screenshot_manifest_path(string $capstoneRoot): ?string
 function project_inline_markup(string $text): string
 {
     $escaped = htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
+    $escaped = (string) preg_replace('/\*\*([^*]+)\*\*/', '<strong>$1</strong>', $escaped);
     return (string) preg_replace('/`([^`]+)`/', '<code>$1</code>', $escaped);
 }
 
@@ -480,4 +481,80 @@ function build_capstone_artifact_links(array $capstoneProject): array
     }
 
     return $links;
+}
+
+function project_capstone_summary_source_path(): string
+{
+    return dirname(__DIR__, 2) . '/docs/capstone_summaries.md';
+}
+
+function project_capstone_summary_map(): array
+{
+    static $summaryMap = null;
+
+    if ($summaryMap !== null) {
+        return $summaryMap;
+    }
+
+    $summaryPath = project_capstone_summary_source_path();
+    if (!is_file($summaryPath)) {
+        $summaryMap = [];
+        return $summaryMap;
+    }
+
+    $rawContent = trim((string) file_get_contents($summaryPath));
+    if ($rawContent === '') {
+        $summaryMap = [];
+        return $summaryMap;
+    }
+
+    $parts = preg_split('/^\s*(\d+):\s*$/m', $rawContent, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+    $summaryMap = [];
+
+    if (!is_array($parts)) {
+        return $summaryMap;
+    }
+
+    for ($index = 0; $index + 1 < count($parts); $index += 2) {
+        $capstoneNumber = trim((string) $parts[$index]);
+        $summaryBody = trim((string) $parts[$index + 1]);
+        if ($capstoneNumber === '' || $summaryBody === '') {
+            continue;
+        }
+
+        $summaryMap[$capstoneNumber] = $summaryBody;
+    }
+
+    return $summaryMap;
+}
+
+function project_capstone_number_from_key(string $pageKey): ?string
+{
+    if (preg_match('/capstone(?:-session)?-(\d+)/i', $pageKey, $matches) !== 1) {
+        return null;
+    }
+
+    return $matches[1];
+}
+
+function project_capstone_summary_html(?string $pageKey = null): ?string
+{
+    $resolvedPageKey = $pageKey ?? pathinfo((string) ($_SERVER['SCRIPT_NAME'] ?? ''), PATHINFO_FILENAME);
+    $capstoneNumber = project_capstone_number_from_key((string) $resolvedPageKey);
+    if ($capstoneNumber === null) {
+        return null;
+    }
+
+    $summaryMap = project_capstone_summary_map();
+    $summaryText = $summaryMap[$capstoneNumber] ?? null;
+    if (!is_string($summaryText) || trim($summaryText) === '') {
+        return null;
+    }
+
+    $lines = preg_split('/\R/', $summaryText);
+    if (!is_array($lines)) {
+        return null;
+    }
+
+    return project_render_markdown_lines($lines);
 }
