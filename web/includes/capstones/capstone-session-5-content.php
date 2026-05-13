@@ -46,7 +46,17 @@ $walkthrough = [
         'artifacts' => [
             ['label' => 'Correlation Heatmap', 'path' => $capstoneRoot . '/outputs/plots/correlation_heatmap.png', 'summary' => 'Saved heatmap for the numeric feature correlation scan.'],
             ['label' => 'Target Distribution', 'path' => $capstoneRoot . '/outputs/plots/rented_bike_count_distribution.png', 'summary' => 'Saved distribution plot for the target variable.'],
-            ['label' => 'Model Error Comparison', 'path' => $capstoneRoot . '/outputs/plots/model_error_comparison.png', 'summary' => 'Saved comparison plot for RMSE and MAE values.'],
+            ['label' => 'Numeric Feature Histograms', 'path' => $capstoneRoot . '/outputs/plots/numeric_feature_histograms.png', 'summary' => 'Saved histograms for the numeric feature set.'],
+            ['label' => 'Seasons Box Plot', 'path' => $capstoneRoot . '/outputs/plots/boxplot_seasons.png', 'summary' => 'Saved box plot for bike rentals across seasons.'],
+            ['label' => 'Holiday Box Plot', 'path' => $capstoneRoot . '/outputs/plots/boxplot_holiday.png', 'summary' => 'Saved box plot for bike rentals on holiday versus non-holiday days.'],
+            ['label' => 'Functioning Day Box Plot', 'path' => $capstoneRoot . '/outputs/plots/boxplot_functioning_day.png', 'summary' => 'Saved box plot for bike rentals by functioning day status.'],
+            ['label' => 'Hour Catplot', 'path' => $capstoneRoot . '/outputs/plots/catplot_hour.png', 'summary' => 'Saved catplot for mean bike rentals by hour of day.'],
+            ['label' => 'Holiday Catplot', 'path' => $capstoneRoot . '/outputs/plots/catplot_holiday.png', 'summary' => 'Saved catplot comparing rentals on holiday versus non-holiday days.'],
+            ['label' => 'Rainfall Catplot', 'path' => $capstoneRoot . '/outputs/plots/catplot_rainfall.png', 'summary' => 'Saved catplot for rentals across rainfall levels.'],
+            ['label' => 'Snowfall Catplot', 'path' => $capstoneRoot . '/outputs/plots/catplot_snowfall.png', 'summary' => 'Saved catplot for rentals across snowfall levels.'],
+            ['label' => 'Day of Week Catplot', 'path' => $capstoneRoot . '/outputs/plots/catplot_day_of_week.png', 'summary' => 'Saved catplot for mean bike rentals by day of the week.'],
+            ['label' => 'Weekend Catplot', 'path' => $capstoneRoot . '/outputs/plots/catplot_is_weekend.png', 'summary' => 'Saved catplot comparing weekday versus weekend demand.'],
+            ['label' => 'Model Error Comparison', 'path' => $capstoneRoot . '/outputs/plots/model_error_comparison.png', 'summary' => 'Saved comparison chart for RMSE and MAE across the three models.'],
         ],
     ],
     [
@@ -61,6 +71,9 @@ $walkthrough = [
             'Model metrics and prediction samples are exported as CSV artifacts.',
         ],
         'code' => "X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1)\npipeline = Pipeline([('preprocessor', preprocessor), ('model', estimator)])\npipeline.fit(X_train, y_train)\npredictions = pipeline.predict(X_test)",
+        'artifacts' => [
+            ['label' => 'Model R\u00b2 Comparison', 'path' => $capstoneRoot . '/outputs/plots/model_r2_comparison.png', 'summary' => 'Saved comparison chart for R\u00b2 values across Linear, Lasso, and Ridge Regression.'],
+        ],
     ],
 ];
 

@@ -31,6 +31,9 @@ $walkthrough = [
             'The cleaned dataframe is used for all plots and model training steps.',
         ],
         'code' => "df = df.replace(' ?', np.nan).replace('?', np.nan)\nfor column in object_columns:\n    if df[column].isna().any():\n        df[column] = df[column].fillna(df[column].mode().iloc[0])",
+        'artifacts' => [
+            ['label' => 'Correlation Heatmap', 'path' => $capstoneRoot . '/outputs/plots/correlation_heatmap.png', 'summary' => 'Saved encoded-feature correlation heatmap for the income target review.'],
+        ],
     ],
     [
         'id' => '6b',
@@ -46,6 +49,13 @@ $walkthrough = [
         'artifacts' => [
             ['label' => 'Income Barplot', 'path' => $capstoneRoot . '/outputs/plots/income_barplot.png', 'summary' => 'Saved income class count chart.'],
             ['label' => 'Age Distribution', 'path' => $capstoneRoot . '/outputs/plots/age_distribution.png', 'summary' => 'Saved age distribution plot.'],
+            ['label' => 'Education Barplot', 'path' => $capstoneRoot . '/outputs/plots/education_barplot.png', 'summary' => 'Saved bar chart for education category counts.'],
+            ['label' => 'Education Level Barplot', 'path' => $capstoneRoot . '/outputs/plots/education_num_barplot.png', 'summary' => 'Saved bar chart for the numeric education-level distribution.'],
+            ['label' => 'Marital Status Distribution', 'path' => $capstoneRoot . '/outputs/plots/marital_status_pie.png', 'summary' => 'Saved pie chart for the marital status breakdown.'],
+            ['label' => 'Income by Education', 'path' => $capstoneRoot . '/outputs/plots/income_by_education.png', 'summary' => 'Saved grouped chart for income distribution by education level.'],
+            ['label' => 'Income by Marital Status', 'path' => $capstoneRoot . '/outputs/plots/income_by_marital_status.png', 'summary' => 'Saved grouped chart for income by marital status.'],
+            ['label' => 'Income by Sex', 'path' => $capstoneRoot . '/outputs/plots/income_by_sex.png', 'summary' => 'Saved grouped chart for income by gender.'],
+            ['label' => 'Income by Age Band', 'path' => $capstoneRoot . '/outputs/plots/income_by_age_band.png', 'summary' => 'Saved grouped chart for income by age band.'],
             ['label' => 'Model Comparison', 'path' => $capstoneRoot . '/outputs/plots/model_comparison.png', 'summary' => 'Saved comparison chart for model accuracy and F1 score.'],
         ],
     ],
