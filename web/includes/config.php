@@ -227,7 +227,7 @@ $deepLearningProjects = [
         'interactiveLab' => [
             'enabled' => true,
             'heading' => 'Interactive Neural Network Lab',
-            'summary' => 'This TensorFlow Playground embed is a concept sandbox for the classification ideas behind the face-mask project. It does not load the image dataset or the CNN notebook pipeline; instead, it preloads small synthetic classification problems so you can see how network depth, activation choice, and regularization change learned boundaries.',
+            'summary' => 'This TensorFlow Playground embed is a concept sandbox for the classification behavior behind the face-mask project. It does not load the image dataset or run the CNN notebook; instead, it preloads small synthetic problems that make depth, activation choice, and regularization easier to see before you compare them to the real Session 10 training plots and predictions.',
             'context' => [
                 'The playground does not run the actual mask-detection model and does not use image pixels from the capstone dataset.',
                 'Each preset loads a different synthetic dataset and network configuration so you can compare simple versus harder classification behavior.',
@@ -245,7 +245,7 @@ $deepLearningProjects = [
                 'ReLU On XOR: expect a clear example of why nonlinear activations matter for learnable separation.',
                 'Regularization Under Noise: expect a smoother boundary that supports the overfitting discussion behind image-model generalization.',
             ],
-            'note' => 'These presets are there to explain the neural-network ideas behind the face-mask classifier, not to reproduce the image notebook itself. The graded evidence for Session 10 is still the notebook, screenshots, training-history plots, model comparison, and prediction artifacts.',
+            'note' => 'Use these presets as short visual analogies for the Session 10 classifier. They explain why deeper networks, nonlinear activations, and smoother boundaries matter, but they do not replace the real capstone evidence, which still comes from the notebook, screenshots, training-history plots, model comparison, and prediction artifacts.',
             'embedUrl' => $capstone9PlaygroundPresets[1]['url'],
             'launchUrl' => $tensorflowPlaygroundBaseUrl,
             'launchLabel' => 'Open Full Playground',
@@ -263,7 +263,7 @@ $deepLearningProjects = [
         'interactiveLab' => [
             'enabled' => true,
             'heading' => 'Interactive Neural Network Lab',
-            'summary' => 'This TensorFlow Playground embed is a concept sandbox for the neural-network ideas that sit underneath the Session 11 sequence-model work. It does not load text reviews, embeddings, or the CNN-LSTM notebook pipeline; instead, it uses synthetic datasets to make hidden-layer capacity, nonlinearity, and regularization easier to see.',
+            'summary' => 'This TensorFlow Playground embed is a concept sandbox for the representation-learning ideas that sit underneath the Session 11 sequence-model work. It does not load review text, embeddings, or the CNN-LSTM notebook; instead, it uses synthetic datasets to make hidden-layer capacity, nonlinearity, and regularization easier to understand before you return to the real text-model outputs.',
             'context' => [
                 'The playground is not a sequence model and does not run the actual product-review or grammar workflow from the notebook.',
                 'What it does show well is how a network transforms inputs into more separable internal representations before a final classifier makes a decision.',
@@ -281,7 +281,7 @@ $deepLearningProjects = [
                 'ReLU On XOR: expect a compact example of feature interaction and nonlinearity.',
                 'Regularization Under Noise: expect a useful analogy for keeping the model from overfitting noisy language signals.',
             ],
-            'note' => 'These presets support the conceptual side of Session 11 only. The graded evidence remains the notebook, screenshots, exported outputs, and walkthrough content tied to the real review-analysis workflow.',
+            'note' => 'Use these presets to build intuition for how a network forms richer internal features before making a final decision. They are concept support only; the graded Session 11 evidence still comes from the notebook, screenshots, exported outputs, and walkthrough content tied to the real review-analysis workflow.',
             'embedUrl' => $capstone9PlaygroundPresets[2]['url'],
             'launchUrl' => $tensorflowPlaygroundBaseUrl,
             'launchLabel' => 'Open Full Playground',
@@ -299,7 +299,7 @@ $deepLearningProjects = [
         'interactiveLab' => [
             'enabled' => true,
             'heading' => 'Interactive Neural Network Lab',
-            'summary' => 'This TensorFlow Playground embed is a concept sandbox for the hidden-representation ideas behind the dental autoencoder capstone. It does not run the denoising autoencoder or use the panoramic image data; instead, it uses synthetic problems to make hidden-layer transformation, network depth, and stability under noise easier to inspect visually.',
+            'summary' => 'This TensorFlow Playground embed is a concept sandbox for the hidden-representation ideas behind the dental autoencoder capstone. It does not run the denoising autoencoder or use the panoramic image data; instead, it uses synthetic problems to make hidden-layer transformation, network depth, and stability under noise easier to inspect before you compare them to the real Session 12 reconstruction outputs.',
             'context' => [
                 'The playground is still a classifier demo, so it is not a direct autoencoder replica.',
                 'Its value on this page is conceptual: it lets you watch how hidden layers reshape inputs into more useful internal structure before the model produces an output.',
@@ -317,7 +317,7 @@ $deepLearningProjects = [
                 'ReLU On XOR: expect a compact example of useful nonlinear transformation in hidden space.',
                 'Regularization Under Noise: expect the closest conceptual match to the denoising goal in the real capstone.',
             ],
-            'note' => 'These presets are concept support only. The real Session 12 evidence still comes from the notebook, screenshots, training history, and denoising artifacts saved with the project.',
+            'note' => 'Use these presets to build intuition for how a model can learn stable internal structure from noisy inputs. They are concept support only; the real Session 12 evidence still comes from the notebook, screenshots, training history, and denoising artifacts saved with the project.',
             'embedUrl' => $capstone9PlaygroundPresets[3]['url'],
             'launchUrl' => $tensorflowPlaygroundBaseUrl,
             'launchLabel' => 'Open Full Playground',
