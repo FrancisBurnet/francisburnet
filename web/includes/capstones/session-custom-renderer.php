@@ -97,6 +97,9 @@ $interactiveLabPresets = $interactiveLabEnabled && !empty($interactiveLab['prese
     ? $interactiveLab['presets']
     : [];
 $interactiveLabFrameId = 'interactive-lab-' . trim((string) preg_replace('/[^a-z0-9]+/i', '-', (string) ($capstoneProject['key'] ?? 'capstone')), '-');
+$interactiveLabContext = !empty($interactiveLab['context']) && is_array($interactiveLab['context']) ? $interactiveLab['context'] : [];
+$interactiveLabInstructions = !empty($interactiveLab['instructions']) && is_array($interactiveLab['instructions']) ? $interactiveLab['instructions'] : [];
+$interactiveLabExpectations = !empty($interactiveLab['expectations']) && is_array($interactiveLab['expectations']) ? $interactiveLab['expectations'] : [];
 
 $summaryData = [];
 if ($summaryPath !== null && project_artifact_exists($summaryPath)) {
@@ -254,14 +257,63 @@ foreach ($extraAssetLinks as $asset) {
 <section class="content-card p-4 p-lg-5 mb-4">
     <h2 class="section-title"><?php echo htmlspecialchars((string) ($interactiveLab['heading'] ?? 'Interactive Lab'), ENT_QUOTES, 'UTF-8'); ?></h2>
     <p><?php echo htmlspecialchars((string) ($interactiveLab['summary'] ?? 'Explore an interactive concept demo that supports this capstone.'), ENT_QUOTES, 'UTF-8'); ?></p>
+    <?php if ($interactiveLabContext !== [] || $interactiveLabInstructions !== [] || $interactiveLabExpectations !== []): ?>
+        <div class="row g-3 mt-1 mb-3">
+            <?php if ($interactiveLabContext !== []): ?>
+                <div class="col-lg-4">
+                    <div class="evidence-card p-3 h-100">
+                        <span class="artifact-label mb-2">What This Is</span>
+                        <ul class="mb-0 ps-3">
+                            <?php foreach ($interactiveLabContext as $contextItem): ?>
+                                <li><?php echo htmlspecialchars((string) $contextItem, ENT_QUOTES, 'UTF-8'); ?></li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+                </div>
+            <?php endif; ?>
+            <?php if ($interactiveLabInstructions !== []): ?>
+                <div class="col-lg-4">
+                    <div class="evidence-card p-3 h-100">
+                        <span class="artifact-label mb-2">How To Use It</span>
+                        <ol class="mb-0 ps-3">
+                            <?php foreach ($interactiveLabInstructions as $instruction): ?>
+                                <li><?php echo htmlspecialchars((string) $instruction, ENT_QUOTES, 'UTF-8'); ?></li>
+                            <?php endforeach; ?>
+                        </ol>
+                    </div>
+                </div>
+            <?php endif; ?>
+            <?php if ($interactiveLabExpectations !== []): ?>
+                <div class="col-lg-4">
+                    <div class="evidence-card p-3 h-100">
+                        <span class="artifact-label mb-2">What To Look For</span>
+                        <ul class="mb-0 ps-3">
+                            <?php foreach ($interactiveLabExpectations as $expectation): ?>
+                                <li><?php echo htmlspecialchars((string) $expectation, ENT_QUOTES, 'UTF-8'); ?></li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+                </div>
+            <?php endif; ?>
+        </div>
+    <?php endif; ?>
     <?php if ($interactiveLabPresets !== []): ?>
-        <div class="interactive-lab-presets mt-3 mb-3">
+        <div class="row g-3 mt-1 mb-3">
             <?php foreach ($interactiveLabPresets as $presetIndex => $preset): ?>
                 <?php $presetUrl = (string) ($preset['url'] ?? ''); ?>
                 <?php if ($presetUrl === '') { continue; } ?>
-                <a class="btn <?php echo $presetIndex === 0 ? 'btn-primary' : 'btn-outline-dark'; ?>" href="<?php echo htmlspecialchars($presetUrl, ENT_QUOTES, 'UTF-8'); ?>" target="<?php echo htmlspecialchars($interactiveLabFrameId, ENT_QUOTES, 'UTF-8'); ?>">
-                    <?php echo htmlspecialchars((string) ($preset['label'] ?? 'Preset'), ENT_QUOTES, 'UTF-8'); ?>
-                </a>
+                <div class="col-lg-6">
+                    <div class="evidence-card p-3 h-100">
+                        <span class="artifact-label mb-2">Preset <?php echo (int) ($presetIndex + 1); ?></span>
+                        <h3 class="h5"><?php echo htmlspecialchars((string) ($preset['label'] ?? 'Preset'), ENT_QUOTES, 'UTF-8'); ?></h3>
+                        <p class="mb-3"><?php echo htmlspecialchars((string) ($preset['summary'] ?? 'Preloaded TensorFlow Playground state for this capstone.'), ENT_QUOTES, 'UTF-8'); ?></p>
+                        <div class="artifact-actions mt-auto">
+                            <a class="btn js-interactive-lab-preset <?php echo $presetIndex === 0 ? 'btn-primary' : 'btn-outline-dark'; ?>" href="<?php echo htmlspecialchars($presetUrl, ENT_QUOTES, 'UTF-8'); ?>" target="<?php echo htmlspecialchars($interactiveLabFrameId, ENT_QUOTES, 'UTF-8'); ?>" data-frame="<?php echo htmlspecialchars($interactiveLabFrameId, ENT_QUOTES, 'UTF-8'); ?>" aria-pressed="<?php echo $presetIndex === 0 ? 'true' : 'false'; ?>">
+                                Load <?php echo htmlspecialchars((string) ($preset['label'] ?? 'Preset'), ENT_QUOTES, 'UTF-8'); ?>
+                            </a>
+                        </div>
+                    </div>
+                </div>
             <?php endforeach; ?>
         </div>
     <?php endif; ?>
@@ -278,6 +330,26 @@ foreach ($extraAssetLinks as $asset) {
             <p class="mb-0"><?php echo htmlspecialchars((string) $interactiveLab['note'], ENT_QUOTES, 'UTF-8'); ?></p>
         </div>
     <?php endif; ?>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var presetButtons = document.querySelectorAll('.js-interactive-lab-preset[data-frame="<?php echo htmlspecialchars($interactiveLabFrameId, ENT_QUOTES, 'UTF-8'); ?>"]');
+        if (!presetButtons.length) {
+            return;
+        }
+        presetButtons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                presetButtons.forEach(function (otherButton) {
+                    otherButton.classList.remove('btn-primary');
+                    otherButton.classList.add('btn-outline-dark');
+                    otherButton.setAttribute('aria-pressed', 'false');
+                });
+                button.classList.remove('btn-outline-dark');
+                button.classList.add('btn-primary');
+                button.setAttribute('aria-pressed', 'true');
+            });
+        });
+    });
+    </script>
 </section>
 <?php endif; ?>
 

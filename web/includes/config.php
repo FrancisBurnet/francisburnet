@@ -90,22 +90,22 @@ $tensorflowPlaygroundBaseUrl = 'https://playground.tensorflow.org/';
 $capstone9PlaygroundPresets = [
     [
         'label' => 'Decision Boundary Basics',
-        'summary' => 'Circle dataset with a compact network for reading the learned boundary.',
+        'summary' => 'Preloads a circle-classification toy dataset with `x` and `y` inputs, a tanh network shaped `4,2`, learning rate `0.03`, zero noise, and 50% train split. Press Play to watch the network learn a nonlinear boundary around the center cluster, which is the same classification idea used by the churn ANN even though this demo uses synthetic 2D points instead of bank-customer rows.',
         'url' => $tensorflowPlaygroundBaseUrl . '#activation=tanh&batchSize=10&dataset=circle&regDataset=reg-plane&learningRate=0.03&regularizationRate=0&noise=0&networkShape=4,2&seed=0.11599&showTestData=false&discretize=false&percTrainData=50&x=true&y=true&xTimesY=false&xSquared=false&ySquared=false&cosX=false&sinX=false&cosY=false&sinY=false&collectStats=false&problem=classification&initZero=false&hideText=true',
     ],
     [
         'label' => 'Hidden Layers On Spiral Data',
-        'summary' => 'Spiral classification with deeper hidden layers to show when extra capacity helps.',
+        'summary' => 'Preloads the spiral dataset with a deeper `8,6,4` tanh network so you can see why extra hidden-layer capacity helps on more complex class boundaries. Use this to compare a simple ANN versus a deeper one and watch how training takes longer but can represent more complicated separation patterns.',
         'url' => $tensorflowPlaygroundBaseUrl . '#activation=tanh&batchSize=10&dataset=spiral&regDataset=reg-plane&learningRate=0.03&regularizationRate=0&noise=0&networkShape=8,6,4&seed=0.11599&showTestData=false&discretize=false&percTrainData=50&x=true&y=true&xTimesY=false&xSquared=false&ySquared=false&cosX=false&sinX=false&cosY=false&sinY=false&collectStats=false&problem=classification&initZero=false&hideText=true',
     ],
     [
         'label' => 'ReLU On XOR',
-        'summary' => 'XOR classification preset for comparing a different activation and topology.',
+        'summary' => 'Preloads the XOR dataset with a `6,3` ReLU network so you can compare activation choice and topology. Press Play and watch the network solve a pattern that a linear model cannot separate, which mirrors why hidden layers and nonlinear activations matter in ANN-based classification.',
         'url' => $tensorflowPlaygroundBaseUrl . '#activation=relu&batchSize=10&dataset=xor&regDataset=reg-plane&learningRate=0.03&regularizationRate=0&noise=0&networkShape=6,3&seed=0.11599&showTestData=false&discretize=false&percTrainData=50&x=true&y=true&xTimesY=false&xSquared=false&ySquared=false&cosX=false&sinX=false&cosY=false&sinY=false&collectStats=false&problem=classification&initZero=false&hideText=true',
     ],
     [
         'label' => 'Regularization Under Noise',
-        'summary' => 'Gaussian data with noise and regularization for overfitting discussion.',
+        'summary' => 'Preloads Gaussian classification data with 15% noise, visible test points, and regularization rate `0.001`. Press Play and compare how the learned boundary stays smoother under noisy data, which is useful for explaining generalization and overfitting risk in the churn project.',
         'url' => $tensorflowPlaygroundBaseUrl . '#activation=tanh&batchSize=10&dataset=gauss&regDataset=reg-plane&learningRate=0.03&regularizationRate=0.001&noise=15&networkShape=6,3&seed=0.11599&showTestData=true&discretize=false&percTrainData=50&x=true&y=true&xTimesY=false&xSquared=false&ySquared=false&cosX=false&sinX=false&cosY=false&sinY=false&collectStats=false&problem=classification&initZero=false&hideText=true',
     ],
 ];
@@ -122,8 +122,25 @@ $deepLearningProjects = [
         'interactiveLab' => [
             'enabled' => true,
             'heading' => 'Interactive Neural Network Lab',
-            'summary' => 'TensorFlow Playground presets make the deep learning concepts on this page interactive without changing the capstone evidence flow.',
-            'note' => 'This lab is an optional concept sandbox. The notebook, requirement checklist, and saved artifacts remain the graded evidence.',
+            'summary' => 'This TensorFlow Playground embed is a concept simulator for the ANN ideas behind the churn project. It does not load `Churn_Modeling.csv`; instead, it preloads small synthetic classification datasets and network settings so you can watch how hidden layers, activations, learning rate, and regularization change the learned decision boundary.',
+            'context' => [
+                'The embedded lab is not the graded Session 9 model and does not use the bank churn dataset from the notebook.',
+                'What is preloaded depends on the preset button you click: each preset swaps in a synthetic dataset, activation, network shape, learning rate, train split, and noise setting.',
+                'The right-hand plot shows the model output over the 2D feature space, while the loss values at the top tell you whether training is improving.',
+            ],
+            'instructions' => [
+                'Click any preset button above the embed to load that preconfigured scenario into the playground frame.',
+                'Press the Play button in the top-left corner of the playground to start training the network.',
+                'Watch the epoch counter, loss readout, and colored output panel update as the model learns.',
+                'Switch to another preset to compare how a different dataset or network design changes the training behavior.',
+            ],
+            'expectations' => [
+                'Decision Boundary Basics: expect a smooth boundary forming around the center cluster as the tanh network converges.',
+                'Hidden Layers On Spiral Data: expect a harder problem that needs more epochs and more capacity to untangle the spiral arms.',
+                'ReLU On XOR: expect the network to learn a nonlinear separation that a simple linear separator cannot produce.',
+                'Regularization Under Noise: expect noisier points and a smoother boundary, which helps explain overfitting control.',
+            ],
+            'note' => 'These four buttons are preset loaders, not dead tabs. Clicking one reloads the embedded playground with a different preconfigured dataset and network. The actual graded evidence for Session 9 still comes from the notebook, the training-history plot, the confusion matrix, and the exported churn-prediction outputs.',
             'embedUrl' => $capstone9PlaygroundPresets[0]['url'],
             'launchUrl' => $tensorflowPlaygroundBaseUrl,
             'launchLabel' => 'Open Full Playground',
