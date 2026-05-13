@@ -295,12 +295,20 @@ body {
     background: linear-gradient(180deg, rgba(11, 60, 93, 0.08) 0%, rgba(50, 140, 193, 0.08) 100%);
 }
 
-.interactive-lab-frame {
+.interactive-lab-frame,
+.teachable-machine-frame {
     display: block;
     width: 100%;
-    min-height: 52rem;
     border: 0;
     background: #fff;
+}
+
+.interactive-lab-frame {
+    min-height: 78rem;
+}
+
+.teachable-machine-frame {
+    min-height: 72rem;
 }
 
 .status-note {
@@ -401,7 +409,11 @@ body {
     }
 
     .interactive-lab-frame {
-        min-height: 42rem;
+        min-height: 54rem;
+    }
+
+    .teachable-machine-frame {
+        min-height: 60rem;
     }
 }
 
