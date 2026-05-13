@@ -38,6 +38,9 @@ archive/local-only/
 FB-Headshot-Philly-Office-2025.png
 Incremental Capstones/Deep Learning Specialization/Capstone Session 10/data/
 Incremental Capstones/Deep Learning Specialization/Capstone Session 10/outputs/generated_split/
+
+# Runtime download cache folders (local-only; rebuilt from GitHub media URLs)
+**/capstone-session-*-data/
 docs/verification-screenshots/
 
 # Logs and coverage

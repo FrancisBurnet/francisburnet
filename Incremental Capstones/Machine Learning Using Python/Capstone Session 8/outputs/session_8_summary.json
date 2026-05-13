@@ -46,25 +46,41 @@
   ],
   "model_cv_results": [
     {
-      "model": "NMF",
-      "parameters": "n_components=20",
-      "rmse": 0.913602211609524
-    },
-    {
       "model": "SVD",
-      "parameters": "n_components=20",
-      "rmse": 0.9136834528391397
+      "parameters": {
+        "random_state": 42
+      },
+      "rmse": 0.8731783419761335,
+      "best_score": 0.8630491446321759
     },
     {
-      "model": "KNNBasic-style MSD",
-      "parameters": "neighbors=20, similarity=msd",
-      "rmse": 0.9451577435974821
+      "model": "NMF",
+      "parameters": {
+        "random_state": 42
+      },
+      "rmse": 0.9213776048073286,
+      "best_score": 0.915984361104201
+    },
+    {
+      "model": "KNNBasic",
+      "parameters": {
+        "k": 20,
+        "sim_options": {
+          "name": "msd",
+          "user_based": true
+        }
+      },
+      "rmse": 0.9407661449264897,
+      "best_score": 0.9322645081391902
     }
   ],
   "best_model": {
-    "model": "NMF",
-    "parameters": "n_components=20",
-    "rmse": 0.913602211609524
+    "model": "SVD",
+    "parameters": {
+      "random_state": 42
+    },
+    "rmse": 0.8731783419761335,
+    "best_score": 0.8630491446321759
   },
-  "environment_note": "scikit-surprise could not be installed because Microsoft Visual C++ Build Tools are missing in this Windows Python 3.12 environment."
+  "environment_note": "Model-based recommendation is executed with scikit-surprise using KNNBasic, SVD, and NMF."
 }

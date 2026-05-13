@@ -1,16 +1,16 @@
 fold,model,rmse,parameters
-1,KNNBasic-style MSD,0.9517091054034542,"neighbors=20, similarity=msd"
-1,SVD,0.9222840602442796,n_components=20
-1,NMF,0.9214314897846996,n_components=20
-2,KNNBasic-style MSD,0.9404423978752509,"neighbors=20, similarity=msd"
-2,SVD,0.9088039472736383,n_components=20
-2,NMF,0.907079223275776,n_components=20
-3,KNNBasic-style MSD,0.9380819542288642,"neighbors=20, similarity=msd"
-3,SVD,0.9036101514170078,n_components=20
-3,NMF,0.9050677882412241,n_components=20
-4,KNNBasic-style MSD,0.9409811295062597,"neighbors=20, similarity=msd"
-4,SVD,0.9169506172943356,n_components=20
-4,NMF,0.9148894031309873,n_components=20
-5,KNNBasic-style MSD,0.9545741309735815,"neighbors=20, similarity=msd"
-5,SVD,0.9167684879664366,n_components=20
-5,NMF,0.9195431536149334,n_components=20
+1,KNNBasic,0.9474217518634304,"{""k"": 20, ""sim_options"": {""name"": ""msd"", ""user_based"": true}}"
+2,KNNBasic,0.9357266583627295,"{""k"": 20, ""sim_options"": {""name"": ""msd"", ""user_based"": true}}"
+3,KNNBasic,0.9322645081391902,"{""k"": 20, ""sim_options"": {""name"": ""msd"", ""user_based"": true}}"
+4,KNNBasic,0.9366702307782668,"{""k"": 20, ""sim_options"": {""name"": ""msd"", ""user_based"": true}}"
+5,KNNBasic,0.9517475754888307,"{""k"": 20, ""sim_options"": {""name"": ""msd"", ""user_based"": true}}"
+1,SVD,0.8831049180857837,"{""random_state"": 42}"
+2,SVD,0.8674185165208834,"{""random_state"": 42}"
+3,SVD,0.8630491446321759,"{""random_state"": 42}"
+4,SVD,0.8715511002380817,"{""random_state"": 42}"
+5,SVD,0.8807680304037426,"{""random_state"": 42}"
+1,NMF,0.9262499756093207,"{""random_state"": 42}"
+2,NMF,0.9164369869938968,"{""random_state"": 42}"
+3,NMF,0.915984361104201,"{""random_state"": 42}"
+4,NMF,0.919449024087297,"{""random_state"": 42}"
+5,NMF,0.9287676762419266,"{""random_state"": 42}"
