@@ -161,12 +161,14 @@ if ($infographicAvailable) {
 }
 
 if ($screenshotsAvailable) {
-    $assetLinks[] = [
-        'label' => 'Screenshot Evidence',
-        'summary' => 'Open the first staged screenshot evidence image for Capstone 2.',
-        'viewHref' => project_artifact_url($screenshotArtifacts[0], true, false, $artifactSectionReturnPath),
-        'downloadHref' => project_artifact_url($screenshotArtifacts[0], false, true),
-    ];
+    foreach ($screenshotArtifacts as $index => $screenshotArtifact) {
+        $assetLinks[] = [
+            'label' => 'Screenshot Evidence ' . ($index + 1),
+            'summary' => 'Open staged screenshot evidence image ' . ($index + 1) . ' for Capstone 2.',
+            'viewHref' => project_artifact_url($screenshotArtifact, true, false, $artifactSectionReturnPath),
+            'downloadHref' => project_artifact_url($screenshotArtifact, false, true),
+        ];
+    }
 } elseif ($screenshotManifestPath !== null) {
     $assetLinks[] = [
         'label' => 'Screenshot Manifest',
@@ -597,6 +599,32 @@ TXT,
         <p class="mb-0">The notebook opens in Google Colab when launched.</p>
     </div>
 </section>
+
+<?php if ($screenshotsAvailable): ?>
+<section class="content-card p-4 p-lg-5 mb-4">
+    <h2 class="section-title">Screenshot Evidence</h2>
+    <div class="row g-3 mt-1">
+        <?php foreach ($screenshotArtifacts as $index => $screenshotArtifact): ?>
+            <?php
+                $screenshotBase = pathinfo((string) basename($screenshotArtifact), PATHINFO_FILENAME);
+                $screenshotTitle = ucwords(str_replace(['_', '-'], ' ', (string) $screenshotBase));
+            ?>
+            <div class="col-lg-6">
+                <div class="artifact-card p-3">
+                    <span class="artifact-label mb-2">Screenshot <?php echo (int) ($index + 1); ?></span>
+                    <h3 class="h5"><?php echo htmlspecialchars($screenshotTitle, ENT_QUOTES, 'UTF-8'); ?></h3>
+                    <p class="mb-3">Notebook execution evidence captured from the Capstone 2 workflow.</p>
+                    <img class="img-fluid rounded border mb-3" src="<?php echo htmlspecialchars(project_artifact_url($screenshotArtifact), ENT_QUOTES, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($screenshotTitle, ENT_QUOTES, 'UTF-8'); ?>">
+                    <div class="artifact-actions">
+                        <a class="btn btn-outline-dark" href="<?php echo htmlspecialchars(project_artifact_url($screenshotArtifact, true, false, $artifactSectionReturnPath), ENT_QUOTES, 'UTF-8'); ?>">View</a>
+                        <a class="btn btn-primary" href="<?php echo htmlspecialchars(project_artifact_url($screenshotArtifact, false, true), ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noreferrer">Download</a>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    </div>
+</section>
+<?php endif; ?>
 
 <section class="content-card p-4 p-lg-5 mb-4">
     <h2 class="section-title">Outputs and Results</h2>
