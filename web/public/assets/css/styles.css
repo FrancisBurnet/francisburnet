@@ -595,7 +595,7 @@ body {
     background: #fde68a;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px), (hover: none) and (pointer: coarse) {
     .embed-orientation-hint {
         display: block;
     }
