@@ -228,11 +228,11 @@ require_once __DIR__ . '/../includes/nav.php';
                 </thead>
                 <tbody>
                     <tr>
-                        <td><strong>Face Mask Images</strong></td>
-                        <td>~12,000 images · 3 classes · Git LFS</td>
-                        <td>Image Classification (EfficientNetB0 / ResNet50)</td>
-                        <td>Session 10 — Deep Learning</td>
-                        <td><a href="https://github.com/FrancisBurnet/francisburnet/tree/main/Incremental%20Capstones/Deep%20Learning%20Specialization/Capstone%20Session%2010" target="_blank" rel="noopener" class="btn btn-xs btn-link p-0">↗</a></td>
+                        <td><strong>NSMES1988 (Health Survey)</strong></td>
+                        <td>Multi-year survey · health + socioeconomic</td>
+                        <td>EDA / Regression / Classification</td>
+                        <td>Sessions 1–4 — Applied Data Science</td>
+                        <td><a href="https://github.com/FrancisBurnet/francisburnet/blob/main/Incremental%20Capstones/Applied%20Data%20Science%20with%20Python/Capstone%201/NSMES1988.csv" target="_blank" rel="noopener" class="btn btn-xs btn-link p-0">↗</a></td>
                     </tr>
                     <tr>
                         <td><strong>Florida Bike Rentals</strong></td>
@@ -270,18 +270,18 @@ require_once __DIR__ . '/../includes/nav.php';
                         <td><a href="https://github.com/FrancisBurnet/francisburnet/blob/main/Incremental%20Capstones/Deep%20Learning%20Specialization/Capstone%20Session%209/Churn_Modeling.csv" target="_blank" rel="noopener" class="btn btn-xs btn-link p-0">↗</a></td>
                     </tr>
                     <tr>
+                        <td><strong>Face Mask Images</strong></td>
+                        <td>~12,000 images · 3 classes · Git LFS</td>
+                        <td>Image Classification (EfficientNetB0 / ResNet50)</td>
+                        <td>Session 10 — Deep Learning</td>
+                        <td><a href="https://github.com/FrancisBurnet/francisburnet/tree/main/Incremental%20Capstones/Deep%20Learning%20Specialization/Capstone%20Session%2010" target="_blank" rel="noopener" class="btn btn-xs btn-link p-0">↗</a></td>
+                    </tr>
+                    <tr>
                         <td><strong>Grammar &amp; Product Reviews</strong></td>
                         <td>Text corpus · product review sentences</td>
                         <td>Sentiment Analysis (LSTM / NLP)</td>
                         <td>Session 11 — Deep Learning</td>
                         <td><a href="https://github.com/FrancisBurnet/francisburnet/tree/main/Incremental%20Capstones/Deep%20Learning%20Specialization/Capstone%20Session%2011" target="_blank" rel="noopener" class="btn btn-xs btn-link p-0">↗</a></td>
-                    </tr>
-                    <tr>
-                        <td><strong>NSMES1988 (Health Survey)</strong></td>
-                        <td>Multi-year survey · health + socioeconomic</td>
-                        <td>EDA / Regression / Classification</td>
-                        <td>Sessions 1–4 — Applied Data Science</td>
-                        <td><a href="https://github.com/FrancisBurnet/francisburnet/blob/main/Incremental%20Capstones/Applied%20Data%20Science%20with%20Python/Capstone%201/NSMES1988.csv" target="_blank" rel="noopener" class="btn btn-xs btn-link p-0">↗</a></td>
                     </tr>
                 </tbody>
             </table>
