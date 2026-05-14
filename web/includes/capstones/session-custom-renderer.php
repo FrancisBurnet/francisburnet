@@ -317,6 +317,10 @@ foreach ($extraAssetLinks as $asset) {
             <?php endforeach; ?>
         </div>
     <?php endif; ?>
+    <div class="interactive-lab-status mb-2" id="<?php echo htmlspecialchars($interactiveLabFrameId, ENT_QUOTES, 'UTF-8'); ?>-status" aria-live="polite">
+        Loaded preset: <?php echo htmlspecialchars((string) ($interactiveLabPresets[0]['label'] ?? 'Default preset'), ENT_QUOTES, 'UTF-8'); ?>
+    </div>
+    <p class="embed-orientation-hint mb-2">On mobile, swipe left/right to use the full TensorFlow embed. For the best experience, rotate your phone 90 degrees to landscape.</p>
     <div class="interactive-lab-shell">
         <iframe class="interactive-lab-frame" name="<?php echo htmlspecialchars($interactiveLabFrameId, ENT_QUOTES, 'UTF-8'); ?>" src="<?php echo htmlspecialchars((string) $interactiveLab['embedUrl'], ENT_QUOTES, 'UTF-8'); ?>" title="<?php echo htmlspecialchars($capstoneProject['label'] . ' Interactive Lab', ENT_QUOTES, 'UTF-8'); ?>" loading="lazy"></iframe>
     </div>
@@ -332,12 +336,16 @@ foreach ($extraAssetLinks as $asset) {
     <?php endif; ?>
     <script>
     document.addEventListener('DOMContentLoaded', function () {
+        var frameName = '<?php echo htmlspecialchars($interactiveLabFrameId, ENT_QUOTES, 'UTF-8'); ?>';
         var presetButtons = document.querySelectorAll('.js-interactive-lab-preset[data-frame="<?php echo htmlspecialchars($interactiveLabFrameId, ENT_QUOTES, 'UTF-8'); ?>"]');
+        var frame = document.querySelector('iframe[name="' + frameName + '"]');
+        var status = document.getElementById(frameName + '-status');
         if (!presetButtons.length) {
             return;
         }
         presetButtons.forEach(function (button) {
-            button.addEventListener('click', function () {
+            button.addEventListener('click', function (event) {
+                event.preventDefault();
                 presetButtons.forEach(function (otherButton) {
                     otherButton.classList.remove('btn-primary');
                     otherButton.classList.add('btn-outline-dark');
@@ -346,6 +354,20 @@ foreach ($extraAssetLinks as $asset) {
                 button.classList.remove('btn-outline-dark');
                 button.classList.add('btn-primary');
                 button.setAttribute('aria-pressed', 'true');
+
+                if (frame) {
+                    var presetUrl = button.getAttribute('href');
+                    // Force visible change for same-origin/hash transitions.
+                    frame.src = 'about:blank';
+                    window.setTimeout(function () {
+                        frame.src = presetUrl;
+                    }, 30);
+                }
+
+                if (status) {
+                    var label = button.textContent ? button.textContent.replace(/^\s*Load\s+/i, '').trim() : 'Preset';
+                    status.textContent = 'Loaded preset: ' + label;
+                }
             });
         });
     });

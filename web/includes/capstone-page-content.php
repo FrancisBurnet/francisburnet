@@ -272,6 +272,7 @@ require __DIR__ . '/page-hero.php';
             <?php endforeach; ?>
         </div>
     <?php endif; ?>
+    <p class="embed-orientation-hint mb-2">On mobile, swipe left/right to use the full TensorFlow embed. For the best experience, rotate your phone 90 degrees to landscape.</p>
     <div class="interactive-lab-shell">
         <iframe
             class="interactive-lab-frame"

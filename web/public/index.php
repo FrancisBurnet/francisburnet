@@ -328,6 +328,7 @@ require_once __DIR__ . '/../includes/nav.php';
         <!-- TF Playground embed -->
         <div>
             <p class="small text-muted mb-2">TensorFlow Playground — embedded below. Use the controls inside the frame to experiment.</p>
+            <p class="embed-orientation-hint mb-2">On mobile, swipe left/right to use the full TensorFlow embed. For the best experience, rotate your phone 90 degrees to landscape.</p>
             <div class="tf-playground-shell">
                 <iframe
                     src="https://playground.tensorflow.org/"

@@ -123,6 +123,17 @@ body {
 }
 
 /* TensorFlow Playground iframe */
+.embed-orientation-hint {
+    display: none;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #0b3c5d;
+    background: rgba(11, 60, 93, 0.08);
+    border: 1px solid rgba(11, 60, 93, 0.22);
+    border-radius: 0.6rem;
+    padding: 0.55rem 0.75rem;
+}
+
 .tf-playground-shell {
     position: relative;
     width: 100%;
@@ -585,6 +596,25 @@ body {
 }
 
 @media (max-width: 768px) {
+    .embed-orientation-hint {
+        display: block;
+    }
+
+    .tf-playground-shell,
+    .interactive-lab-shell {
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .tf-playground-frame,
+    .interactive-lab-frame,
+    .teachable-machine-frame,
+    .teachable-machine-frame--demo,
+    .teachable-machine-frame--trainer {
+        min-width: 980px;
+    }
+
     .pdf-embed-frame,
     .pdf-embed-frame iframe {
         min-height: 480px;
