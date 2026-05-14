@@ -108,7 +108,7 @@ require __DIR__ . '/session-custom-renderer.php';
 $teachableMachineProjectUrl = 'https://teachablemachine.withgoogle.com/train/image';
 $teachableMachineGuideUrl = 'https://teachablemachine.withgoogle.com/';
 $teachableMachineDemoUrl = '/assets/demos/session-10-maskdetector.html';
-$teachableMachineHostedModelUrl = 'https://teachablemachine.withgoogle.com/models/PcUHJ0ds1/';
+$teachableMachineHostedModelUrl = 'https://teachablemachine.withgoogle.com/models/pYkaS3Vbs/';
 $capstoneModelUrl = '/assets/models/session-10-capstone-resnet50/';
 $teachableMachineDemoEmbedUrl = $teachableMachineDemoUrl . '?' . http_build_query([
     'engine' => 'tm',
