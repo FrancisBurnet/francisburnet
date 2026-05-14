@@ -337,6 +337,7 @@ require_once __DIR__ . '/../includes/nav.php';
                     title="TensorFlow Playground"
                     sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation-by-user-activation"
                     loading="lazy"
+                    scrolling="no"
                     allowfullscreen
                 ></iframe>
             </div>

@@ -132,6 +132,7 @@ body {
     height: 580px;
     border: none;
     display: block;
+    overflow: hidden;
 }
 
 /* Dataset table link button */
