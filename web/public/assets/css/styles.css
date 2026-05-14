@@ -67,6 +67,79 @@ body {
     border-radius: 0.75rem;
 }
 
+/* Training highlight tiles */
+.highlight-tile {
+    background: #f0f6ff;
+    border: 1px solid #cde0f5;
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.highlight-tile:hover {
+    box-shadow: 0 4px 16px rgba(5, 13, 26, 0.10);
+    border-color: #328cc1;
+}
+
+.highlight-badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #fff;
+    background: #0b3c5d;
+    border-radius: 0.3rem;
+    padding: 0.15rem 0.5rem;
+}
+
+/* Playground cards */
+.playground-card {
+    background: #0a0e1a;
+    color: #e8eaf0;
+    border: 1px solid #1e2a40;
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.playground-card:hover {
+    border-color: #328cc1;
+    box-shadow: 0 4px 20px rgba(50, 140, 193, 0.2);
+}
+
+.playground-card .small {
+    color: #aab4c4;
+}
+
+.playground-icon {
+    font-size: 1.8rem;
+    line-height: 1;
+}
+
+/* TensorFlow Playground iframe */
+.tf-playground-shell {
+    position: relative;
+    width: 100%;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    border: 1px solid #dee2e6;
+    background: #fff;
+}
+
+.tf-playground-frame {
+    width: 100%;
+    height: 580px;
+    border: none;
+    display: block;
+}
+
+/* Dataset table link button */
+.btn-xs {
+    font-size: 0.75rem;
+    padding: 0.1rem 0.3rem;
+}
+
 /* Stack tiles */
 .stack-tile {
     background: #f8f9fa;
