@@ -5,13 +5,6 @@ require_once __DIR__ . '/../includes/header.php';
 require_once __DIR__ . '/../includes/nav.php';
 ?>
 <main class="container py-5">
-    <?php
-    $heroTitle = 'Privacy Infographic';
-    $heroCaption = 'Data-handling model for user inputs, run logs, and optional analytics.';
-    $heroImageAlt = 'Privacy page infographic placeholder';
-    require __DIR__ . '/../includes/page-hero.php';
-    ?>
-
     <section class="content-card p-4 p-lg-5">
         <h2 class="section-title">Privacy Policy</h2>
         <p><strong>Last Updated: May 14, 2026</strong></p>
