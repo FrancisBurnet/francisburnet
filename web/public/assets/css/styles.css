@@ -67,6 +67,41 @@ body {
     border-radius: 0.75rem;
 }
 
+/* Stack tiles */
+.stack-tile {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    transition: box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.stack-tile:hover {
+    box-shadow: 0 4px 16px rgba(5, 13, 26, 0.10);
+    border-color: #328cc1;
+}
+
+.stack-tile-icon {
+    font-size: 1.6rem;
+    line-height: 1;
+}
+
+.stack-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 0.83rem;
+    color: #495057;
+}
+
+.stack-list li {
+    padding: 0.15rem 0;
+}
+
+.stack-list li::before {
+    content: '→ ';
+    color: #328cc1;
+    font-weight: 600;
+}
+
 .site-title {
     font-family: 'Source Serif 4', serif;
     font-size: clamp(1.8rem, 3vw, 3rem);
