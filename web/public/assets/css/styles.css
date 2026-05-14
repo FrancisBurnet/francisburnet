@@ -112,6 +112,11 @@ body {
     color: #aab4c4;
 }
 
+.playground-card .btn {
+    margin-top: auto;
+    align-self: flex-start;
+}
+
 .playground-icon {
     font-size: 1.8rem;
     line-height: 1;
