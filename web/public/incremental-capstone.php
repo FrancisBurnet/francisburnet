@@ -15,12 +15,12 @@ require_once __DIR__ . '/../includes/nav.php';
 
     <section class="content-card p-4 p-lg-5 mb-4">
         <h2 class="section-title">Incremental Capstone Hub</h2>
-        <p>Each session page follows the same structure: objective, requirement checklist, code walkthrough, parameter controls, and generated outputs, with source folders now staged inside the production tree for FrancisBurnet.</p>
+        <p>Each session page follows the same structure: objective, requirement checklist, code walkthrough, parameter controls, and generated outputs, with source folders staged inside the production tree for FrancisBurnet.</p>
         <div class="row g-3">
             <div class="col-lg-7">
-                <h3 class="h5">Capstone Template Ready</h3>
-                <p>This starter template demonstrates the full pattern for one capstone and can be cloned for sessions 1 to 12.</p>
-                <a class="btn btn-primary" href="capstone-template.php">Open Capstone Template</a>
+                <h3 class="h5">12 Sessions — One Continuous Build</h3>
+                <p>Every capstone builds on the last. Sessions 1–4 cover applied data science, sessions 5–9 cover machine learning, and sessions 10–12 cover deep learning — each with a live results feed and linked Jupyter notebook.</p>
+                <p class="mb-0 text-muted small">Select a session below to view its objective, dataset, and live model outputs.</p>
             </div>
             <div class="col-lg-5">
                 <div class="chart-shell">
