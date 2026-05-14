@@ -210,10 +210,10 @@ require_once __DIR__ . '/../includes/nav.php';
         <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
             <h2 class="section-title mb-0">Datasets Hosted on GitHub</h2>
             <a class="btn btn-sm btn-outline-dark"
-               href="https://github.com/FrancisBurnet/francisburnet/tree/main/FIRST_CLASS_DOCS/CAPSTONES-MACHINE_LEARNING"
+               href="https://github.com/FrancisBurnet/francisburnet/tree/main/Incremental%20Capstones"
                target="_blank" rel="noopener">Browse repo ↗</a>
         </div>
-        <p class="mb-4">All tabular datasets are version-controlled in the GitHub repo. Image datasets use Git LFS so notebook clones pull full binary data automatically — no manual download step.</p>
+        <p class="mb-4">All datasets are version-controlled directly in the GitHub repo alongside their notebooks. Image data uses Git LFS — notebook clones pull full binary data automatically, no manual download step.</p>
 
         <div class="table-responsive">
             <table class="table table-sm table-hover align-middle mb-0">
@@ -222,7 +222,7 @@ require_once __DIR__ . '/../includes/nav.php';
                         <th>Dataset</th>
                         <th>Rows / Size</th>
                         <th>Task</th>
-                        <th>Source</th>
+                        <th>Capstone</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -230,58 +230,58 @@ require_once __DIR__ . '/../includes/nav.php';
                     <tr>
                         <td><strong>Face Mask Images</strong></td>
                         <td>~12,000 images · 3 classes · Git LFS</td>
-                        <td>Image Classification</td>
-                        <td>Kaggle / custom</td>
-                        <td><a href="https://github.com/FrancisBurnet/francisburnet/tree/main/FrancisBurnetCom/Incremental%20Capstones/Deep%20Learning%20Specialization/Capstone%20Session%2010" target="_blank" rel="noopener" class="btn btn-xs btn-link p-0">↗</a></td>
+                        <td>Image Classification (EfficientNetB0 / ResNet50)</td>
+                        <td>Session 10 — Deep Learning</td>
+                        <td><a href="https://github.com/FrancisBurnet/francisburnet/tree/main/Incremental%20Capstones/Deep%20Learning%20Specialization/Capstone%20Session%2010" target="_blank" rel="noopener" class="btn btn-xs btn-link p-0">↗</a></td>
                     </tr>
                     <tr>
-                        <td><strong>Credit Card Fraud</strong></td>
-                        <td>284,807 rows · 31 features</td>
-                        <td>Anomaly / Binary Classification</td>
-                        <td>Kaggle / ULB</td>
-                        <td><a href="https://github.com/FrancisBurnet/francisburnet/blob/main/FIRST_CLASS_DOCS/CAPSTONES-MACHINE_LEARNING/credit_card_fraud.csv" target="_blank" rel="noopener" class="btn btn-xs btn-link p-0">↗</a></td>
+                        <td><strong>Florida Bike Rentals</strong></td>
+                        <td>17,379 rows · weather + time features</td>
+                        <td>Regression (Random Forest / Linear)</td>
+                        <td>Session 5 — Machine Learning</td>
+                        <td><a href="https://github.com/FrancisBurnet/francisburnet/blob/main/Incremental%20Capstones/Machine%20Learning%20Using%20Python/Capstone%20Session%205/FloridaBikeRentals.csv" target="_blank" rel="noopener" class="btn btn-xs btn-link p-0">↗</a></td>
                     </tr>
                     <tr>
-                        <td><strong>Diabetes (Pima Indians)</strong></td>
-                        <td>768 rows · 8 features</td>
-                        <td>Binary Classification</td>
-                        <td>UCI / Kaggle</td>
-                        <td><a href="https://github.com/FrancisBurnet/francisburnet/blob/main/FIRST_CLASS_DOCS/CAPSTONES-MACHINE_LEARNING/diabetes.csv" target="_blank" rel="noopener" class="btn btn-xs btn-link p-0">↗</a></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Mall Customers</strong></td>
-                        <td>200 rows · 5 features</td>
-                        <td>Clustering / Segmentation</td>
-                        <td>Kaggle</td>
-                        <td><a href="https://github.com/FrancisBurnet/francisburnet/blob/main/FIRST_CLASS_DOCS/CAPSTONES-MACHINE_LEARNING/Mall_customers.csv" target="_blank" rel="noopener" class="btn btn-xs btn-link p-0">↗</a></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Market Basket Optimisation</strong></td>
-                        <td>7,501 transactions</td>
-                        <td>Association Rules (Apriori)</td>
-                        <td>Kaggle</td>
-                        <td><a href="https://github.com/FrancisBurnet/francisburnet/blob/main/FIRST_CLASS_DOCS/CAPSTONES-MACHINE_LEARNING/Market_Basket_Optimisation.csv" target="_blank" rel="noopener" class="btn btn-xs btn-link p-0">↗</a></td>
-                    </tr>
-                    <tr>
-                        <td><strong>MNIST Handwritten Digits</strong></td>
-                        <td>70,000 images · 28×28 px</td>
-                        <td>Multi-class Classification (CNN)</td>
-                        <td>LeCun / Kaggle</td>
-                        <td><a href="https://github.com/FrancisBurnet/francisburnet/blob/main/FIRST_CLASS_DOCS/CAPSTONES-MACHINE_LEARNING/mnist.csv" target="_blank" rel="noopener" class="btn btn-xs btn-link p-0">↗</a></td>
-                    </tr>
-                    <tr>
-                        <td><strong>UCI Adult Census Income</strong></td>
+                        <td><strong>Adult Census Income</strong></td>
                         <td>48,842 rows · 14 features</td>
-                        <td>Binary Classification</td>
-                        <td>UCI ML Repository</td>
-                        <td><a href="https://github.com/FrancisBurnet/francisburnet/tree/main/MS_AI_Machine_Learning_Using_Python/Machine-Learning--Projects-master" target="_blank" rel="noopener" class="btn btn-xs btn-link p-0">↗</a></td>
+                        <td>Binary Classification (DT / LR / RF)</td>
+                        <td>Session 6 — Machine Learning</td>
+                        <td><a href="https://github.com/FrancisBurnet/francisburnet/blob/main/Incremental%20Capstones/Machine%20Learning%20Using%20Python/Capstone%20Session%206/adultcensusincome.csv" target="_blank" rel="noopener" class="btn btn-xs btn-link p-0">↗</a></td>
                     </tr>
                     <tr>
-                        <td><strong>UCI Bike Sharing</strong></td>
-                        <td>17,389 rows · 16 features</td>
-                        <td>Regression</td>
-                        <td>UCI ML Repository</td>
-                        <td><a href="https://github.com/FrancisBurnet/francisburnet/tree/main/MS_AI_Machine_Learning_Using_Python/Machine-Learning--Projects-master" target="_blank" rel="noopener" class="btn btn-xs btn-link p-0">↗</a></td>
+                        <td><strong>Credit Card (CC General)</strong></td>
+                        <td>Transactional · spending features</td>
+                        <td>Clustering / Unsupervised (K-Means, PCA)</td>
+                        <td>Session 7 — Machine Learning</td>
+                        <td><a href="https://github.com/FrancisBurnet/francisburnet/blob/main/Incremental%20Capstones/Machine%20Learning%20Using%20Python/Capstone%20Session%207/CC%20GENERAL.csv" target="_blank" rel="noopener" class="btn btn-xs btn-link p-0">↗</a></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Movies &amp; Ratings</strong></td>
+                        <td>User–item rating matrix</td>
+                        <td>Collaborative Filtering / Recommendation</td>
+                        <td>Session 8 — Machine Learning</td>
+                        <td><a href="https://github.com/FrancisBurnet/francisburnet/tree/main/Incremental%20Capstones/Machine%20Learning%20Using%20Python/Capstone%20Session%208" target="_blank" rel="noopener" class="btn btn-xs btn-link p-0">↗</a></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Churn Modeling</strong></td>
+                        <td>10,000 rows · customer demographics + account</td>
+                        <td>Binary Classification (ANN)</td>
+                        <td>Session 9 — Deep Learning</td>
+                        <td><a href="https://github.com/FrancisBurnet/francisburnet/blob/main/Incremental%20Capstones/Deep%20Learning%20Specialization/Capstone%20Session%209/Churn_Modeling.csv" target="_blank" rel="noopener" class="btn btn-xs btn-link p-0">↗</a></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Grammar &amp; Product Reviews</strong></td>
+                        <td>Text corpus · product review sentences</td>
+                        <td>Sentiment Analysis (LSTM / NLP)</td>
+                        <td>Session 11 — Deep Learning</td>
+                        <td><a href="https://github.com/FrancisBurnet/francisburnet/tree/main/Incremental%20Capstones/Deep%20Learning%20Specialization/Capstone%20Session%2011" target="_blank" rel="noopener" class="btn btn-xs btn-link p-0">↗</a></td>
+                    </tr>
+                    <tr>
+                        <td><strong>NSMES1988 (Health Survey)</strong></td>
+                        <td>Multi-year survey · health + socioeconomic</td>
+                        <td>EDA / Regression / Classification</td>
+                        <td>Sessions 1–4 — Applied Data Science</td>
+                        <td><a href="https://github.com/FrancisBurnet/francisburnet/blob/main/Incremental%20Capstones/Applied%20Data%20Science%20with%20Python/Capstone%201/NSMES1988.csv" target="_blank" rel="noopener" class="btn btn-xs btn-link p-0">↗</a></td>
                     </tr>
                 </tbody>
             </table>
