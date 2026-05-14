@@ -5,17 +5,19 @@ require_once __DIR__ . '/../includes/header.php';
 require_once __DIR__ . '/../includes/nav.php';
 ?>
 <main class="container py-5">
-    <?php
-    $heroTitle = 'Home Page Infographic';
-    $heroCaption = 'High-level visual story of the incremental capstone website concept.';
-    $heroImageAlt = 'Home page infographic placeholder';
-    require __DIR__ . '/../includes/page-hero.php';
-    ?>
+
+    <section class="content-card p-4 p-lg-5 mb-4 text-center">
+        <img
+            src="assets/images/fb-logo-long-dark.png"
+            alt="Francis Burnet – AI Engineering Portfolio"
+            class="home-hero-logo mb-4"
+        >
+        <p class="lead mb-0" style="max-width:52rem;margin:0 auto;">A production-facing portfolio that transforms class capstones into live, reviewable AI workflows across data science, machine learning, and deep learning.</p>
+    </section>
 
     <section class="content-card p-4 p-lg-5 mb-4">
-        <h2 class="section-title">Incremental Capstone Website Concept</h2>
-        <p>This website transforms class capstones into a production-facing portfolio where visitors can review the logic, trace the datasets, and inspect outputs across data science, machine learning, and deep learning work.</p>
-        <div class="row g-3">
+        <h2 class="section-title">What This Portfolio Does</h2>
+        <div class="row g-3 mt-1">
             <div class="col-md-4">
                 <div class="p-3 border rounded-3 h-100">
                     <h3 class="h5">Explain</h3>
@@ -25,7 +27,7 @@ require_once __DIR__ . '/../includes/nav.php';
             <div class="col-md-4">
                 <div class="p-3 border rounded-3 h-100">
                     <h3 class="h5">Run</h3>
-                    <p class="mb-0">Users can trigger Python-backed workflows from the front-end interface.</p>
+                    <p class="mb-0">Notebooks and live demos let visitors inspect the actual model outputs, not just screenshots.</p>
                 </div>
             </div>
             <div class="col-md-4">
@@ -39,7 +41,7 @@ require_once __DIR__ . '/../includes/nav.php';
 
     <section class="content-card p-4 p-lg-5">
         <h2 class="section-title">Quick Launch</h2>
-        <p>Use these entry points to begin building your incremental capstone portfolio.</p>
+        <p>Use these entry points to explore the incremental capstone portfolio.</p>
         <div class="d-flex flex-wrap gap-2">
             <a class="btn btn-primary" href="incremental-capstone.php">Open Incremental Capstone Hub</a>
             <a class="btn btn-outline-dark" href="projects.php">Open Projects</a>

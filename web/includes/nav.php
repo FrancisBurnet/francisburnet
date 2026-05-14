@@ -8,6 +8,9 @@ $currentSubPage = $currentSubPage ?? '';
 ?>
 <nav class="navbar navbar-expand-lg nav-shell sticky-top">
     <div class="container">
+        <a class="navbar-brand me-3" href="/">
+            <img src="assets/images/fb-monogram.png" alt="FB" class="nav-brand-logo">
+        </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>

@@ -19,7 +19,7 @@ body {
 }
 
 .hero-shell {
-    background: linear-gradient(120deg, #0b3c5d 0%, #328cc1 45%, #d9b310 100%);
+    background: #050d1a;
     color: #fff;
     position: relative;
     overflow: hidden;
@@ -32,8 +32,39 @@ body {
     top: -4rem;
     width: 16rem;
     height: 16rem;
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(50, 140, 193, 0.12);
     border-radius: 50%;
+}
+
+.header-logo-link {
+    display: inline-block;
+    line-height: 0;
+}
+
+.header-logo-long {
+    height: clamp(3.5rem, 8vw, 6rem);
+    width: auto;
+    display: block;
+}
+
+.header-page-tagline {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.nav-brand-logo {
+    height: 2rem;
+    width: auto;
+}
+
+.home-hero-logo {
+    max-width: min(680px, 90%);
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    border-radius: 0.75rem;
 }
 
 .site-title {
@@ -288,11 +319,36 @@ body {
     flex: 1 1 14rem;
 }
 
+.interactive-lab-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.45rem 0.75rem;
+    border-radius: 999px;
+    border: 1px solid rgba(11, 60, 93, 0.25);
+    background: rgba(11, 60, 93, 0.08);
+    color: #0b3c5d;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+}
+
 .interactive-lab-shell {
     border: 1px solid #dbe4ee;
     border-radius: 1rem;
     overflow: hidden;
     background: linear-gradient(180deg, rgba(11, 60, 93, 0.08) 0%, rgba(50, 140, 193, 0.08) 100%);
+}
+
+.lab-header {
+    padding: 0.9rem 1rem;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.35);
+    background: linear-gradient(90deg, rgba(11, 60, 93, 0.14) 0%, rgba(50, 140, 193, 0.09) 100%);
+}
+
+.lab-header p {
+    color: #334155;
+    line-height: 1.45;
 }
 
 .interactive-lab-frame,
@@ -309,6 +365,19 @@ body {
 
 .teachable-machine-frame {
     min-height: 72rem;
+}
+
+.teachable-machine-frame--demo {
+    min-height: 54rem;
+}
+
+.teachable-machine-frame--trainer {
+    min-height: 54rem;
+}
+
+.training-walkthrough {
+    border: 1px solid #dbe4ee;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.97) 0%, rgba(236, 246, 255, 0.9) 100%);
 }
 
 .status-note {
@@ -414,6 +483,11 @@ body {
 
     .teachable-machine-frame {
         min-height: 60rem;
+    }
+
+    .teachable-machine-frame--demo,
+    .teachable-machine-frame--trainer {
+        min-height: 42rem;
     }
 }
 
