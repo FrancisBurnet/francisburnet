@@ -1,7 +1,8 @@
 {
   "source_counts": {
     "with_mask": 3725,
-    "without_mask": 3828
+    "without_mask": 3828,
+    "mask_worn_incorrect": 1815
   },
   "generated_counts": {
     "with_mask": {
@@ -11,73 +12,90 @@
     "without_mask": {
       "train": 120,
       "test": 30
+    },
+    "mask_worn_incorrect": {
+      "train": 120,
+      "test": 30
     }
   },
   "class_indices": {
-    "with_mask": 0,
-    "without_mask": 1
+    "mask_worn_incorrect": 0,
+    "with_mask": 1,
+    "without_mask": 2
   },
-  "pdf_mismatch_notes": [
-    "The copied PDF expects train/test folders, but the staged source only provided data/with_mask and data/without_mask.",
-    "The copied PDF expects a 3-neuron softmax head, but the staged source is a 2-class dataset, so the executed models use a 2-neuron softmax head.",
+  "pdf_expected_classes": [
+    "with_mask",
+    "without_mask",
+    "mask_worn_incorrect"
+  ],
+  "available_source_classes": [
+    "mask_worn_incorrect",
+    "with_mask",
+    "without_mask"
+  ],
+  "missing_pdf_classes_from_source": [],
+  "source_governance_notes": [
+    "PDF directions are the source of truth for task sequence and deliverables (Task A, Task B, Task C).",
+    "GitHub-backed dataset assets are the source of truth for notebook inputs per Project_DEV_Rules_PROMPT.md.",
+    "When PDF-expected classes are missing from source files, execution uses available classes and records the gap explicitly.",
     "The generated train/test split is a fixed stratified sample to keep transfer-learning runs executable on the current CPU-only environment."
   ],
   "model_results": [
     {
       "model": "EfficientNetB0",
-      "epochs_ran": 24,
-      "test_loss": 0.693286120891571,
-      "test_accuracy": 0.5
+      "epochs_ran": 15,
+      "test_loss": 1.0972731113433838,
+      "test_accuracy": 0.3333333432674408
     },
     {
       "model": "ResNet50",
-      "epochs_ran": 25,
-      "test_loss": 0.6888409852981567,
-      "test_accuracy": 0.550000011920929
+      "epochs_ran": 24,
+      "test_loss": 0.7665861248970032,
+      "test_accuracy": 0.6555555462837219
     }
   ],
   "best_model": {
     "model": "ResNet50",
-    "epochs_ran": 25,
-    "test_loss": 0.6888409852981567,
-    "test_accuracy": 0.550000011920929
+    "epochs_ran": 24,
+    "test_loss": 0.7665861248970032,
+    "test_accuracy": 0.6555555462837219
   },
   "best_model_example_predictions": {
     "filenames": [
-      "with_mask\\with_mask_1128.jpg",
-      "with_mask\\with_mask_1151.jpg",
-      "with_mask\\with_mask_1314.jpg",
-      "with_mask\\with_mask_1338.jpg",
-      "with_mask\\with_mask_147.jpg",
-      "with_mask\\with_mask_1573.jpg",
-      "with_mask\\with_mask_1659.jpg",
-      "with_mask\\with_mask_1757.jpg",
-      "with_mask\\with_mask_1823.jpg",
-      "with_mask\\with_mask_2066.jpg"
+      "mask_worn_incorrect\\1010.png",
+      "mask_worn_incorrect\\1014.png",
+      "mask_worn_incorrect\\1059.png",
+      "mask_worn_incorrect\\1078.png",
+      "mask_worn_incorrect\\1146.png",
+      "mask_worn_incorrect\\1220.png",
+      "mask_worn_incorrect\\1237.png",
+      "mask_worn_incorrect\\143.png",
+      "mask_worn_incorrect\\1610.png",
+      "mask_worn_incorrect\\1631.png"
     ],
     "true_labels": [
-      "with_mask",
-      "with_mask",
-      "with_mask",
-      "with_mask",
-      "with_mask",
-      "with_mask",
-      "with_mask",
-      "with_mask",
-      "with_mask",
-      "with_mask"
+      "mask_worn_incorrect",
+      "mask_worn_incorrect",
+      "mask_worn_incorrect",
+      "mask_worn_incorrect",
+      "mask_worn_incorrect",
+      "mask_worn_incorrect",
+      "mask_worn_incorrect",
+      "mask_worn_incorrect",
+      "mask_worn_incorrect",
+      "mask_worn_incorrect"
     ],
     "predicted_labels": [
-      "without_mask",
-      "without_mask",
-      "with_mask",
-      "without_mask",
-      "without_mask",
-      "without_mask",
-      "with_mask",
-      "without_mask",
-      "without_mask",
-      "with_mask"
+      "mask_worn_incorrect",
+      "mask_worn_incorrect",
+      "mask_worn_incorrect",
+      "mask_worn_incorrect",
+      "mask_worn_incorrect",
+      "mask_worn_incorrect",
+      "mask_worn_incorrect",
+      "mask_worn_incorrect",
+      "mask_worn_incorrect",
+      "mask_worn_incorrect"
     ]
   }
 }

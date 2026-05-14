@@ -1,0 +1,11 @@
+{
+  "model": "ResNet50",
+  "test_loss": 0.6833835244178772,
+  "test_accuracy": 0.5833333134651184,
+  "epochs_ran": 25,
+  "labels": [
+    "with_mask",
+    "without_mask"
+  ],
+  "output_dir": "X:\\SIMPLILEARN\\FrancisBurnetCom\\web\\public\\assets\\models\\session-10-capstone-resnet50"
+}
