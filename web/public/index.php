@@ -295,7 +295,7 @@ require_once __DIR__ . '/../includes/nav.php';
 
         <div class="row g-4 mb-4">
             <!-- Mask Detector Demo -->
-            <div class="col-lg-6">
+            <div class="col-lg-4">
                 <div class="playground-card h-100 p-3 rounded-3">
                     <div class="playground-icon">🎭</div>
                     <h3 class="h6 fw-bold mt-2 mb-1">Face Mask Detector — Live</h3>
@@ -303,8 +303,17 @@ require_once __DIR__ . '/../includes/nav.php';
                     <a class="btn btn-primary btn-sm" href="assets/demos/session-10-maskdetector.html" target="_blank">Open Mask Demo ↗</a>
                 </div>
             </div>
+            <!-- Teachable Machine -->
+            <div class="col-lg-4">
+                <div class="playground-card h-100 p-3 rounded-3">
+                    <div class="playground-icon">🧠</div>
+                    <h3 class="h6 fw-bold mt-2 mb-1">Teachable Machine — Mask Detector</h3>
+                    <p class="small mb-3">The same 3-class face-mask demo running the locally-hosted Teachable Machine model. Test with webcam or uploaded images — no external service required.</p>
+                    <a class="btn btn-outline-primary btn-sm" href="assets/demos/session-10-maskdetector.html?model=tm" target="_blank">Open TM Mask Demo ↗</a>
+                </div>
+            </div>
             <!-- TF Playground -->
-            <div class="col-lg-6">
+            <div class="col-lg-4">
                 <div class="playground-card h-100 p-3 rounded-3">
                     <div class="playground-icon">🔬</div>
                     <h3 class="h6 fw-bold mt-2 mb-1">TensorFlow Playground</h3>
