@@ -321,8 +321,12 @@ foreach ($extraAssetLinks as $asset) {
         Loaded preset: <?php echo htmlspecialchars((string) ($interactiveLabPresets[0]['label'] ?? 'Default preset'), ENT_QUOTES, 'UTF-8'); ?>
     </div>
     <p class="embed-orientation-hint mb-2">On mobile, swipe left/right to use the full TensorFlow embed. For the best experience, rotate your phone 90 degrees to landscape.</p>
-    <div class="interactive-lab-shell">
+    <div class="interactive-lab-shell js-embed-scroll-shell" id="<?php echo htmlspecialchars($interactiveLabFrameId, ENT_QUOTES, 'UTF-8'); ?>-shell">
         <iframe class="interactive-lab-frame" name="<?php echo htmlspecialchars($interactiveLabFrameId, ENT_QUOTES, 'UTF-8'); ?>" src="<?php echo htmlspecialchars((string) $interactiveLab['embedUrl'], ENT_QUOTES, 'UTF-8'); ?>" title="<?php echo htmlspecialchars($capstoneProject['label'] . ' Interactive Lab', ENT_QUOTES, 'UTF-8'); ?>" loading="lazy"></iframe>
+    </div>
+    <div class="embed-scroll-controls mt-2" aria-label="Embed horizontal scroll controls">
+        <button type="button" class="btn btn-outline-dark btn-sm js-embed-scroll" data-target="<?php echo htmlspecialchars($interactiveLabFrameId, ENT_QUOTES, 'UTF-8'); ?>-shell" data-direction="left">Scroll Left</button>
+        <button type="button" class="btn btn-outline-dark btn-sm js-embed-scroll" data-target="<?php echo htmlspecialchars($interactiveLabFrameId, ENT_QUOTES, 'UTF-8'); ?>-shell" data-direction="right">Scroll Right</button>
     </div>
     <div class="artifact-actions mt-3">
         <?php if (!empty($interactiveLab['launchUrl'])): ?>
@@ -340,6 +344,18 @@ foreach ($extraAssetLinks as $asset) {
         var presetButtons = document.querySelectorAll('.js-interactive-lab-preset[data-frame="<?php echo htmlspecialchars($interactiveLabFrameId, ENT_QUOTES, 'UTF-8'); ?>"]');
         var frame = document.querySelector('iframe[name="' + frameName + '"]');
         var status = document.getElementById(frameName + '-status');
+        var scrollButtons = document.querySelectorAll('.js-embed-scroll[data-target="<?php echo htmlspecialchars($interactiveLabFrameId, ENT_QUOTES, 'UTF-8'); ?>-shell"]');
+        scrollButtons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                var direction = button.getAttribute('data-direction') === 'left' ? -1 : 1;
+                var shell = document.getElementById('<?php echo htmlspecialchars($interactiveLabFrameId, ENT_QUOTES, 'UTF-8'); ?>-shell');
+                if (!shell) {
+                    return;
+                }
+                var step = Math.max(220, Math.floor(shell.clientWidth * 0.6));
+                shell.scrollBy({ left: step * direction, behavior: 'smooth' });
+            });
+        });
         if (!presetButtons.length) {
             return;
         }

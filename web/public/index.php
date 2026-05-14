@@ -329,7 +329,7 @@ require_once __DIR__ . '/../includes/nav.php';
         <div>
             <p class="small text-muted mb-2">TensorFlow Playground — embedded below. Use the controls inside the frame to experiment.</p>
             <p class="embed-orientation-hint mb-2">On mobile, swipe left/right to use the full TensorFlow embed. For the best experience, rotate your phone 90 degrees to landscape.</p>
-            <div class="tf-playground-shell">
+            <div class="tf-playground-shell js-embed-scroll-shell" id="home-tf-playground-shell">
                 <iframe
                     src="https://playground.tensorflow.org/"
                     class="tf-playground-frame"
@@ -340,8 +340,30 @@ require_once __DIR__ . '/../includes/nav.php';
                     allowfullscreen
                 ></iframe>
             </div>
+            <div class="embed-scroll-controls mt-2" aria-label="Embed horizontal scroll controls">
+                <button type="button" class="btn btn-outline-dark btn-sm js-embed-scroll" data-target="home-tf-playground-shell" data-direction="left">Scroll Left</button>
+                <button type="button" class="btn btn-outline-dark btn-sm js-embed-scroll" data-target="home-tf-playground-shell" data-direction="right">Scroll Right</button>
+            </div>
         </div>
     </section>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var controls = document.querySelectorAll('.js-embed-scroll');
+        controls.forEach(function (button) {
+            button.addEventListener('click', function () {
+                var targetId = button.getAttribute('data-target');
+                var direction = button.getAttribute('data-direction') === 'left' ? -1 : 1;
+                var shell = document.getElementById(targetId);
+                if (!shell) {
+                    return;
+                }
+                var step = Math.max(220, Math.floor(shell.clientWidth * 0.6));
+                shell.scrollBy({ left: step * direction, behavior: 'smooth' });
+            });
+        });
+    });
+    </script>
 
     <section class="content-card p-4 p-lg-5 mb-4">
         <h2 class="section-title">What This Portfolio Does</h2>

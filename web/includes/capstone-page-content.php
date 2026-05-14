@@ -273,7 +273,7 @@ require __DIR__ . '/page-hero.php';
         </div>
     <?php endif; ?>
     <p class="embed-orientation-hint mb-2">On mobile, swipe left/right to use the full TensorFlow embed. For the best experience, rotate your phone 90 degrees to landscape.</p>
-    <div class="interactive-lab-shell">
+    <div class="interactive-lab-shell js-embed-scroll-shell" id="<?php echo htmlspecialchars($interactiveLabFrameId, ENT_QUOTES, 'UTF-8'); ?>-shell">
         <iframe
             class="interactive-lab-frame"
             name="<?php echo htmlspecialchars($interactiveLabFrameId, ENT_QUOTES, 'UTF-8'); ?>"
@@ -281,6 +281,10 @@ require __DIR__ . '/page-hero.php';
             title="<?php echo htmlspecialchars($capstoneProject['label'] . ' Interactive Lab', ENT_QUOTES, 'UTF-8'); ?>"
             loading="lazy"
         ></iframe>
+    </div>
+    <div class="embed-scroll-controls mt-2" aria-label="Embed horizontal scroll controls">
+        <button type="button" class="btn btn-outline-dark btn-sm js-embed-scroll" data-target="<?php echo htmlspecialchars($interactiveLabFrameId, ENT_QUOTES, 'UTF-8'); ?>-shell" data-direction="left">Scroll Left</button>
+        <button type="button" class="btn btn-outline-dark btn-sm js-embed-scroll" data-target="<?php echo htmlspecialchars($interactiveLabFrameId, ENT_QUOTES, 'UTF-8'); ?>-shell" data-direction="right">Scroll Right</button>
     </div>
     <div class="artifact-actions mt-3">
         <?php if (!empty($interactiveLab['launchUrl'])): ?>
@@ -296,6 +300,24 @@ require __DIR__ . '/page-hero.php';
     <?php endif; ?>
 </section>
 <?php endif; ?>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var controls = document.querySelectorAll('.js-embed-scroll');
+    controls.forEach(function (button) {
+        button.addEventListener('click', function () {
+            var targetId = button.getAttribute('data-target');
+            var direction = button.getAttribute('data-direction') === 'left' ? -1 : 1;
+            var shell = document.getElementById(targetId);
+            if (!shell) {
+                return;
+            }
+            var step = Math.max(220, Math.floor(shell.clientWidth * 0.6));
+            shell.scrollBy({ left: step * direction, behavior: 'smooth' });
+        });
+    });
+});
+</script>
 
 <section class="content-card p-4 p-lg-5 mb-4">
     <h2 class="section-title">Colab Notebook</h2>

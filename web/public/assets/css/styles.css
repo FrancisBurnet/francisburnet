@@ -134,6 +134,15 @@ body {
     padding: 0.55rem 0.75rem;
 }
 
+.embed-scroll-controls {
+    display: none;
+    gap: 0.5rem;
+}
+
+.embed-scroll-controls .btn {
+    flex: 1 1 auto;
+}
+
 .tf-playground-shell {
     position: relative;
     width: 100%;
@@ -598,6 +607,10 @@ body {
 @media (max-width: 1024px), (hover: none) and (pointer: coarse) {
     .embed-orientation-hint {
         display: block;
+    }
+
+    .embed-scroll-controls {
+        display: flex;
     }
 
     .tf-playground-shell,
