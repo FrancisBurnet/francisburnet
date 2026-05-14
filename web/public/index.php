@@ -295,31 +295,20 @@ require_once __DIR__ . '/../includes/nav.php';
 
         <div class="row g-4 mb-4">
             <!-- Mask Detector Demo -->
-            <div class="col-lg-4">
+            <div class="col-lg-6">
                 <div class="playground-card h-100 p-3 rounded-3">
                     <div class="playground-icon">🎭</div>
                     <h3 class="h6 fw-bold mt-2 mb-1">Face Mask Detector — Live</h3>
-                    <p class="small mb-3">Upload an image or use your webcam to run the 3-class ResNet50 capstone model AND the Teachable Machine model in real time — fully in-browser via TensorFlow.js.</p>
+                    <p class="small mb-3">Upload an image or use your webcam to run the 3-class ResNet50 capstone model in real time — fully in-browser via TensorFlow.js. Classifies <em>with_mask</em>, <em>without_mask</em>, and <em>mask_worn_incorrect</em>.</p>
                     <a class="btn btn-primary btn-sm" href="assets/demos/session-10-maskdetector.html" target="_blank">Open Mask Demo ↗</a>
                 </div>
             </div>
-            <!-- Teachable Machine -->
-            <div class="col-lg-4">
-                <div class="playground-card h-100 p-3 rounded-3">
-                    <div class="playground-icon">🧠</div>
-                    <h3 class="h6 fw-bold mt-2 mb-1">Teachable Machine — Model</h3>
-                    <p class="small mb-3">The 3-class face-mask Teachable Machine model trained for this project. Open in Google's Teachable Machine interface to inspect classes, test samples, or export your own version.</p>
-                    <a class="btn btn-outline-primary btn-sm"
-                       href="https://teachablemachine.withgoogle.com/models/pYkaS3Vbs/"
-                       target="_blank" rel="noopener">Open in Teachable Machine ↗</a>
-                </div>
-            </div>
             <!-- TF Playground -->
-            <div class="col-lg-4">
+            <div class="col-lg-6">
                 <div class="playground-card h-100 p-3 rounded-3">
                     <div class="playground-icon">🔬</div>
                     <h3 class="h6 fw-bold mt-2 mb-1">TensorFlow Playground</h3>
-                    <p class="small mb-3">Google's browser-based neural network sandbox. Adjust layers, activations, learning rate, and dataset interactively — watch the decision boundary form in real time.</p>
+                    <p class="small mb-3">Google's browser-based neural network sandbox. Adjust layers, activations, learning rate, and dataset interactively — watch the decision boundary form in real time. Embedded full-size below.</p>
                     <a class="btn btn-outline-secondary btn-sm"
                        href="https://playground.tensorflow.org/"
                        target="_blank" rel="noopener">Open TF Playground ↗</a>
