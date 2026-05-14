@@ -1,0 +1,611 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Session 10 Mask Detector</title>
+    <style>
+        :root {
+            --bg: #f5f8fc;
+            --card: #ffffff;
+            --card-soft: #f8fbff;
+            --ink: #0f172a;
+            --muted: #475569;
+            --brand: #0b3c5d;
+            --brand-soft: #dbeafe;
+            --line: #dbe4ee;
+            --accent: #e8f3ec;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background: radial-gradient(circle at top left, #edf5ff 0%, var(--bg) 45%, #eef8f0 100%);
+            color: var(--ink);
+            min-height: 100vh;
+        }
+
+        .shell {
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            padding: 1rem;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.35rem 0.65rem;
+            border-radius: 999px;
+            background: var(--brand-soft);
+            color: var(--brand);
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            margin: 0.7rem 0 0.35rem;
+            font-size: 1.5rem;
+            color: var(--brand);
+        }
+
+        p {
+            margin: 0.35rem 0;
+            color: var(--muted);
+            line-height: 1.5;
+        }
+
+        .controls {
+            margin-top: 0.95rem;
+            display: flex;
+            gap: 0.65rem;
+            flex-wrap: wrap;
+        }
+
+        button {
+            border: 1px solid var(--brand);
+            background: var(--brand);
+            color: #fff;
+            font-weight: 700;
+            padding: 0.6rem 1rem;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        button.secondary {
+            background: #fff;
+            color: var(--brand);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .status {
+            margin-top: 0.9rem;
+            padding: 0.8rem 0.9rem;
+            background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+            border: 1px dashed #cbd5e1;
+            border-radius: 12px;
+            font-size: 0.94rem;
+        }
+
+        .stage {
+            margin-top: 1rem;
+            display: grid;
+            grid-template-columns: minmax(260px, 320px) 1fr;
+            gap: 1rem;
+            align-items: start;
+        }
+
+        .viewer-panel,
+        .results-panel,
+        .sample-panel {
+            background: var(--card-soft);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 0.85rem;
+        }
+
+        .panel-title {
+            margin: 0 0 0.65rem;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--brand);
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        #viewer {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 280px;
+            border-radius: 12px;
+            border: 1px solid var(--line);
+            background: #fff;
+            overflow: hidden;
+        }
+
+        #viewer canvas,
+        #viewer img {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+            display: block;
+            object-fit: cover;
+        }
+
+        #label-container {
+            display: grid;
+            gap: 0.55rem;
+        }
+
+        .prediction {
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            padding: 0.7rem 0.8rem;
+            background: #fff;
+            font-size: 0.95rem;
+            color: #1f2937;
+        }
+
+        .prediction strong {
+            color: var(--brand);
+        }
+
+        .sample-panel {
+            margin-top: 1rem;
+        }
+
+        .sample-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 0.75rem;
+        }
+
+        .sample-card {
+            padding: 0;
+            overflow: hidden;
+            border-radius: 14px;
+            border: 1px solid var(--line);
+            background: #fff;
+            color: inherit;
+            text-align: left;
+        }
+
+        .sample-card.active {
+            outline: 2px solid #2563eb;
+            outline-offset: 2px;
+        }
+
+        .sample-card img {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            display: block;
+        }
+
+        .sample-card-body {
+            padding: 0.65rem 0.7rem 0.8rem;
+        }
+
+        .sample-card-title {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--brand);
+        }
+
+        .sample-card-note {
+            display: block;
+            margin-top: 0.2rem;
+            font-size: 0.8rem;
+            color: var(--muted);
+        }
+
+        @media (max-width: 860px) {
+            .stage {
+                grid-template-columns: 1fr;
+            }
+
+            .sample-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 560px) {
+            .sample-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="shell">
+    <div class="card">
+        <span id="eyebrow" class="eyebrow">Live Demo</span>
+        <h1 id="demoTitle">Mask Detection Demo</h1>
+        <p id="demoDescription">This panel lets visitors test the Session 10 model without needing their own dataset. Try one of the built-in samples, upload a single image, or optionally use a webcam.</p>
+
+        <div class="controls">
+            <button id="uploadBtn" type="button">Upload An Image</button>
+            <button id="startBtn" type="button" class="secondary">Use Webcam</button>
+            <button id="stopBtn" type="button" class="secondary" disabled>Stop Webcam</button>
+            <input id="imageInput" type="file" accept="image/*" hidden>
+        </div>
+
+        <div id="status" class="status">Loading model and preparing the default sample...</div>
+
+        <div class="stage">
+            <div class="viewer-panel">
+                <div class="panel-title">Preview</div>
+                <div id="viewer"></div>
+            </div>
+            <div class="results-panel">
+                <div class="panel-title">Predictions</div>
+                <div id="label-container"></div>
+            </div>
+        </div>
+
+        <div class="sample-panel">
+            <div class="panel-title">Try Built-In Samples</div>
+            <div id="sampleGrid" class="sample-grid"></div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
+<script>
+    const sampleImages = [
+        {
+            label: 'With Mask Sample A',
+            note: 'Generated test image',
+            src: '/artifact.php?path=Incremental%20Capstones%2FDeep%20Learning%20Specialization%2FCapstone%20Session%2010%2Foutputs%2Fgenerated_split%2Ftest%2Fwith_mask%2Fwith_mask_1128.jpg'
+        },
+        {
+            label: 'With Mask Sample B',
+            note: 'Generated test image',
+            src: '/artifact.php?path=Incremental%20Capstones%2FDeep%20Learning%20Specialization%2FCapstone%20Session%2010%2Foutputs%2Fgenerated_split%2Ftest%2Fwith_mask%2Fwith_mask_1659.jpg'
+        },
+        {
+            label: 'With Mask Sample C',
+            note: 'Generated test image',
+            src: '/artifact.php?path=Incremental%20Capstones%2FDeep%20Learning%20Specialization%2FCapstone%20Session%2010%2Foutputs%2Fgenerated_split%2Ftest%2Fwith_mask%2Fwith_mask_3334.jpg'
+        },
+        {
+            label: 'Without Mask Sample A',
+            note: 'Generated test image',
+            src: '/artifact.php?path=Incremental%20Capstones%2FDeep%20Learning%20Specialization%2FCapstone%20Session%2010%2Foutputs%2Fgenerated_split%2Ftest%2Fwithout_mask%2Fwithout_mask_1066.jpg'
+        },
+        {
+            label: 'Without Mask Sample B',
+            note: 'Generated test image',
+            src: '/artifact.php?path=Incremental%20Capstones%2FDeep%20Learning%20Specialization%2FCapstone%20Session%2010%2Foutputs%2Fgenerated_split%2Ftest%2Fwithout_mask%2Fwithout_mask_1762.jpg'
+        },
+        {
+            label: 'Without Mask Sample C',
+            note: 'Generated test image',
+            src: '/artifact.php?path=Incremental%20Capstones%2FDeep%20Learning%20Specialization%2FCapstone%20Session%2010%2Foutputs%2Fgenerated_split%2Ftest%2Fwithout_mask%2Fwithout_mask_3224.jpg'
+        },
+        {
+            label: 'Mask Worn Incorrectly Sample A',
+            note: 'Generated test image',
+            src: '/artifact.php?path=Incremental%20Capstones%2FDeep%20Learning%20Specialization%2FCapstone%20Session%2010%2Foutputs%2Fgenerated_split%2Ftest%2Fmask_worn_incorrect%2F1010.png'
+        },
+        {
+            label: 'Mask Worn Incorrectly Sample B',
+            note: 'Generated test image',
+            src: '/artifact.php?path=Incremental%20Capstones%2FDeep%20Learning%20Specialization%2FCapstone%20Session%2010%2Foutputs%2Fgenerated_split%2Ftest%2Fmask_worn_incorrect%2F1059.png'
+        },
+        {
+            label: 'Mask Worn Incorrectly Sample C',
+            note: 'Generated test image',
+            src: '/artifact.php?path=Incremental%20Capstones%2FDeep%20Learning%20Specialization%2FCapstone%20Session%2010%2Foutputs%2Fgenerated_split%2Ftest%2Fmask_worn_incorrect%2F1146.png'
+        }
+    ];
+
+    let model;
+    let modelMetadata;
+    let webcam;
+    let labelContainer;
+    let maxPredictions = 0;
+    let isRunning = false;
+    const params = new URLSearchParams(window.location.search);
+    const frameId = params.get('frameId') || '';
+    const modelEngine = (params.get('engine') || (params.get('model') ? 'tm' : 'capstone')).toLowerCase();
+    const defaultTitle = modelEngine === 'capstone' ? 'Capstone ResNet50 Demo' : 'Teachable Machine Demo';
+    const defaultEyebrow = modelEngine === 'capstone' ? 'Our Model' : 'Teachable Machine';
+    const defaultDescription = modelEngine === 'capstone'
+        ? 'This panel runs the exported Session 10 ResNet50 capstone model in the browser so visitors can compare it directly against the Teachable Machine version.'
+        : 'This panel runs the hosted Teachable Machine version so visitors can compare it against the formal capstone export.';
+
+    const viewer = document.getElementById('viewer');
+    const sampleGrid = document.getElementById('sampleGrid');
+    const startBtn = document.getElementById('startBtn');
+    const stopBtn = document.getElementById('stopBtn');
+    const uploadBtn = document.getElementById('uploadBtn');
+    const imageInput = document.getElementById('imageInput');
+    const statusEl = document.getElementById('status');
+
+    function formatLabel(label) {
+        return String(label)
+            .replace(/[_-]+/g, ' ')
+            .replace(/\b\w/g, (letter) => letter.toUpperCase());
+    }
+
+    function applyFrameConfig() {
+        document.getElementById('eyebrow').textContent = params.get('eyebrow') || defaultEyebrow;
+        document.getElementById('demoTitle').textContent = params.get('title') || defaultTitle;
+        document.getElementById('demoDescription').textContent = params.get('description') || defaultDescription;
+    }
+
+    function notifyParentHeight() {
+        const height = Math.max(
+            document.body ? document.body.scrollHeight : 0,
+            document.documentElement ? document.documentElement.scrollHeight : 0
+        );
+        if (window.parent && window.parent !== window) {
+            window.parent.postMessage({ type: 'session10-demo-height', frameId, height }, '*');
+        }
+    }
+
+    function getModelBaseUrl() {
+        const sharedModelUrl = params.get('model');
+        if (sharedModelUrl && sharedModelUrl.trim()) {
+            return sharedModelUrl.endsWith('/') ? sharedModelUrl : sharedModelUrl + '/';
+        }
+        return modelEngine === 'capstone'
+            ? '/assets/models/session-10-capstone-resnet50/'
+            : '/assets/models/session-10-maskdetector/';
+    }
+
+    async function predictWithCapstoneModel(element) {
+        const imageSize = Array.isArray(modelMetadata && modelMetadata.imageSize) ? modelMetadata.imageSize : [128, 128];
+        const labels = Array.isArray(modelMetadata && modelMetadata.labels) ? modelMetadata.labels : ['with_mask', 'without_mask', 'mask_worn_incorrect'];
+        const probabilities = tf.tidy(() => {
+            const imageTensor = tf.browser.fromPixels(element)
+                .resizeBilinear(imageSize)
+                .toFloat()
+                .div(255)
+                .reverse(-1)
+                .sub(tf.tensor1d([103.939, 116.779, 123.68]))
+                .expandDims(0);
+            const output = model.predict(imageTensor);
+            return Array.from(output.dataSync());
+        });
+
+        return labels.map((label, index) => ({
+            className: formatLabel(label),
+            probability: probabilities[index] || 0
+        }));
+    }
+
+    async function ensureModelLoaded() {
+        if (model) {
+            return;
+        }
+
+        const baseUrl = getModelBaseUrl();
+        const modelURL = baseUrl + 'model.json';
+        const metadataURL = baseUrl + 'metadata.json';
+
+        if (modelEngine === 'capstone') {
+            const metadataResponse = await fetch(metadataURL, { cache: 'no-store' });
+            if (!metadataResponse.ok) {
+                throw new Error('Could not load capstone metadata.');
+            }
+            modelMetadata = await metadataResponse.json();
+            model = await tf.loadLayersModel(modelURL, { onProgress: null });
+            maxPredictions = Array.isArray(modelMetadata.labels) ? modelMetadata.labels.length : 2;
+        } else {
+            model = await tmImage.load(modelURL, metadataURL);
+            maxPredictions = model.getTotalClasses();
+        }
+
+        labelContainer = document.getElementById('label-container');
+        labelContainer.innerHTML = '';
+        for (let index = 0; index < maxPredictions; index += 1) {
+            const row = document.createElement('div');
+            row.className = 'prediction';
+            row.innerHTML = '<strong>Loading</strong><br>Waiting for prediction...';
+            labelContainer.appendChild(row);
+        }
+    }
+
+    function renderPredictions(prediction) {
+        prediction.sort((left, right) => right.probability - left.probability);
+        prediction.forEach((item, index) => {
+            labelContainer.childNodes[index].innerHTML = '<strong>' + item.className + '</strong><br>' + (item.probability * 100).toFixed(1) + '% confidence';
+        });
+        notifyParentHeight();
+    }
+
+    function clearViewer() {
+        viewer.innerHTML = '';
+        notifyParentHeight();
+    }
+
+    function stopWebcam() {
+        if (!isRunning) {
+            return;
+        }
+        isRunning = false;
+        startBtn.disabled = false;
+        stopBtn.disabled = true;
+        if (webcam) {
+            webcam.stop();
+        }
+    }
+
+    function setActiveSample(sourceUrl) {
+        document.querySelectorAll('.sample-card').forEach((card) => {
+            card.classList.toggle('active', card.getAttribute('data-src') === sourceUrl);
+        });
+    }
+
+    async function predictFromElement(element, statusMessage) {
+        await ensureModelLoaded();
+        const prediction = modelEngine === 'capstone'
+            ? await predictWithCapstoneModel(element)
+            : await model.predict(element);
+        renderPredictions(prediction);
+        statusEl.textContent = statusMessage;
+    }
+
+    async function predictFromSample(sourceUrl, label) {
+        stopWebcam();
+        setActiveSample(sourceUrl);
+        clearViewer();
+
+        const image = new Image();
+        image.alt = label;
+
+        await new Promise((resolve, reject) => {
+            image.onload = resolve;
+            image.onerror = reject;
+            image.src = sourceUrl;
+        });
+
+        viewer.appendChild(image);
+        await predictFromElement(image, 'Showing built-in sample: ' + label + '.');
+        notifyParentHeight();
+    }
+
+    async function predictFromUploadedImage(file) {
+        if (!file) {
+            return;
+        }
+
+        stopWebcam();
+        clearViewer();
+        setActiveSample('');
+
+        const objectUrl = URL.createObjectURL(file);
+        const image = new Image();
+        image.alt = 'Uploaded sample';
+
+        try {
+            await new Promise((resolve, reject) => {
+                image.onload = resolve;
+                image.onerror = reject;
+                image.src = objectUrl;
+            });
+
+            viewer.appendChild(image);
+            await predictFromElement(image, 'Prediction complete for uploaded image.');
+            notifyParentHeight();
+        } finally {
+            URL.revokeObjectURL(objectUrl);
+        }
+    }
+
+    async function startWebcam() {
+        if (isRunning) {
+            return;
+        }
+
+        try {
+            await ensureModelLoaded();
+            clearViewer();
+            setActiveSample('');
+            statusEl.textContent = 'Requesting webcam permission...';
+
+            webcam = new tmImage.Webcam(300, 300, true);
+            await webcam.setup();
+            await webcam.play();
+
+            viewer.appendChild(webcam.canvas);
+            isRunning = true;
+            startBtn.disabled = true;
+            stopBtn.disabled = false;
+            statusEl.textContent = 'Live webcam inference running.';
+            notifyParentHeight();
+            window.requestAnimationFrame(loop);
+        } catch (error) {
+            startBtn.disabled = false;
+            stopBtn.disabled = true;
+            const errorText = error && error.message ? error.message : String(error);
+            statusEl.textContent = 'Could not start webcam: ' + errorText;
+            notifyParentHeight();
+        }
+    }
+
+    async function loop() {
+        if (!isRunning || !webcam) {
+            return;
+        }
+        webcam.update();
+        const prediction = modelEngine === 'capstone'
+            ? await predictWithCapstoneModel(webcam.canvas)
+            : await model.predict(webcam.canvas);
+        renderPredictions(prediction);
+        window.requestAnimationFrame(loop);
+    }
+
+    function renderSampleGallery() {
+        sampleGrid.innerHTML = '';
+        sampleImages.forEach((sample) => {
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'sample-card secondary';
+            button.setAttribute('data-src', sample.src);
+            button.innerHTML = '<img src="' + sample.src + '" alt="' + sample.label + '"><span class="sample-card-body"><span class="sample-card-title">' + sample.label + '</span><span class="sample-card-note">' + sample.note + '</span></span>';
+            button.addEventListener('click', () => {
+                predictFromSample(sample.src, sample.label).catch((error) => {
+                    const errorText = error && error.message ? error.message : String(error);
+                    statusEl.textContent = 'Could not load sample image: ' + errorText;
+                });
+            });
+            sampleGrid.appendChild(button);
+        });
+    }
+
+    uploadBtn.addEventListener('click', () => imageInput.click());
+    imageInput.addEventListener('change', () => {
+        const selectedFile = imageInput.files && imageInput.files[0] ? imageInput.files[0] : null;
+        predictFromUploadedImage(selectedFile).catch((error) => {
+            const errorText = error && error.message ? error.message : String(error);
+            statusEl.textContent = 'Could not run uploaded image inference: ' + errorText;
+        });
+    });
+    startBtn.addEventListener('click', startWebcam);
+    stopBtn.addEventListener('click', () => {
+        stopWebcam();
+        statusEl.textContent = 'Webcam stopped. Choose a built-in sample, upload an image, or restart the camera.';
+    });
+
+    applyFrameConfig();
+    renderSampleGallery();
+    predictFromSample(sampleImages[0].src, sampleImages[0].label).catch((error) => {
+        const errorText = error && error.message ? error.message : String(error);
+        statusEl.textContent = 'Could not load the default sample: ' + errorText;
+        notifyParentHeight();
+    });
+
+    if ('ResizeObserver' in window) {
+        const resizeObserver = new ResizeObserver(() => notifyParentHeight());
+        resizeObserver.observe(document.body);
+    }
+
+    window.addEventListener('load', notifyParentHeight);
+    window.addEventListener('resize', notifyParentHeight);
+</script>
+</body>
+</html>
