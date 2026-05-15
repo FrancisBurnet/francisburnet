@@ -383,9 +383,8 @@
             const imageTensor = tf.browser.fromPixels(element)
                 .resizeBilinear(imageSize)
                 .toFloat()
-                .div(255)
-                .reverse(-1)
-                .sub(tf.tensor1d([103.939, 116.779, 123.68]))
+                .reverse(-1)           // RGB → BGR
+                .sub(tf.tensor1d([103.939, 116.779, 123.68]))  // subtract ImageNet means (0-255 scale)
                 .expandDims(0);
             const output = model.predict(imageTensor);
             return Array.from(output.dataSync());
@@ -430,7 +429,6 @@
     }
 
     function renderPredictions(prediction) {
-        prediction.sort((left, right) => right.probability - left.probability);
         prediction.forEach((item, index) => {
             labelContainer.childNodes[index].innerHTML = '<strong>' + item.className + '</strong><br>' + (item.probability * 100).toFixed(1) + '% confidence';
         });

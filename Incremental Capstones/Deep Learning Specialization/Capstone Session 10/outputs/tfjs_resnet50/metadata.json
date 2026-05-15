@@ -1,0 +1,18 @@
+{
+  "modelType": "capstone-resnet50",
+  "labels": [
+    "with_mask",
+    "without_mask",
+    "mask_worn_incorrect"
+  ],
+  "imageSize": [
+    128,
+    128
+  ],
+  "source": "Session 10 capstone TensorFlow workflow",
+  "preprocessing": "resnet50_caffe",
+  "preprocessingNote": "Pass raw 0-255 RGB pixels; JS must do: toFloat() -> reverse(-1) [RGB->BGR] -> subtract [103.939, 116.779, 123.68]",
+  "testLoss": 0.04874560981988907,
+  "testAccuracy": 0.9850507378578186,
+  "epochsRan": 8
+}

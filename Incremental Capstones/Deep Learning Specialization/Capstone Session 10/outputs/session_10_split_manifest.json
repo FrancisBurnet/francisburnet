@@ -6,16 +6,16 @@
   },
   "generated_counts": {
     "with_mask": {
-      "train": 120,
-      "test": 30
+      "train": 2980,
+      "test": 745
     },
     "without_mask": {
-      "train": 120,
-      "test": 30
+      "train": 3063,
+      "test": 765
     },
     "mask_worn_incorrect": {
-      "train": 120,
-      "test": 30
+      "train": 1452,
+      "test": 363
     }
   }
 }
