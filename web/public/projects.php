@@ -72,7 +72,6 @@ function render_project_status_badge(string $status): string
                                         <a class="btn btn-primary btn-sm" href="<?php echo htmlspecialchars($project['href'], ENT_QUOTES, 'UTF-8'); ?>">Open Project</a>
                                     <?php else: ?>
                                         <a class="btn btn-outline-dark btn-sm" href="<?php echo htmlspecialchars($project['href'], ENT_QUOTES, 'UTF-8'); ?>">View Section</a>
-                                        <span class="btn btn-outline-secondary btn-sm disabled" aria-disabled="true">Public Page Pending</span>
                                     <?php endif; ?>
                                 </div>
                             </article>

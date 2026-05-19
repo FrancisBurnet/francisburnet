@@ -910,6 +910,11 @@ $modes = [
             </div>
 
             <div class="apo-links">
+                <a class="apo-link" href="capstone-session-9.php" target="_blank" rel="noreferrer">
+                    <span class="apo-link__label">Capstone 9</span>
+                    <span class="apo-link__title">Notebook + Colab flow</span>
+                    <span class="apo-link__copy">Useful as a notebook-first reference for a launch-and-run verification pattern.</span>
+                </a>
                 <a class="apo-link" href="capstone-session-10.php" target="_blank" rel="noreferrer">
                     <span class="apo-link__label">Capstone 10</span>
                     <span class="apo-link__title">Face-mask app style</span>
@@ -919,11 +924,6 @@ $modes = [
                     <span class="apo-link__label">Capstone 10 Test</span>
                     <span class="apo-link__title">Live test route</span>
                     <span class="apo-link__copy">Shows how the existing app separates a test lane from the main comparison surface.</span>
-                </a>
-                <a class="apo-link" href="capstone-session-9.php" target="_blank" rel="noreferrer">
-                    <span class="apo-link__label">Capstone 9</span>
-                    <span class="apo-link__title">Notebook + Colab flow</span>
-                    <span class="apo-link__copy">Useful as a notebook-first reference for a launch-and-run verification pattern.</span>
                 </a>
                 <a class="apo-link" href="capstone-session-11.php" target="_blank" rel="noreferrer">
                     <span class="apo-link__label">Capstone 11</span>
