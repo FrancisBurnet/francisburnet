@@ -1,0 +1,15 @@
+                 precision    recall  f1-score   support
+
+           buoy     0.0000    0.0000    0.0000        11
+    cruise_ship     0.0000    0.0000    0.0000        39
+     ferry_boat     0.0000    0.0000    0.0000        13
+   freight_boat     0.0000    0.0000    0.0000         5
+        gondola     0.4912    0.7179    0.5833        39
+inflatable_boat     0.0000    0.0000    0.0000         4
+          kayak     0.5714    0.1951    0.2909        41
+     paper_boat     0.0000    0.0000    0.0000         7
+       sailboat     0.4259    0.8846    0.5750        78
+
+       accuracy                         0.4430       237
+      macro avg     0.1654    0.1997    0.1610       237
+   weighted avg     0.3199    0.4430    0.3356       237

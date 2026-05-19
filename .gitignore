@@ -42,6 +42,11 @@ Incremental Capstones/Deep Learning Specialization/Capstone Session 10/outputs/g
 **/capstone-session-*-data/
 docs/verification-screenshots/
 
+# Automating Port Operations local source and generated data
+Projects/Deep Learning Specialization/Automating Port Operations/1714053668_project_automating_port_operations.docx
+Projects/Deep Learning Specialization/Automating Port Operations/data/
+Projects/Deep Learning Specialization/Automating Port Operations/outputs/datasets/
+
 # Logs and coverage
 *.log
 .coverage

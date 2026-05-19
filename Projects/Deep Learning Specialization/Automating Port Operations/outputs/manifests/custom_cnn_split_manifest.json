@@ -1,0 +1,54 @@
+{
+  "random_state": 43,
+  "train_ratio": 0.8,
+  "test_ratio": 0.2,
+  "class_counts": {
+    "buoy": {
+      "total": 53,
+      "train": 42,
+      "test": 11
+    },
+    "cruise_ship": {
+      "total": 191,
+      "train": 152,
+      "test": 39
+    },
+    "ferry_boat": {
+      "total": 63,
+      "train": 50,
+      "test": 13
+    },
+    "freight_boat": {
+      "total": 23,
+      "train": 18,
+      "test": 5
+    },
+    "gondola": {
+      "total": 193,
+      "train": 154,
+      "test": 39
+    },
+    "inflatable_boat": {
+      "total": 16,
+      "train": 12,
+      "test": 4
+    },
+    "kayak": {
+      "total": 203,
+      "train": 162,
+      "test": 41
+    },
+    "paper_boat": {
+      "total": 31,
+      "train": 24,
+      "test": 7
+    },
+    "sailboat": {
+      "total": 389,
+      "train": 311,
+      "test": 78
+    }
+  },
+  "train_total": 925,
+  "test_total": 237
+}

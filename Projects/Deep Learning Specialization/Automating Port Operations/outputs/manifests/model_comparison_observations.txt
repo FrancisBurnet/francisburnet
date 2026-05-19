@@ -1,0 +1,3 @@
+Custom CNN accuracy: 0.4430
+Transfer learning accuracy: 0.8632
+Preferred model based on test accuracy: Transfer Learning Model
