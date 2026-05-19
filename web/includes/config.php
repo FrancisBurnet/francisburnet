@@ -368,11 +368,93 @@ $capstoneProgramGroups = [
     ],
 ];
 
+$publishedProjectProgramGroups = [
+    [
+        'label' => 'Applied Data Science',
+        'anchor' => 'projects-applied-data-science',
+        'summary' => 'Published end-of-class projects for the applied data science track.',
+        'programFolder' => 'Applied Data Science with Python',
+        'children' => [
+            [
+                'key' => 'applied-data-science-placeholder',
+                'label' => 'Applied Data Science Projects',
+                'href' => 'projects.php#projects-applied-data-science',
+                'status' => 'Planned',
+                'summary' => 'Placeholder for future published projects from the applied data science course sequence.',
+                'available' => false,
+            ],
+        ],
+    ],
+    [
+        'label' => 'Machine Learning',
+        'anchor' => 'projects-machine-learning',
+        'summary' => 'Published end-of-class projects for the machine learning track.',
+        'programFolder' => 'Machine Learning Using Python',
+        'children' => [
+            [
+                'key' => 'machine-learning-placeholder',
+                'label' => 'Machine Learning Projects',
+                'href' => 'projects.php#projects-machine-learning',
+                'status' => 'Planned',
+                'summary' => 'Placeholder for future published projects from the machine learning course sequence.',
+                'available' => false,
+            ],
+        ],
+    ],
+    [
+        'label' => 'Deep Learning',
+        'anchor' => 'projects-deep-learning',
+        'summary' => 'Published end-of-class projects for the deep learning track.',
+        'programFolder' => 'Deep Learning Specialization',
+        'children' => [
+            [
+                'key' => 'automating-port-operations',
+                'label' => 'Automating Port Operations',
+                'publicTitle' => 'Vessel Type Classifier for Port Operations',
+                'href' => 'projects.php#projects-deep-learning',
+                'status' => 'In Planning',
+                'summary' => 'First published Projects entry. This deep learning project will pair the graded notebook evidence with a browser-based vessel classification demo.',
+                'available' => false,
+            ],
+        ],
+    ],
+    [
+        'label' => 'Python For AI',
+        'anchor' => 'projects-python-for-ai',
+        'summary' => 'Published end-of-class projects for the Python for AI track.',
+        'programFolder' => 'Python for AI',
+        'children' => [
+            [
+                'key' => 'python-for-ai-placeholder',
+                'label' => 'Python For AI Projects',
+                'href' => 'projects.php#projects-python-for-ai',
+                'status' => 'Planned',
+                'summary' => 'Placeholder for future published projects from the Python for AI course sequence.',
+                'available' => false,
+            ],
+        ],
+    ],
+];
+
+$publishedProjects = array_merge(
+    ...array_map(
+        static fn(array $group): array => array_map(
+            static fn(array $project): array => $project + [
+                'programLabel' => $group['label'],
+                'programFolder' => $group['programFolder'],
+                'groupAnchor' => $group['anchor'],
+            ],
+            $group['children']
+        ),
+        $publishedProjectProgramGroups
+    )
+);
+
 $navItems = [
     ['label' => 'Home', 'href' => 'index.php'],
     ['label' => 'About', 'href' => 'about.php'],
     ['label' => 'Incremental Capstone', 'href' => 'incremental-capstone.php', 'children' => $capstoneProgramGroups],
-    ['label' => 'Projects', 'href' => 'projects.php'],
+    ['label' => 'Projects', 'href' => 'projects.php', 'children' => $publishedProjectProgramGroups, 'overviewLabel' => 'All Projects'],
     ['label' => 'Contact', 'href' => 'contact.php'],
 ];
 

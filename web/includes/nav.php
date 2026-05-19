@@ -45,7 +45,7 @@ $currentSubPage = $currentSubPage ?? '';
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end">
                                 <li>
-                                    <a class="dropdown-item" href="<?php echo htmlspecialchars($item['href'], ENT_QUOTES, 'UTF-8'); ?>">All Capstones</a>
+                                    <a class="dropdown-item" href="<?php echo htmlspecialchars($item['href'], ENT_QUOTES, 'UTF-8'); ?>"><?php echo htmlspecialchars($item['overviewLabel'] ?? 'All Items', ENT_QUOTES, 'UTF-8'); ?></a>
                                 </li>
                                 <li><hr class="dropdown-divider"></li>
                                 <?php foreach ($item['children'] as $child): ?>
