@@ -234,8 +234,9 @@ foreach ($projectRootCandidates as $candidate) {
 }
 
 $capstoneRoot = $projectRoot ? realpath($projectRoot . DIRECTORY_SEPARATOR . 'Incremental Capstones') : false;
+$projectsRoot = $projectRoot ? realpath($projectRoot . DIRECTORY_SEPARATOR . 'Projects') : false;
 
-if (!$projectRoot || !$capstoneRoot) {
+if (!$projectRoot || !$capstoneRoot || !$projectsRoot) {
     http_response_code(500);
     exit('Project roots are not available.');
 }
@@ -256,8 +257,20 @@ if (!$targetPath || !is_file($targetPath)) {
     exit('Artifact not found.');
 }
 
-$capstoneRootPrefix = rtrim($capstoneRoot, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
-if (!str_starts_with($targetPath, $capstoneRootPrefix)) {
+$allowedRootPrefixes = [
+    rtrim($capstoneRoot, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR,
+    rtrim($projectsRoot, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR,
+];
+
+$isAllowedArtifact = false;
+foreach ($allowedRootPrefixes as $allowedRootPrefix) {
+    if (str_starts_with($targetPath, $allowedRootPrefix)) {
+        $isAllowedArtifact = true;
+        break;
+    }
+}
+
+if (!$isAllowedArtifact) {
     http_response_code(403);
     exit('Artifact access denied.');
 }
