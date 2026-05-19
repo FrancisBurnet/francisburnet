@@ -87,6 +87,32 @@ $heroSummaryHtml = '<p class="mb-0">Standard capstone infographic size, with ves
 <main class="container py-5">
     <?php require __DIR__ . '/../includes/page-hero.php'; ?>
 
+    <section class="apo-headtohead" aria-label="Capstone comparison">
+        <article class="apo-headtohead__panel">
+            <div class="apo-headtohead__body">
+                <div>
+                    <span class="apo-kicker">This project</span>
+                    <h3 class="mb-1">Automating Port Operations</h3>
+                    <p class="text-secondary mb-0">This page is the vessel-classifier project. It focuses on the port-operations notebook, the vessel samples, and the model comparison that shows transfer learning as the best run.</p>
+                </div>
+                <ul class="apo-headtohead__list">
+                    <li><strong>Media lane:</strong> vessel samples, image upload, video upload, and webcam preview.</li>
+                    <li><strong>Model story:</strong> custom CNN versus MobileNetV2 transfer learning.</li>
+                    <li><strong>Published evidence:</strong> notebook source, comparison JSON, plots, and notes.</li>
+                    <li><strong>Call to action:</strong> open Colab to run the notebook end-to-end.</li>
+                </ul>
+                <div class="apo-headtohead__actions">
+                    <a class="btn btn-primary btn-sm" href="<?php echo htmlspecialchars((string) $colabNotebookUrl, ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noreferrer">Run this notebook</a>
+                    <a class="btn btn-outline-dark btn-sm" href="<?php echo htmlspecialchars((string) $comparisonSummaryUrl, ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noreferrer">Open metrics JSON</a>
+                </div>
+            </div>
+        </article>
+
+        <article class="apo-headtohead__panel">
+            <iframe class="apo-headtohead__frame" src="capstone-session-10.php" title="Capstone Session 10 comparison view" loading="lazy"></iframe>
+        </article>
+    </section>
+
     <style>
         :root {
             --apo-ink: #0b1320;
@@ -302,6 +328,58 @@ $heroSummaryHtml = '<p class="mb-0">Standard capstone infographic size, with ves
             align-items: flex-start;
             position: relative;
             z-index: 1;
+        }
+
+        .apo-headtohead {
+            display: grid;
+            grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .apo-headtohead__panel {
+            border-radius: 1.25rem;
+            background: rgba(255, 255, 255, 0.92);
+            border: 1px solid rgba(15, 23, 42, 0.10);
+            box-shadow: 0 12px 30px rgba(15, 23, 42, 0.06);
+            overflow: hidden;
+            min-height: 36rem;
+        }
+
+        .apo-headtohead__body {
+            display: grid;
+            gap: 0.9rem;
+            padding: 1rem;
+        }
+
+        .apo-headtohead__frame {
+            width: 100%;
+            min-height: 33rem;
+            border: 0;
+            display: block;
+            background: #fff;
+        }
+
+        .apo-headtohead__list {
+            margin: 0;
+            padding-left: 1.1rem;
+            display: grid;
+            gap: 0.45rem;
+            color: var(--apo-muted);
+        }
+
+        .apo-headtohead__list strong {
+            color: var(--apo-ink);
+        }
+
+        .apo-headtohead__actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+        }
+
+        .apo-headtohead__actions .btn {
+            border-radius: 999px;
         }
 
         .apo-media-stage {
