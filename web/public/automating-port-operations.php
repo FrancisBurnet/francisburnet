@@ -21,43 +21,25 @@ $transferTrainingUrl = project_artifact_absolute_url($projectRoot . '/outputs/pl
 $heroImagePath = 'assets/images/automating-port-operations-hero.svg';
 $heroImageAlt = 'Automating Port Operations vessel infographic';
 $heroTitle = 'Automating Port Operations Evidence Map';
-$heroSummaryHtml = '<p class="mb-0">Colab-first capstone template with the vessel classifier, the comparison surface, and the saved notebook outputs that back the published result.</p>';
+$heroSummaryHtml = '<p class="mb-0">Vessel classifier page with the notebook, outputs, and saved metrics laid out in a clean project template.</p>';
 ?>
 <main class="container py-5">
     <?php require __DIR__ . '/../includes/page-hero.php'; ?>
 
     <section class="content-card p-4 p-lg-5 mb-4">
-        <h2 class="section-title">Compare the published app with the capstone reference</h2>
-        <p class="mb-4">The comparison is shown first, directly under the infographic, so the page keeps the same notebook-first structure as the other capstone pages.</p>
-        <div class="row g-4 align-items-stretch">
-            <div class="col-lg-6">
-                <div class="content-card p-3 h-100">
-                    <h3 class="h5">Automating Port Operations</h3>
-                    <p class="text-secondary">Vessel-classifier project, published with the notebook, model comparison, and notebook outputs.</p>
-                    <ul class="mb-4 ps-3">
-                        <li>Image, video, and webcam preview modes.</li>
-                        <li>Custom CNN versus MobileNetV2 transfer learning.</li>
-                        <li>Colab launch and saved artifacts for verification.</li>
-                    </ul>
-                    <div class="d-flex flex-wrap gap-2">
-                        <a class="btn btn-primary" href="<?php echo htmlspecialchars((string) $colabNotebookUrl, ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noreferrer">Run in Colab</a>
-                        <a class="btn btn-outline-dark" href="<?php echo htmlspecialchars((string) $notebookSourceUrl, ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noreferrer">View Notebook</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="content-card p-3 h-100">
-                    <h3 class="h5">Capstone 10 reference</h3>
-                    <p class="text-secondary mb-3">The embedded capstone page is here for direct format comparison.</p>
-                    <iframe src="capstone-session-10.php" title="Capstone Session 10 comparison view" style="width:100%;min-height:34rem;border:1px solid #dbe4ee;border-radius:0.75rem;background:#fff;" loading="lazy"></iframe>
-                </div>
-            </div>
+        <h2 class="section-title">Project at a glance</h2>
+        <p>This page presents the vessel classifier, the notebook that produced it, and the saved outputs that support the published result.</p>
+        <div class="d-flex flex-wrap gap-2">
+            <a class="btn btn-primary" href="<?php echo htmlspecialchars((string) $colabNotebookUrl, ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noreferrer">Run in Colab</a>
+            <a class="btn btn-outline-dark" href="<?php echo htmlspecialchars((string) $notebookSourceUrl, ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noreferrer">View Notebook</a>
+            <a class="btn btn-outline-dark" href="<?php echo htmlspecialchars((string) $comparisonSummaryUrl, ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noreferrer">Open Metrics JSON</a>
         </div>
     </section>
 
     <section class="content-card p-4 p-lg-5 mb-4">
         <h2 class="section-title">Objective</h2>
-        <p>This page presents the vessel classifier in the same Colab-oriented capstone format used elsewhere in the portfolio. The published result is transfer learning, and the page keeps the notebook, evidence, and comparison outputs together.</p>
+        <p>The goal is to classify vessels from images using the published notebook workflow and the saved model comparison outputs.</p>
+        <p class="mb-0">The final result favors transfer learning, and the page keeps the notebook, evidence, and metrics easy to open from one place.</p>
     </section>
 
     <section class="content-card p-4 p-lg-5 mb-4">
@@ -104,6 +86,24 @@ $heroSummaryHtml = '<p class="mb-0">Colab-first capstone template with the vesse
                     <h3 class="h5 mb-1">Metrics JSON</h3>
                     <p class="text-secondary mb-0">Saved model comparison and held-out accuracy values.</p>
                 </a>
+            </div>
+            <div class="col">
+                <a class="artifact-card d-block p-3 h-100 text-decoration-none" href="<?php echo htmlspecialchars((string) $comparisonNotesUrl, ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noreferrer">
+                    <span class="artifact-label d-inline-block mb-2">Comparison notes</span>
+                    <h3 class="h5 mb-1">Final observation</h3>
+                    <p class="text-secondary mb-0">The notebook note that records why transfer learning is preferred.</p>
+                </a>
+            </div>
+            <div class="col">
+                <div class="artifact-card p-3 h-100">
+                    <span class="artifact-label d-inline-block mb-2">Notebook access</span>
+                    <h3 class="h5 mb-1">Source notebook</h3>
+                    <p class="text-secondary mb-3">Open the notebook source or launch it in Colab to rerun the workflow.</p>
+                    <div class="d-flex flex-wrap gap-2">
+                        <a class="btn btn-primary btn-sm" href="<?php echo htmlspecialchars((string) $colabNotebookUrl, ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noreferrer">Run in Colab</a>
+                        <a class="btn btn-outline-dark btn-sm" href="<?php echo htmlspecialchars((string) $notebookSourceUrl, ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noreferrer">View Notebook</a>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
