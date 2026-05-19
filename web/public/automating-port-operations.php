@@ -8,7 +8,9 @@ require_once __DIR__ . '/../includes/header.php';
 require_once __DIR__ . '/../includes/nav.php';
 
 $projectRoot = 'Projects/Deep Learning Specialization/Automating Port Operations';
+$colabNotebookUrl = 'https://colab.research.google.com/github/FrancisBurnet/francisburnet/blob/main/' . str_replace(' ', '%20', $projectRoot . '/notebooks/automating_port_operations_ordered_by_requirement.ipynb');
 $notebookUrl = project_artifact_absolute_url($projectRoot . '/notebooks/automating_port_operations_ordered_by_requirement.ipynb', false, true);
+$notebookSourceUrl = project_artifact_absolute_url($projectRoot . '/notebooks/automating_port_operations_ordered_by_requirement.ipynb', true, false);
 $requirementsUrl = project_artifact_absolute_url($projectRoot . '/requirements/automating_port_operations_requirements.md', false, true);
 $planUrl = project_artifact_absolute_url($projectRoot . '/DEVELOPMENT_PLAN.md', false, true);
 $manifestUrl = project_artifact_absolute_url($projectRoot . '/outputs/manifests/automating_port_operations_evidence_manifest.md', false, true);
@@ -35,20 +37,22 @@ $modes = [
         'badge' => 'Published Project App',
         'title' => 'Automating Port Operations',
         'copy' => 'A mobile-friendly project app that turns the notebook evidence into a browser-first presentation for vessel classification at port. The published story compares a custom CNN against transfer learning and keeps the notebook, metrics, and plots one tap away.',
-        'status' => 'Transfer learning leads the comparison with a much higher held-out accuracy.',
+        'status' => 'Transfer learning leads the comparison with 86.32% held-out accuracy versus 44.30% for the custom CNN.',
         'primary' => '86.32%',
         'secondary' => '44.30%',
         'delta' => '+42.02 pts',
+        'statChip' => 'Winner: transfer learning',
         'accent' => 'sea',
     ],
     'custom' => [
         'badge' => 'Custom CNN',
         'title' => 'Requirement-first custom CNN workflow',
         'copy' => 'The first model follows the assignment’s custom network path: a deterministic split, resized images, convolution blocks, dense layers, and the 20-epoch training run that produced the baseline confusion matrix and training curves.',
-        'status' => 'Baseline model with a simpler architecture and lower accuracy.',
+        'status' => 'Baseline model with 44.30% held-out accuracy and a simpler architecture.',
         'primary' => '44.30%',
         'secondary' => 'Loss 0.4899',
-        'delta' => 'Reference lane',
+        'delta' => 'Baseline lane',
+        'statChip' => 'Loss 1.5826',
         'accent' => 'brass',
     ],
     'transfer' => [
@@ -57,8 +61,9 @@ $modes = [
         'copy' => 'The second model uses MobileNetV2 with the project’s transfer-learning split, validation monitoring, and early stopping. It is the best-performing lane in the published comparison and is the main operational recommendation.',
         'status' => 'Best performing lane on the held-out test split.',
         'primary' => '86.32%',
-        'secondary' => 'Precision 89.91%',
-        'delta' => 'Best lane',
+        'secondary' => '89.91%',
+        'delta' => 'Accuracy gap',
+        'statChip' => 'Precision 89.91%',
         'accent' => 'seafoam',
     ],
     'comparison' => [
@@ -67,8 +72,9 @@ $modes = [
         'copy' => 'The notebook closes by comparing both test results and recording the observation that transfer learning is the preferred model for this problem. The browser app mirrors that conclusion so the final takeaway is visible before a visitor opens the notebook.',
         'status' => 'Transfer learning is the recommended model for the published project.',
         'primary' => '+42.02 pts',
-        'secondary' => 'Preferred lane',
-        'delta' => 'Transfer wins',
+        'secondary' => 'Transfer learning',
+        'delta' => 'Recommended model',
+        'statChip' => 'Winner: transfer learning',
         'accent' => 'navy',
     ],
 ];
@@ -140,6 +146,13 @@ $modes = [
             padding-bottom: 1.25rem;
         }
 
+        .apo-hero__layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1.2fr) minmax(260px, 0.8fr);
+            gap: 1rem;
+            align-items: stretch;
+        }
+
         .apo-eyebrow {
             display: inline-flex;
             width: fit-content;
@@ -181,6 +194,77 @@ $modes = [
         .apo-actions .btn {
             border-radius: 999px;
             padding-inline: 1rem;
+        }
+
+        .apo-infographic {
+            border-radius: 1.35rem;
+            background: linear-gradient(180deg, rgba(15, 76, 92, 0.98) 0%, rgba(9, 21, 34, 0.98) 100%);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.10);
+            padding: 1rem;
+            display: grid;
+            gap: 0.75rem;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .apo-infographic::before {
+            content: '';
+            position: absolute;
+            inset: auto -20% -35% auto;
+            width: 12rem;
+            height: 12rem;
+            border-radius: 999px;
+            background: rgba(31, 138, 112, 0.18);
+        }
+
+        .apo-infographic__header {
+            display: flex;
+            justify-content: space-between;
+            gap: 0.75rem;
+            align-items: flex-start;
+        }
+
+        .apo-infographic__title {
+            margin: 0;
+            font-size: 1rem;
+            font-weight: 800;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .apo-infographic__caption {
+            margin: 0.25rem 0 0;
+            color: rgba(255, 255, 255, 0.84);
+            line-height: 1.55;
+        }
+
+        .apo-infographic__grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 0.5rem;
+            margin-top: 0.25rem;
+        }
+
+        .apo-infographic__tile {
+            padding: 0.7rem;
+            border-radius: 0.95rem;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.06);
+            min-height: 5.2rem;
+        }
+
+        .apo-infographic__tile strong {
+            display: block;
+            margin-bottom: 0.2rem;
+        }
+
+        .apo-infographic__tile span {
+            display: block;
+            color: rgba(255, 255, 255, 0.72);
+            font-size: 0.82rem;
+            line-height: 1.45;
         }
 
         .apo-controls {
@@ -581,6 +665,7 @@ $modes = [
         }
 
         @media (max-width: 720px) {
+            .apo-hero__layout,
             .apo-controls,
             .apo-scoreboard,
             .apo-links,
@@ -602,12 +687,39 @@ $modes = [
     <section class="apo-shell">
         <header class="apo-hero">
             <span class="apo-eyebrow">Mobile-friendly project web app</span>
-            <h1>Automating Port Operations</h1>
-            <p>Published project browser for the vessel-type classifier. It keeps the same app-style, responsive presentation used by the face-mask demo, but swaps in the port operations notebook, the real class labels, and the final model comparison so the project reads cleanly on desktop and mobile.</p>
-            <div class="apo-actions">
-                <a class="btn btn-primary" href="<?php echo htmlspecialchars((string) $notebookUrl, ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noreferrer">Open Notebook</a>
-                <a class="btn btn-outline-dark" href="<?php echo htmlspecialchars((string) $comparisonSummaryUrl, ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noreferrer">Open Comparison JSON</a>
-                <a class="btn btn-outline-dark" href="<?php echo htmlspecialchars((string) $transferTrainingUrl, ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noreferrer">View Training Curves</a>
+            <div class="apo-hero__layout">
+                <div>
+                    <h1>Automating Port Operations</h1>
+                    <p>Published project browser for the vessel-type classifier. It keeps the same app-style, responsive presentation used by the face-mask demo, but swaps in the port operations notebook, the real class labels, and the final model comparison so the project reads cleanly on desktop and mobile.</p>
+                    <div class="apo-actions">
+                        <a class="btn btn-primary" href="<?php echo htmlspecialchars((string) $colabNotebookUrl, ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noreferrer">Launch Colab</a>
+                        <a class="btn btn-outline-dark" href="<?php echo htmlspecialchars((string) $notebookSourceUrl, ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noreferrer">View Notebook Source</a>
+                        <a class="btn btn-outline-dark" href="<?php echo htmlspecialchars((string) $comparisonSummaryUrl, ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noreferrer">Open Comparison JSON</a>
+                    </div>
+                </div>
+                <aside class="apo-infographic" aria-label="Infographic hero placeholder">
+                    <div class="apo-infographic__header">
+                        <div>
+                            <span class="apo-infographic__title">Infographic hero placeholder</span>
+                            <p class="apo-infographic__caption">This space is reserved for the published vessel-class infographic, with the same site-friendly layout pattern used by the face-mask demo.</p>
+                        </div>
+                        <span class="apo-viewer__chip apo-viewer__chip--seafoam">Published</span>
+                    </div>
+                    <div class="apo-infographic__grid">
+                        <div class="apo-infographic__tile">
+                            <strong>9 classes</strong>
+                            <span>Vessel labels in the notebook taxonomy.</span>
+                        </div>
+                        <div class="apo-infographic__tile">
+                            <strong>2 models</strong>
+                            <span>Custom CNN and MobileNetV2 transfer learning.</span>
+                        </div>
+                        <div class="apo-infographic__tile">
+                            <strong>1 winner</strong>
+                            <span>Transfer learning leads on held-out accuracy.</span>
+                        </div>
+                    </div>
+                </aside>
             </div>
         </header>
 
@@ -643,26 +755,26 @@ $modes = [
                 <div class="apo-viewer">
                     <div class="apo-viewer__topline">
                         <span class="apo-viewer__chip apo-viewer__chip--sea" id="apoStateChip">Transfer learning leads</span>
-                        <span class="apo-viewer__chip apo-viewer__chip--brass" id="apoStatChip">86.32% accuracy</span>
+                        <span class="apo-viewer__chip apo-viewer__chip--brass" id="apoStatChip">Winner: transfer learning</span>
                     </div>
                     <h3 class="apo-viewer__title" id="apoPanelTitle"><?php echo htmlspecialchars($modes['overview']['title'], ENT_QUOTES, 'UTF-8'); ?></h3>
                     <p class="apo-viewer__copy" id="apoCopy"><?php echo htmlspecialchars($modes['overview']['copy'], ENT_QUOTES, 'UTF-8'); ?></p>
 
                     <div class="apo-scoreboard" aria-label="Key comparison metrics">
                         <div class="apo-metric">
-                            <span class="apo-metric__label">Best accuracy</span>
+                            <span class="apo-metric__label" id="apoPrimaryLabel">Best accuracy</span>
                             <span class="apo-metric__value" id="apoPrimary"><?php echo htmlspecialchars($modes['overview']['primary'], ENT_QUOTES, 'UTF-8'); ?></span>
                             <span class="apo-metric__copy" id="apoPrimaryCopy">Transfer-learning lane</span>
                         </div>
                         <div class="apo-metric">
-                            <span class="apo-metric__label">Baseline accuracy</span>
+                            <span class="apo-metric__label" id="apoSecondaryLabel">Baseline accuracy</span>
                             <span class="apo-metric__value" id="apoSecondary"><?php echo htmlspecialchars($modes['overview']['secondary'], ENT_QUOTES, 'UTF-8'); ?></span>
                             <span class="apo-metric__copy" id="apoSecondaryCopy">Custom CNN lane</span>
                         </div>
                         <div class="apo-metric">
-                            <span class="apo-metric__label">Gap</span>
+                            <span class="apo-metric__label" id="apoDeltaLabel">Accuracy gap</span>
                             <span class="apo-metric__value" id="apoDelta"><?php echo htmlspecialchars($modes['overview']['delta'], ENT_QUOTES, 'UTF-8'); ?></span>
-                            <span class="apo-metric__copy" id="apoDeltaCopy">Preferred operational model</span>
+                            <span class="apo-metric__copy" id="apoDeltaCopy">Difference in held-out accuracy</span>
                         </div>
                     </div>
 
@@ -745,6 +857,92 @@ $modes = [
             </div>
         </section>
 
+        <section class="apo-deck mt-4">
+            <div class="apo-deck__head">
+                <div>
+                    <span class="apo-kicker">Verification Console</span>
+                    <h3 class="mb-1">Test the published versions from the site</h3>
+                    <p class="text-secondary mb-0">The notebook and outputs are the actual test surface here. Colab opens in a new tab, and the site keeps the launch controls, artifact links, and comparison summary in one place.</p>
+                </div>
+            </div>
+
+            <div class="apo-links">
+                <a class="apo-link" href="<?php echo htmlspecialchars((string) $colabNotebookUrl, ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noreferrer">
+                    <span class="apo-link__label">Run Version</span>
+                    <span class="apo-link__title">Launch in Colab</span>
+                    <span class="apo-link__copy">Open the executable notebook in Google Colab to run all cells.</span>
+                </a>
+                <a class="apo-link" href="<?php echo htmlspecialchars((string) $notebookSourceUrl, ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noreferrer">
+                    <span class="apo-link__label">Notebook Source</span>
+                    <span class="apo-link__title">Open inside the site</span>
+                    <span class="apo-link__copy">View the notebook from the artifact viewer when you want the run log in-browser.</span>
+                </a>
+                <a class="apo-link" href="<?php echo htmlspecialchars((string) $comparisonSummaryUrl, ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noreferrer">
+                    <span class="apo-link__label">Comparison</span>
+                    <span class="apo-link__title">Model results JSON</span>
+                    <span class="apo-link__copy">Open the saved metrics that show 86.32% versus 44.30% accuracy.</span>
+                </a>
+                <a class="apo-link" href="<?php echo htmlspecialchars((string) $customTrainingUrl, ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noreferrer">
+                    <span class="apo-link__label">Custom CNN</span>
+                    <span class="apo-link__title">Training curve test</span>
+                    <span class="apo-link__copy">Use the baseline plot to inspect the simpler model run.</span>
+                </a>
+                <a class="apo-link" href="<?php echo htmlspecialchars((string) $transferTrainingUrl, ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noreferrer">
+                    <span class="apo-link__label">Transfer Learning</span>
+                    <span class="apo-link__title">Training curve test</span>
+                    <span class="apo-link__copy">Use the MobileNetV2 plot to inspect the stronger lane.</span>
+                </a>
+                <a class="apo-link" href="<?php echo htmlspecialchars((string) $comparisonNotesUrl, ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noreferrer">
+                    <span class="apo-link__label">Comparison note</span>
+                    <span class="apo-link__title">Why transfer wins</span>
+                    <span class="apo-link__copy">Read the final summary statement recorded by the notebook.</span>
+                </a>
+            </div>
+        </section>
+
+        <section class="apo-deck mt-4">
+            <div class="apo-deck__head">
+                <div>
+                    <span class="apo-kicker">Related Capstones</span>
+                    <h3 class="mb-1">Comparison to other published deep learning pages</h3>
+                    <p class="text-secondary mb-0">These links show the different presentation styles already in the portfolio so you can compare this project against the face-mask app and the other deep-learning capstone pages.</p>
+                </div>
+            </div>
+
+            <div class="apo-links">
+                <a class="apo-link" href="capstone-session-10.php" target="_blank" rel="noreferrer">
+                    <span class="apo-link__label">Capstone 10</span>
+                    <span class="apo-link__title">Face-mask app style</span>
+                    <span class="apo-link__copy">The closest browser-demo pattern, with a live comparison surface and darker interactive console.</span>
+                </a>
+                <a class="apo-link" href="session-10-mask-test.php" target="_blank" rel="noreferrer">
+                    <span class="apo-link__label">Capstone 10 Test</span>
+                    <span class="apo-link__title">Live test route</span>
+                    <span class="apo-link__copy">Shows how the existing app separates a test lane from the main comparison surface.</span>
+                </a>
+                <a class="apo-link" href="capstone-session-9.php" target="_blank" rel="noreferrer">
+                    <span class="apo-link__label">Capstone 9</span>
+                    <span class="apo-link__title">Notebook + Colab flow</span>
+                    <span class="apo-link__copy">Useful as a notebook-first reference for a launch-and-run verification pattern.</span>
+                </a>
+                <a class="apo-link" href="capstone-session-11.php" target="_blank" rel="noreferrer">
+                    <span class="apo-link__label">Capstone 11</span>
+                    <span class="apo-link__title">NLP project page</span>
+                    <span class="apo-link__copy">Another published deep-learning page with artifact-driven storytelling instead of an inference widget.</span>
+                </a>
+                <a class="apo-link" href="capstone-session-12.php" target="_blank" rel="noreferrer">
+                    <span class="apo-link__label">Capstone 12</span>
+                    <span class="apo-link__title">Autoencoder evidence</span>
+                    <span class="apo-link__copy">A comparison point for the notebook-and-output evidence style used here.</span>
+                </a>
+                <a class="apo-link" href="projects.php#projects-deep-learning" target="_blank" rel="noreferrer">
+                    <span class="apo-link__label">Projects hub</span>
+                    <span class="apo-link__title">Published project listing</span>
+                    <span class="apo-link__copy">Shows where this page sits in the published Projects navigation.</span>
+                </a>
+            </div>
+        </section>
+
         <section class="apo-notes mt-4">
             <h3 class="h5">How the app is organized</h3>
             <ul class="apo-notes__list">
@@ -783,6 +981,9 @@ $modes = [
                 primary: document.getElementById('apoPrimary'),
                 secondary: document.getElementById('apoSecondary'),
                 delta: document.getElementById('apoDelta'),
+                primaryLabel: document.getElementById('apoPrimaryLabel'),
+                secondaryLabel: document.getElementById('apoSecondaryLabel'),
+                deltaLabel: document.getElementById('apoDeltaLabel'),
                 primaryCopy: document.getElementById('apoPrimaryCopy'),
                 secondaryCopy: document.getElementById('apoSecondaryCopy'),
                 deltaCopy: document.getElementById('apoDeltaCopy'),
@@ -811,28 +1012,32 @@ $modes = [
                     resultCopy: 'The app opens with the published conclusion so the visitor immediately sees the best model and the notebook path behind it.',
                     primaryCopy: 'Transfer-learning lane',
                     secondaryCopy: 'Custom CNN lane',
-                    deltaCopy: 'Final recommendation',
+                    deltaCopy: 'Difference in held-out accuracy',
+                    labels: ['Best accuracy', 'Baseline accuracy', 'Accuracy gap'],
                 },
                 custom: {
                     resultHeading: 'Custom CNN baseline',
                     resultCopy: 'The baseline run is still useful because it preserves the exact requirement order and shows the original model’s learning curve and confusion matrix.',
-                    primaryCopy: 'Training accuracy',
+                    primaryCopy: 'Held-out accuracy',
                     secondaryCopy: 'Held-out loss',
-                    deltaCopy: 'Reference lane',
+                    deltaCopy: 'Baseline lane',
+                    labels: ['Held-out accuracy', 'Held-out loss', 'Baseline lane'],
                 },
                 transfer: {
                     resultHeading: 'Transfer-learning winner',
                     resultCopy: 'The transfer model improves the decision boundary by reusing ImageNet features, which is why it becomes the recommended operational lane.',
                     primaryCopy: 'Test accuracy',
-                    secondaryCopy: 'Precision / recall',
-                    deltaCopy: 'Preferred lane',
+                    secondaryCopy: 'Precision',
+                    deltaCopy: 'Accuracy gap',
+                    labels: ['Test accuracy', 'Precision', 'Accuracy gap'],
                 },
                 comparison: {
                     resultHeading: 'Final comparison',
                     resultCopy: 'The notebook closes with a direct comparison and the published observation that transfer learning is the better-performing choice for this project.',
                     primaryCopy: 'Accuracy gap',
-                    secondaryCopy: 'Chosen model',
+                    secondaryCopy: 'Recommended model',
                     deltaCopy: 'Decision note',
+                    labels: ['Accuracy gap', 'Recommended model', 'Decision note'],
                 },
             };
 
@@ -854,6 +1059,9 @@ $modes = [
                 nodes.primary.textContent = mode.primary;
                 nodes.secondary.textContent = mode.secondary;
                 nodes.delta.textContent = mode.delta;
+                nodes.primaryLabel.textContent = extra.labels[0];
+                nodes.secondaryLabel.textContent = extra.labels[1];
+                nodes.deltaLabel.textContent = extra.labels[2];
                 nodes.primaryCopy.textContent = extra.primaryCopy;
                 nodes.secondaryCopy.textContent = extra.secondaryCopy;
                 nodes.deltaCopy.textContent = extra.deltaCopy;
@@ -868,7 +1076,7 @@ $modes = [
                 nodes.accent.textContent = chipPalette[mode.accent] || chipPalette.sea;
 
                 nodes.stateChip.textContent = mode.badge;
-                nodes.statChip.textContent = mode.primary + ' accuracy';
+                nodes.statChip.textContent = mode.statChip || (mode.primary + ' accuracy');
             }
 
             controlButtons.forEach((button) => {
