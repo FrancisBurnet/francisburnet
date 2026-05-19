@@ -78,8 +78,15 @@ $modes = [
         'accent' => 'navy',
     ],
 ];
+
+$heroImagePath = 'assets/images/automating-port-operations-hero.svg';
+$heroImageAlt = 'Automating Port Operations vessel infographic';
+$heroTitle = 'Automating Port Operations Evidence Map';
+$heroSummaryHtml = '<p class="mb-0">Standard capstone infographic size, with vessel sample imagery, image/video/webcam preview modes, and the notebook links that still power the runnable comparison in Colab.</p>';
 ?>
 <main class="container py-5">
+    <?php require __DIR__ . '/../includes/page-hero.php'; ?>
+
     <style>
         :root {
             --apo-ink: #0b1320;
@@ -265,6 +272,147 @@ $modes = [
             color: rgba(255, 255, 255, 0.72);
             font-size: 0.82rem;
             line-height: 1.45;
+
+        .apo-media-lab {
+            border-radius: 1.35rem;
+            background: linear-gradient(180deg, rgba(15, 76, 92, 0.98) 0%, rgba(9, 21, 34, 0.98) 100%);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.10);
+            padding: 1rem;
+            display: grid;
+            gap: 0.85rem;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .apo-media-lab::before {
+            content: '';
+            position: absolute;
+            inset: auto -20% -35% auto;
+            width: 12rem;
+            height: 12rem;
+            border-radius: 999px;
+            background: rgba(31, 138, 112, 0.18);
+        }
+
+        .apo-media-lab__header {
+            display: flex;
+            justify-content: space-between;
+            gap: 0.75rem;
+            align-items: flex-start;
+            position: relative;
+            z-index: 1;
+        }
+
+        .apo-media-stage {
+            position: relative;
+            z-index: 1;
+            border-radius: 1rem;
+            overflow: hidden;
+            min-height: 20rem;
+            background: #07131e;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            display: grid;
+            place-items: center;
+        }
+
+        .apo-media-stage__label {
+            position: absolute;
+            top: 0.9rem;
+            left: 0.9rem;
+            z-index: 2;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.35rem 0.75rem;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.14);
+            color: #fff;
+            font-size: 0.75rem;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        .apo-media-stage img,
+        .apo-media-stage video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .apo-media-stage__empty {
+            padding: 1.25rem;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.88);
+            line-height: 1.55;
+        }
+
+        .apo-media-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .apo-media-controls .btn {
+            border-radius: 999px;
+        }
+
+        .apo-sample-gallery {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0.75rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .apo-sample-card {
+            display: block;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.06);
+            color: inherit;
+            text-decoration: none;
+            border-radius: 1rem;
+            overflow: hidden;
+            text-align: left;
+            padding: 0;
+        }
+
+        .apo-sample-card img {
+            display: block;
+            width: 100%;
+            aspect-ratio: 4 / 3;
+            object-fit: cover;
+        }
+
+        .apo-sample-card__copy {
+            display: grid;
+            gap: 0.15rem;
+            padding: 0.7rem 0.75rem;
+        }
+
+        .apo-sample-card__label {
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.72);
+        }
+
+        .apo-sample-card__title {
+            font-size: 0.92rem;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .apo-sample-card__copy span:last-child {
+            font-size: 0.82rem;
+            color: rgba(255, 255, 255, 0.80);
+            line-height: 1.45;
+        }
         }
 
         .apo-controls {
@@ -697,27 +845,65 @@ $modes = [
                         <a class="btn btn-outline-dark" href="<?php echo htmlspecialchars((string) $comparisonSummaryUrl, ENT_QUOTES, 'UTF-8'); ?>" target="_blank" rel="noreferrer">Open Comparison JSON</a>
                     </div>
                 </div>
-                <aside class="apo-infographic" aria-label="Infographic hero placeholder">
-                    <div class="apo-infographic__header">
+                <aside class="apo-media-lab" aria-label="Vessel media test surface">
+                    <div class="apo-media-lab__header">
                         <div>
-                            <span class="apo-infographic__title">Infographic hero placeholder</span>
-                            <p class="apo-infographic__caption">This space is reserved for the published vessel-class infographic, with the same site-friendly layout pattern used by the face-mask demo.</p>
+                            <span class="apo-infographic__title">Vessel media test surface</span>
+                            <p class="apo-infographic__caption">Switch between image, video, webcam, and sample vessel cards. The runnable notebook still opens in Colab, but this panel gives the page the same media-lab feel as the capstone demo format.</p>
                         </div>
-                        <span class="apo-viewer__chip apo-viewer__chip--seafoam">Published</span>
+                        <span class="apo-viewer__chip apo-viewer__chip--seafoam">Preview lane</span>
                     </div>
-                    <div class="apo-infographic__grid">
-                        <div class="apo-infographic__tile">
-                            <strong>9 classes</strong>
-                            <span>Vessel labels in the notebook taxonomy.</span>
+
+                    <div class="apo-media-stage">
+                        <span class="apo-media-stage__label" id="apoMediaLabel">Image sample</span>
+                        <img id="apoMediaImage" src="/assets/images/apo-vessel-buoy.svg" alt="Buoy sample vessel">
+                        <video id="apoMediaVideo" hidden controls playsinline></video>
+                        <div id="apoMediaWebcam" class="apo-media-stage__empty" hidden>
+                            Webcam preview will appear here after you start the camera.
                         </div>
-                        <div class="apo-infographic__tile">
-                            <strong>2 models</strong>
-                            <span>Custom CNN and MobileNetV2 transfer learning.</span>
-                        </div>
-                        <div class="apo-infographic__tile">
-                            <strong>1 winner</strong>
-                            <span>Transfer learning leads on held-out accuracy.</span>
-                        </div>
+                    </div>
+
+                    <div class="apo-media-controls">
+                        <button class="btn btn-light btn-sm" type="button" data-apo-media-mode="image">Image</button>
+                        <button class="btn btn-light btn-sm" type="button" data-apo-media-mode="video">Video</button>
+                        <button class="btn btn-light btn-sm" type="button" data-apo-media-mode="webcam">Webcam</button>
+                        <label class="btn btn-outline-light btn-sm mb-0" for="apoMediaInput">Upload media</label>
+                        <input id="apoMediaInput" type="file" accept="image/*,video/*" hidden>
+                    </div>
+
+                    <div class="apo-sample-gallery" aria-label="Sample vessel images">
+                        <button class="apo-sample-card" type="button" data-apo-sample-src="/assets/images/apo-vessel-buoy.svg" data-apo-sample-title="Buoy">
+                            <img src="/assets/images/apo-vessel-buoy.svg" alt="Buoy sample vessel">
+                            <span class="apo-sample-card__copy">
+                                <span class="apo-sample-card__label">Sample vessel</span>
+                                <span class="apo-sample-card__title">Buoy</span>
+                                <span>Click to preview this vessel image in the test pane.</span>
+                            </span>
+                        </button>
+                        <button class="apo-sample-card" type="button" data-apo-sample-src="/assets/images/apo-vessel-cruise.svg" data-apo-sample-title="Cruise ship">
+                            <img src="/assets/images/apo-vessel-cruise.svg" alt="Cruise ship sample vessel">
+                            <span class="apo-sample-card__copy">
+                                <span class="apo-sample-card__label">Sample vessel</span>
+                                <span class="apo-sample-card__title">Cruise ship</span>
+                                <span>Use this card to swap the preview to a different vessel class.</span>
+                            </span>
+                        </button>
+                        <button class="apo-sample-card" type="button" data-apo-sample-src="/assets/images/apo-vessel-ferry.svg" data-apo-sample-title="Ferry boat">
+                            <img src="/assets/images/apo-vessel-ferry.svg" alt="Ferry boat sample vessel">
+                            <span class="apo-sample-card__copy">
+                                <span class="apo-sample-card__label">Sample vessel</span>
+                                <span class="apo-sample-card__title">Ferry boat</span>
+                                <span>Sample image for testing the browser preview lane.</span>
+                            </span>
+                        </button>
+                        <button class="apo-sample-card" type="button" data-apo-sample-src="/assets/images/apo-vessel-sailboat.svg" data-apo-sample-title="Sailboat">
+                            <img src="/assets/images/apo-vessel-sailboat.svg" alt="Sailboat sample vessel">
+                            <span class="apo-sample-card__copy">
+                                <span class="apo-sample-card__label">Sample vessel</span>
+                                <span class="apo-sample-card__title">Sailboat</span>
+                                <span>One more vessel example to match the general capstone media layout.</span>
+                            </span>
+                        </button>
                     </div>
                 </aside>
             </div>
@@ -1081,6 +1267,158 @@ $modes = [
 
             controlButtons.forEach((button) => {
                 button.addEventListener('click', () => setMode(button.dataset.apoMode));
+            });
+
+            const mediaNodes = {
+                label: document.getElementById('apoMediaLabel'),
+                image: document.getElementById('apoMediaImage'),
+                video: document.getElementById('apoMediaVideo'),
+                webcam: document.getElementById('apoMediaWebcam'),
+                input: document.getElementById('apoMediaInput'),
+                modeButtons: Array.from(document.querySelectorAll('[data-apo-media-mode]')),
+                sampleButtons: Array.from(document.querySelectorAll('[data-apo-sample-src]')),
+            };
+
+            const mediaState = {
+                activeObjectUrl: '',
+                webcamStream: null,
+            };
+
+            function clearActiveObjectUrl() {
+                if (mediaState.activeObjectUrl) {
+                    window.URL.revokeObjectURL(mediaState.activeObjectUrl);
+                    mediaState.activeObjectUrl = '';
+                }
+            }
+
+            function stopWebcam() {
+                if (mediaState.webcamStream) {
+                    mediaState.webcamStream.getTracks().forEach((track) => track.stop());
+                    mediaState.webcamStream = null;
+                }
+            }
+
+            function setMediaVisibility(activeMode) {
+                mediaNodes.image.hidden = activeMode !== 'image';
+                mediaNodes.video.hidden = activeMode !== 'video' && activeMode !== 'webcam';
+                mediaNodes.webcam.hidden = activeMode !== 'webcam';
+            }
+
+            function showImagePreview(src, title) {
+                stopWebcam();
+                clearActiveObjectUrl();
+                mediaNodes.image.src = src;
+                mediaNodes.image.alt = title + ' sample vessel';
+                mediaNodes.label.textContent = 'Image sample';
+                mediaNodes.video.removeAttribute('src');
+                mediaNodes.video.removeAttribute('poster');
+                mediaNodes.video.pause();
+                mediaNodes.video.srcObject = null;
+                mediaNodes.webcam.hidden = true;
+                setMediaVisibility('image');
+            }
+
+            function showVideoPlaceholder(title) {
+                stopWebcam();
+                mediaNodes.label.textContent = 'Video option';
+                mediaNodes.video.hidden = false;
+                mediaNodes.video.pause();
+                mediaNodes.video.srcObject = null;
+                mediaNodes.video.removeAttribute('src');
+                mediaNodes.video.poster = mediaNodes.image.src;
+                mediaNodes.webcam.hidden = true;
+                mediaNodes.image.hidden = true;
+                mediaNodes.webcam.textContent = title ? ('Upload a ' + title.toLowerCase() + ' clip or choose another sample.') : 'Upload a vessel clip to preview the video lane.';
+                mediaNodes.webcam.hidden = false;
+                mediaNodes.video.hidden = true;
+            }
+
+            async function startWebcamPreview() {
+                clearActiveObjectUrl();
+                if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                    mediaNodes.label.textContent = 'Webcam unavailable';
+                    mediaNodes.webcam.textContent = 'This browser does not expose webcam access.';
+                    mediaNodes.webcam.hidden = false;
+                    mediaNodes.image.hidden = true;
+                    mediaNodes.video.hidden = true;
+                    return;
+                }
+
+                stopWebcam();
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+                    mediaState.webcamStream = stream;
+                    mediaNodes.label.textContent = 'Webcam preview';
+                    mediaNodes.video.hidden = false;
+                    mediaNodes.video.srcObject = stream;
+                    mediaNodes.video.play();
+                    mediaNodes.image.hidden = true;
+                    mediaNodes.webcam.hidden = true;
+                } catch (error) {
+                    mediaNodes.label.textContent = 'Webcam blocked';
+                    mediaNodes.webcam.textContent = 'Camera access was not granted.';
+                    mediaNodes.webcam.hidden = false;
+                    mediaNodes.image.hidden = true;
+                    mediaNodes.video.hidden = true;
+                }
+            }
+
+            mediaNodes.modeButtons.forEach((button) => {
+                button.addEventListener('click', () => {
+                    const mode = button.dataset.apoMediaMode;
+                    if (mode === 'image') {
+                        showImagePreview(mediaNodes.image.src, mediaNodes.image.alt.replace(' sample vessel', ''));
+                        return;
+                    }
+                    if (mode === 'video') {
+                        showVideoPlaceholder('vessel');
+                        return;
+                    }
+                    if (mode === 'webcam') {
+                        startWebcamPreview();
+                    }
+                });
+            });
+
+            mediaNodes.sampleButtons.forEach((button) => {
+                button.addEventListener('click', () => {
+                    showImagePreview(button.dataset.apoSampleSrc, button.dataset.apoSampleTitle || 'Sample vessel');
+                });
+            });
+
+            mediaNodes.input.addEventListener('change', () => {
+                const file = mediaNodes.input.files && mediaNodes.input.files[0] ? mediaNodes.input.files[0] : null;
+                if (!file) {
+                    return;
+                }
+
+                if (file.type.startsWith('video/')) {
+                    stopWebcam();
+                    clearActiveObjectUrl();
+                    mediaState.activeObjectUrl = window.URL.createObjectURL(file);
+                    mediaNodes.label.textContent = 'Video upload';
+                    mediaNodes.video.hidden = false;
+                    mediaNodes.video.srcObject = null;
+                    mediaNodes.video.src = mediaState.activeObjectUrl;
+                    mediaNodes.video.poster = mediaNodes.image.src;
+                    mediaNodes.video.play();
+                    mediaNodes.image.hidden = true;
+                    mediaNodes.webcam.hidden = true;
+                    return;
+                }
+
+                clearActiveObjectUrl();
+                stopWebcam();
+                mediaState.activeObjectUrl = window.URL.createObjectURL(file);
+                mediaNodes.image.src = mediaState.activeObjectUrl;
+                mediaNodes.image.alt = file.name;
+                mediaNodes.label.textContent = 'Image upload';
+                mediaNodes.video.pause();
+                mediaNodes.video.hidden = true;
+                mediaNodes.webcam.hidden = true;
+                mediaNodes.image.hidden = false;
+                mediaNodes.video.srcObject = null;
+                mediaNodes.video.removeAttribute('src');
             });
 
             setMode('overview');

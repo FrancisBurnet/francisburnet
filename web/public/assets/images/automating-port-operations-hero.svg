@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2400" height="1600" viewBox="0 0 2400 1600" role="img" aria-labelledby="title desc">
+  <title id="title">Automating Port Operations vessel infographic</title>
+  <desc id="desc">A stylized infographic showing the vessel classifier, the two model lanes, and the nine vessel labels.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0b3c5d"/>
+      <stop offset="55%" stop-color="#0f4c5c"/>
+      <stop offset="100%" stop-color="#1f8a70"/>
+    </linearGradient>
+    <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#dff6ef" stop-opacity="0.20"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.06"/>
+    </linearGradient>
+    <linearGradient id="ship" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#dbe7f2"/>
+    </linearGradient>
+  </defs>
+  <rect width="2400" height="1600" fill="url(#bg)"/>
+  <circle cx="340" cy="290" r="210" fill="#ffffff" opacity="0.08"/>
+  <circle cx="2050" cy="1240" r="320" fill="#ffffff" opacity="0.08"/>
+  <path d="M0 1135C260 1070 500 1105 710 1160C935 1218 1115 1230 1380 1168C1660 1102 1895 1090 2400 1168V1600H0Z" fill="url(#sea)"/>
+  <g fill="#ffffff" opacity="0.18">
+    <rect x="132" y="132" width="410" height="32" rx="12"/>
+    <rect x="132" y="188" width="560" height="28" rx="12"/>
+    <rect x="132" y="244" width="470" height="28" rx="12"/>
+  </g>
+  <g transform="translate(126,374)" fill="#ffffff">
+    <text x="0" y="0" font-family="Inter, Arial, sans-serif" font-size="76" font-weight="800">Automating Port Operations</text>
+    <text x="0" y="78" font-family="Inter, Arial, sans-serif" font-size="36" font-weight="500" opacity="0.88">Vessel classifier evidence map</text>
+  </g>
+  <g transform="translate(140,620)">
+    <rect x="0" y="0" width="470" height="260" rx="32" fill="#ffffff" opacity="0.10" stroke="#ffffff" stroke-opacity="0.18"/>
+    <text x="34" y="56" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="700">Model lanes</text>
+    <text x="34" y="118" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="64" font-weight="800">Custom CNN</text>
+    <text x="34" y="170" fill="#dff6ef" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="600">Baseline 44.30%</text>
+    <text x="34" y="220" fill="#dff6ef" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="600">Transfer 86.32%</text>
+  </g>
+  <g transform="translate(690,610)">
+    <rect x="0" y="0" width="740" height="500" rx="40" fill="#ffffff" opacity="0.10" stroke="#ffffff" stroke-opacity="0.16"/>
+    <text x="40" y="70" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="700">Vessel sample preview</text>
+    <g transform="translate(76,128)">
+      <path d="M0 210H576L532 272H92Z" fill="url(#ship)"/>
+      <rect x="120" y="102" width="210" height="76" rx="18" fill="#f8fafc"/>
+      <rect x="356" y="72" width="80" height="106" rx="18" fill="#f8fafc"/>
+      <circle cx="202" cy="135" r="18" fill="#0b3c5d" opacity="0.6"/>
+      <circle cx="248" cy="135" r="18" fill="#0b3c5d" opacity="0.6"/>
+      <circle cx="394" cy="126" r="12" fill="#0b3c5d" opacity="0.5"/>
+      <path d="M154 248H458" stroke="#0f4c5c" stroke-width="10" stroke-linecap="round" opacity="0.55"/>
+    </g>
+  </g>
+  <g transform="translate(1500,620)">
+    <rect x="0" y="0" width="760" height="500" rx="40" fill="#ffffff" opacity="0.10" stroke="#ffffff" stroke-opacity="0.16"/>
+    <text x="40" y="70" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="700">Vessel labels</text>
+    <g fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="600">
+      <text x="40" y="136">Buoy</text>
+      <text x="260" y="136">Cruise ship</text>
+      <text x="560" y="136">Ferry boat</text>
+      <text x="40" y="206">Freight boat</text>
+      <text x="260" y="206">Gondola</text>
+      <text x="560" y="206">Inflatable boat</text>
+      <text x="40" y="276">Kayak</text>
+      <text x="260" y="276">Paper boat</text>
+      <text x="560" y="276">Sailboat</text>
+    </g>
+    <rect x="40" y="340" width="680" height="112" rx="24" fill="#dff6ef" opacity="0.14"/>
+    <text x="68" y="386" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="700">Hero size matches the capstone infographic slot.</text>
+    <text x="68" y="426" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="500" opacity="0.88">The page now exposes vessel imagery, uploadable media, and test controls.</text>
+  </g>
+</svg>

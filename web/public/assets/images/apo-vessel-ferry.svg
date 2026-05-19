@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" role="img" aria-labelledby="title desc">
+  <title id="title">Ferry boat vessel sample</title>
+  <desc id="desc">A stylized ferry boat used as a sample vessel image.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1f8a70"/>
+      <stop offset="100%" stop-color="#b07a2b"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#bg)"/>
+  <path d="M0 560C200 525 340 540 520 580C700 620 860 634 1200 560V800H0Z" fill="#ffffff" opacity="0.16"/>
+  <path d="M220 470H920L860 560H280Z" fill="#f8fafc"/>
+  <rect x="320" y="300" width="360" height="120" rx="26" fill="#dff6ef"/>
+  <rect x="390" y="250" width="220" height="72" rx="16" fill="#f8fafc"/>
+  <rect x="472" y="214" width="56" height="108" rx="14" fill="#f8fafc"/>
+  <path d="M350 350H650" stroke="#0f4c5c" stroke-width="12" stroke-linecap="round" opacity="0.45"/>
+  <text x="58" y="100" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="44" font-weight="800">Ferry boat</text>
+  <text x="58" y="150" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="24" opacity="0.85">Sample vessel image</text>
+</svg>

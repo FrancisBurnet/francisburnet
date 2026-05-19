@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" role="img" aria-labelledby="title desc">
+  <title id="title">Cruise ship vessel sample</title>
+  <desc id="desc">A stylized cruise ship used as a sample vessel image.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#12324e"/>
+      <stop offset="100%" stop-color="#0f4c5c"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#bg)"/>
+  <path d="M0 575C180 540 330 548 500 582C685 620 855 632 1200 575V800H0Z" fill="#dbe7f2" opacity="0.16"/>
+  <path d="M180 470H900L850 560H250Z" fill="#f8fafc"/>
+  <rect x="290" y="300" width="420" height="120" rx="30" fill="#f8fafc"/>
+  <rect x="550" y="240" width="120" height="180" rx="24" fill="#dff6ef"/>
+  <rect x="604" y="268" width="20" height="118" rx="8" fill="#0f4c5c"/>
+  <circle cx="370" cy="360" r="18" fill="#0f4c5c" opacity="0.55"/>
+  <circle cx="430" cy="360" r="18" fill="#0f4c5c" opacity="0.55"/>
+  <circle cx="490" cy="360" r="18" fill="#0f4c5c" opacity="0.55"/>
+  <circle cx="550" cy="360" r="18" fill="#0f4c5c" opacity="0.55"/>
+  <circle cx="610" cy="360" r="18" fill="#0f4c5c" opacity="0.55"/>
+  <circle cx="670" cy="360" r="18" fill="#0f4c5c" opacity="0.55"/>
+  <text x="58" y="100" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="44" font-weight="800">Cruise ship</text>
+  <text x="58" y="150" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="24" opacity="0.85">Sample vessel image</text>
+</svg>
