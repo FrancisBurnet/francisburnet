@@ -1,0 +1,17 @@
+{
+  "profile": "optimized",
+  "model": "MobileNetV2",
+  "test_loss": 0.1285826861858368,
+  "test_accuracy": 0.949279248714447,
+  "epochs_ran": 1,
+  "labels": [
+    "mask_worn_incorrect",
+    "with_mask",
+    "without_mask"
+  ],
+  "image_size": [
+    224,
+    224
+  ],
+  "output_dir": "X:\\SIMPLILEARN\\FrancisBurnetCom\\web\\public\\assets\\models\\session-10-capstone-optimized-smoke"
+}

@@ -1,0 +1,19 @@
+{
+  "profile": "optimized",
+  "modelType": "capstone-mobilenetv2-optimized",
+  "labels": [
+    "mask_worn_incorrect",
+    "with_mask",
+    "without_mask"
+  ],
+  "imageSize": [
+    224,
+    224
+  ],
+  "source": "Session 10 optimized TensorFlow workflow",
+  "preprocessing": "mobilenet_v2_neg1_to_1",
+  "preprocessingNote": "Pass raw 0-255 RGB pixels; JS must do: toFloat() -> div(127.5) -> sub(1.0)",
+  "testLoss": 0.1285826861858368,
+  "testAccuracy": 0.949279248714447,
+  "epochsRan": 1
+}

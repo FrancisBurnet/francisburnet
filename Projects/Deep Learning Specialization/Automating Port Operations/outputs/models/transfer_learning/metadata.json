@@ -1,0 +1,25 @@
+{
+  "profile": "transfer_learning",
+  "modelType": "automating-port-operations-mobilenetv2",
+  "labels": [
+    "buoy",
+    "cruise_ship",
+    "ferry_boat",
+    "freight_boat",
+    "gondola",
+    "inflatable_boat",
+    "kayak",
+    "paper_boat",
+    "sailboat"
+  ],
+  "imageSize": [
+    224,
+    224
+  ],
+  "source": "Automating Port Operations transfer-learning workflow",
+  "preprocessing": "mobilenet_v2_neg1_to_1",
+  "preprocessingNote": "Pass raw 0-255 RGB pixels; JS must do: toFloat() -> div(127.5) -> sub(1.0)",
+  "testLoss": 0.470041424036026,
+  "testAccuracy": 0.8433048725128174,
+  "epochsRan": 11
+}
